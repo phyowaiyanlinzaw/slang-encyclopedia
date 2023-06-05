@@ -1,5 +1,5 @@
-<% page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -426,11 +426,11 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="vote">
                 <div class="upvote">
-                    👍
+                    ð
                     <p>100</p>
                 </div>
                 <div class="downvote">
-                    👎 
+                    ð 
                     <p>100</p>
                 </div>
             </div>
