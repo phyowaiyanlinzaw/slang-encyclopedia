@@ -20,6 +20,21 @@
       referrerpolicy="no-referrer"
     />
     <title>SLANGz</title>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <style>
       * {
         margin: 0;
