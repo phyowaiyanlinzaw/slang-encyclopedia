@@ -1,7 +1,6 @@
-package dictionary.model;
+package dictionary.dto;
 
-public class UserBean {
-	
+public class UserRequestDTO {
 	private String username;
 	private String email;
 	private String password;
@@ -31,5 +30,5 @@ public class UserBean {
 		this.confirm_password = confirm_password;
 	}
 	
-	
+
 }
