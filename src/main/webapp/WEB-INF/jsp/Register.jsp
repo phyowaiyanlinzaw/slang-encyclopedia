@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%> 
-<%@taglib uri="http://www.springframework.org/tags/form"
-prefix="form"%>
+pageEncoding="UTF-8"%> 
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,7 +20,7 @@ prefix="form"%>
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <title>LOG IN</title>
+    <title>REGISTER</title>
     <style>
       * {
         margin: 0;
@@ -105,49 +104,73 @@ prefix="form"%>
       .log-in-form button:focus {
         background-color: #2b73c7;
       }
-      .register-p {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 1rem;
+      .log-in-p {
+        margin-top: 1.5rem;
+        text-align: center;
       }
-      .register-p p {
+      .log-in-p p {
         font-size: 0.8rem;
         font-weight: 500;
         color: #fff;
       }
-      .register-p p a {
+      .log-in-p p a {
         color: #fff;
         text-decoration: none;
       }
-      .register-p p a:hover {
+      .log-in-p p a:hover {
         text-decoration: underline;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <header>LOG IN</header>
+      <header>REGISTER</header>
       <section>
         <div class="log-in-form">
-          <form>
+          <form:form
+            action="/SlangEncyclopedia/ProcessRegister"
+            method="POST"
+            modelAttribute="registerBean"
+          >
+            <div class="input-container">
+              <i class="fas fa-user"></i>
+              <form:input
+                type="text"
+                name="username"
+                placeholder="Username"
+                path="username"/>
+            </div>
             <div class="input-container">
               <i class="fas fa-envelope"></i>
-              <input type="email" title="Email" placeholder="Email" />
+              <form:input
+                type="email"
+                name="email"
+                placeholder="Email"
+                path="email"
+              />
             </div>
             <div class="input-container">
               <i class="fas fa-lock"></i>
-              <input type="password" title="Password" placeholder="Password" />
+              <form:input
+                type="password"
+                name="password"
+                placeholder="Password"
+                path="password"
+              />
             </div>
-            <button type="submit">LOG IN</button>
-          </form>
-          <div class="register-p">
-            <p>
-              Don't have an account?<a href="/SlangEncyclopedia/Register ">
-                Register</a
-              >
-            </p>
+            <div class="input-container">
+              <i class="fas fa-lock"></i>
+              <form:input
+                type="password"
+                name="confirm-password"
+                placeholder="Confirm Password"
+                path="confirm_password"
+              />
+            </div>
+            <button type="submit" name="register">REGISTER</button>
+          </form:form>
+          <div class="log-in-p">
+            <p>Already have an account?<a href="/SlangEncyclopedia/Login"> Log In</a></p>
           </div>
         </div>
       </section>
