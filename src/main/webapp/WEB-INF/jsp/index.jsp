@@ -1,35 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-		<title>Home</title>
-		<style>
-			* {
-        			margin: 0;
-        			padding: 0;
-        			box-sizing: border-box;
-      		}
-      		body {
-        			font-family: "Roboto:wght@700", sans-serif;
-        			background-color: #10151b;
-      		}
-      		.container {
-        			width: 100%;
-        			height: 100vh;
-        			display: flex;
-        			flex-direction: column;
-        			justify-content: space-between;
-        			align-items: center;
-      		}
-      		.header {
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Home</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Roboto:wght@700", sans-serif;
+        background-color: #10151b;
+      }
+      .container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .header {
         width: 100%;
         height: 10vh;
         display: flex;
@@ -46,7 +55,7 @@
       .description-logo {
         font-size: 1rem;
         font-weight: 300;
-        color:#EFFE00
+        color: #effe00;
       }
       .section {
         width: 100%;
@@ -63,7 +72,6 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-
       }
       .search-section {
         width: 500px;
@@ -81,7 +89,6 @@
         align-items: center;
         border: 1px solid #ffffff;
         float: left;
-
       }
       .search-bar input {
         width: 100%;
@@ -96,9 +103,7 @@
       }
       .search-bar input:focus {
         border: 1px solid #1fa2f2;
-
       }
-
 
       .search-button-suffix {
         width: 10%;
@@ -160,20 +165,20 @@
       .contact-icons a:hover i {
         color: #1fa2f2;
       }
-		</style>
-	</head>
-	<body>
-		<div class="container">
-      		<header>
-        			<div class="header">
-          			<div class="logo-name">SLANGz</div>
-          			<div class="description-logo">Collection of Modern Slang Words</div>
-        			</div>
-      		</header>
-      
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header">
+          <div class="logo-name">SLANGz</div>
+          <div class="description-logo">Collection of Modern Slang Words</div>
+        </div>
+      </header>
+
       <section>
         <div class="logo-pic">
-          <img src="/logo.png" alt="LOGO" />
+          <img src="/WEB-INF/jsp/logo.png" alt="LOGO" />
         </div>
         <div class="search-section">
           <div class="search-bar">
@@ -186,7 +191,7 @@
           </div>
         </div>
       </section>
-      
+
       <footer>
         <div class="footer">
           <div class="contact-icons">
@@ -204,8 +209,7 @@
             </a>
           </div>
         </div>
-    		</footer>
-    		
+      </footer>
     </div>
-	</body>
+  </body>
 </html>
