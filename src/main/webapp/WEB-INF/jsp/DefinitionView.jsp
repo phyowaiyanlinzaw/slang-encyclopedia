@@ -81,6 +81,7 @@ prefix="form"%>
         width: 50%;
         height: 50%;
         background-color: #10151b;
+        padding: 0 1rem;
       }
       .inline-icons {
         width: 100%;
@@ -94,13 +95,14 @@ prefix="form"%>
         color: #ffffff;
       }
       .inline-icons input {
-        width: 80%;
+        width: 100%;
         height: 100%;
         border: none;
         outline: none;
         color: #ffffff;
         font-size: 1.2rem;
         background-color: #10151b;
+        margin-left: 1rem;
       }
       .inline-icons input::placeholder {
         color: #767676;
@@ -148,133 +150,10 @@ prefix="form"%>
       .upload-and-user button i:hover {
         color: #04ab38;
       }
-      .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0; /* Full width */
-        top: 0; /* Full height */
-        height: 100%; /* Full height */
-        width: 100%; /* Full width */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgba(0, 0, 0, 0.7);
-      }
-      .modal-content {
-        background-color: #1b2936;
-        margin: 15% auto; /* 15% from the top and centered */
-        padding: 20px;
-        border-radius: 10px;
-        width: 80%; /* Could be more or less, depending on screen size */
-      }
-      .close {
-        color: #aaaaaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-      }
-      .close:hover,
-      .close:focus {
-        color: #000;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      .modal input {
-        width: 100%;
-        height: 50px;
-        border-radius: 5px;
-        outline: none;
-        border: none;
-        background-color: #10151b;
-        color: #ffffff;
-        font-size: 1.2rem;
-        padding: 0 1rem;
-        margin-top: 1rem;
-      }
-      .modal input::placeholder {
-        color: #767676;
-        font-size: 1.2rem;
-      }
-      .modal input:focus {
-        color: #ffffff;
-      }
-      .modal input:active {
-        color: #ffffff;
-      }
-      .modal input:hover {
-        color: #ffffff;
-      }
-      .modal button {
-        width: 100%;
-        height: 50px;
-        border-radius: 5px;
-        outline: none;
-        border: none;
-        background-color: #134fe5;
-        color: #ffffff;
-        font-size: 1.2rem;
-        padding: 0 1rem;
-        margin-top: 1rem;
-      }
-      .modal button:hover {
-        color: #04ab38;
-        cursor: pointer;
-      }
-      .modal h2 {
-        color: #ffffff;
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-        text-align: center;
-      }
-      .register {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #1b2936;
-        margin-top: 20px;
-      }
-      .login {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #1b2936;
-        margin-top: 20px;
-      }
-      .register a {
-        color: #ffffff;
-        font-size: 1.2rem;
-        text-decoration: none;
-      }
-      .register a:hover {
-        color: #04ab38;
-        cursor: pointer;
-      }
-      .register p {
-        color: #ffffff;
-        font-size: 1.2rem;
-      }
-      .login a {
-        color: #ffffff;
-        font-size: 1.2rem;
-        text-decoration: none;
-      }
-      .login a:hover {
-        color: #04ab38;
-        cursor: pointer;
-      }
-      .login p {
-        color: #ffffff;
-        font-size: 1.2rem;
-      }
       .searched-word {
         width: 70vw;
         height: 100%;
         display: flex;
-        align-items: center;
-        justify-content: center;
         background-color: #1b2936;
         margin-top: 20px;
         flex-direction: column;
@@ -284,27 +163,33 @@ prefix="form"%>
       .searched-word h1 {
         color: #134fe5;
         font-size: 3rem;
+        margin-bottom: 1rem;
       }
       .def {
         color: #ffffff;
         font-size: 1.2rem;
         font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        margin: 1rem 0;
       }
       .eg {
         color: #ffffff;
         font-size: 1.2rem;
         font-style: italic;
+        margin: 1rem 0;
       }
       .info {
         color: #ffffff;
         font-size: 1.2rem;
         font-style: bold;
+        margin: 1rem 0;
       }
       .vote {
         color: #ffffff;
         font-size: 1.2rem;
         font-style: bold;
         display: flex;
+
+        margin: 1rem 0;
       }
       .upvote {
         color: #04ab38;
@@ -315,6 +200,8 @@ prefix="form"%>
         justify-content: center;
         border: 1px solid #04ab38;
         border-radius: 5px;
+        margin-right: 1rem;
+        padding: 0 1rem;
       }
       .downvote {
         color: #ff0000;
@@ -325,6 +212,8 @@ prefix="form"%>
         justify-content: center;
         border: 1px solid #ff0000;
         border-radius: 5px;
+        margin-right: 1rem;
+        padding: 0 1rem;
       }
     </style>
   </head>
