@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+        <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -380,14 +381,14 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>Login</h2>
-                <form action="" method="">
-                    <input type="text" name="email" id="email" placeholder="Email">
-                    <input type="password" name="password" id="password" placeholder="Password">
+                <form:form action="/SlangEncyclopedia/ProcessLogin" method="POST">
+                    <form:input type="text" name="email" id="email" placeholder="Email" path="email"/>
+                    <form:input type="password" name="password" id="password" placeholder="Password" path="password"/>
                     <div class="submit-btn">
                         <button type="submit" name="login">Login</button>
                     </div>
 
-                </form>
+                </form:form>
                 <div class="register">
                     <p>Don't have an account? <a onclick="showRegisterModal()">Register</a></p>
             </div>
@@ -398,11 +399,11 @@
           <div class="modal-content">
               <span class="close">&times;</span>
               <h2>Register</h2>
-              <form action="" method="">
-                  <input type="text" name="username" id="username" placeholder="Username">
-                  <input type="text" name="email" id="email" placeholder="Email">
-                  <input type="password" name="password" id="password" placeholder="Password">
-                  <input type="password" name="password" id="password" placeholder="Confirm Password">
+              <form:form action="/SlangEncyclopedia/ProcessRegister" method="POST">
+                  <form:input type="text" name="username" id="username" placeholder="Username" path="username"/>
+                  <form:input type="text" name="email" id="email" placeholder="Email" path="email"/>
+                  <form:input type="password" name="password" id="password" placeholder="Password" path="password"/>
+                  <form:input type="password" name="password" id="password" placeholder="Confirm Password" path="confirm_password"/>
                   <div class="submit-btn">
                     <a onclick="showOtpModal()">
                       <button id="register-modal-button" type="button" name="register">Register</button>
@@ -410,7 +411,7 @@
                       
                   </div>
 
-              </form>
+              </form:form>
               <div class="login">
                   <p>Already have an account? <a onclick="showLoginModal()">Login</a></p>
               </div>
@@ -453,14 +454,6 @@
       </section>
       </div>
       
-          
-      </div>
-
-        </div>
-        
-        
-      
-    </div>
     
   </body>
   <script>
