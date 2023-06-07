@@ -17,5 +17,7 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<property name="prefix" value="/WEB-INF/jsp/"/>
 	<property name="suffix" value=".jsp"/>
 </bean>
+<bean id="userDao" class="dictionary.dao.UserDAO"></bean>
+
 
 </beans>
