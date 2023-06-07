@@ -377,7 +377,6 @@
             </div>
             
           </div>
-          <div id="loginModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>Login</h2>
@@ -394,44 +393,6 @@
             </div>
         </div>
             
-        </div>
-        <div id="regModal" class="modal">
-          <div class="modal-content">
-              <span class="close">&times;</span>
-              <h2>Register</h2>
-              <form:form action="/SlangEncyclopedia/ProcessRegister" method="POST" modelAttribute="userBean">
-                  <form:input type="text" name="username" id="username" placeholder="Username" path="username"/>
-                  <form:errors path="username" style="color:red;"></form:errors>
-                  <form:input type="text" name="email" id="email" placeholder="Email" path="email"/>
-                  <form:errors path="email" style="color:red;"></form:errors>
-                  <form:input type="password" name="password" id="password" placeholder="Password" path="password"/>
-                  <form:errors path="password" style="color:red;"></form:errors>
-                  <form:input type="password" name="password" id="password" placeholder="Confirm Password" path="confirm_password"/>
-                  <form:errors path="confirm_password" style="color:red;"></form:errors>
-                  <div class="submit-btn">
-                    <a onclick="showOtpModal()">
-                      <button id="register-modal-button" type="button" name="register">Register</button>
-                    </a>
-                      
-                  </div>
-
-              </form:form>
-              <div class="login">
-                  <p>Already have an account? <a onclick="showLoginModal()">Login</a></p>
-              </div>
-          </div>
-        </div>
-        <div id="otpModal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-              <h2>Enter Your OTP</h2>
-              <form action="" method="">
-                <input type="text" name="otp" id="otp" placeholder="Enter OTP">
-                <div class="submit-btn">
-                  <button type="submit" name="verify">Verify</button>
-                </div>
-              </form>
-          </div>
         </div>
       </header>
       <section>
