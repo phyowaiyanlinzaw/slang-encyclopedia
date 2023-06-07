@@ -117,6 +117,10 @@ prefix="form"%>
       .inline-icons input:hover {
         color: #ffffff;
       }
+      .inline-icons input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0 30px #10151b inset;
+        -webkit-text-fill-color: #ffffff;
+      }
       .inline-icons i:hover {
         color: #ffffff;
         cursor: pointer;
