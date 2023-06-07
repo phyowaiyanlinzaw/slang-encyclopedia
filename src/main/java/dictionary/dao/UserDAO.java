@@ -24,7 +24,7 @@ public class UserDAO {
 	
 	public int storeUsers(UserRequestDTO req) {
 		int result =0;
-		String sql = "insert into user(username,email,password,cPassword,createdBy,createdAt,updatedBy,updatedAt) (?,?,?,?,?,?,?,?)";
+		String sql = "insert into user(username,email,password,cPassword,createdBy,createdAt,updatedBy,updatedAt) values(?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, req.getUsername());
@@ -52,7 +52,7 @@ public class UserDAO {
 			while(rs.next()) {
 				UserResponseDTO res = new UserResponseDTO();
 				res.setEmail(rs.getString("email"));
-				res.setUsername(rs.getString("name"));
+				res.setUsername(rs.getString("username"));
 				resList.add(res);
 			}
 			
