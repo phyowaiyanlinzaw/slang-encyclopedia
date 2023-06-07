@@ -123,8 +123,6 @@ pageEncoding="UTF-8"%>
           </p>
           <form>
             <input type="text" placeholder="Word" />
-            <input type="textarea" placeholder="Type Your Definition Here" />
-            <label />
             <textarea
               name="definition"
               id="definition"

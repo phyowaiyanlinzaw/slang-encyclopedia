@@ -12,5 +12,9 @@ public class DictionaryController {
 		return "index";
 	}
 	
+	@RequestMapping(value="/DefinitionView",method=RequestMethod.GET)
+	public String definitionView() {
+		return "DefitionView";
+	}
 
 }

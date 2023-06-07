@@ -180,7 +180,7 @@
             <input type="text" placeholder="Search" />
           </div>
           <div class="search-button-suffix">
-            <a href="showSearchedWords.html">
+            <a href="/SlangEncyclopedia/DefinitionView">
               <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
             </a>
           </div>
