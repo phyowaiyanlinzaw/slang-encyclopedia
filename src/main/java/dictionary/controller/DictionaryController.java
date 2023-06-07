@@ -1,5 +1,7 @@
 package dictionary.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -48,17 +50,47 @@ public class DictionaryController {
 			@Validated UserBean ub,
 			BindingResult br,
 			ModelMap m) {
+		
 		if(br.hasErrors()) {
-			return "redirect:/Login";
+			return "redirect:/Register";
 		}
 		
 		boolean isSamePw = false;
+		boolean isDupe = false;
 		
 		UserRequestDTO req = new UserRequestDTO();
+		req.setUsername(ub.getUsername());
+		req.setEmail(ub.getEmail());
+		req.setPassword(ub.getPassword());
+		req.setConfirm_password(ub.getConfirm_password());
 		
+		ArrayList<UserResponseDTO> resList = userDao.getAllUsers();
 		
+		if(ub.getPassword().equals(ub.getConfirm_password()) ) {
+			isSamePw = true;
+			for(UserResponseDTO res : resList) {
+				if(res.getEmail().equals(ub.getEmail())) {
+					isDupe = true;
+					m.addAttribute("emailDupe", "This email already exists");
+					return "redirect:/Register";
+				}
+				
+			}
+			if(!isDupe) {
+				int result = userDao.storeUsers(req);
+				if(result==0) {
+					m.addAttribute("insertError", "Something went wrong while inserting data!");
+					return "Register";
+				}
+			}
+			
+			if(!isSamePw) {
+				m.addAttribute("pwError","Passwords Don't Match");
+				return "Register";
+			}
+		}
 		
-		return null;
+		return "DefinitionView";
 	}
 	
 
