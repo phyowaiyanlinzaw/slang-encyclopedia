@@ -138,8 +138,7 @@ pageEncoding="UTF-8"%>
                 type="text"
                 name="username"
                 placeholder="Username"
-                path="username"
-              />
+                path="username"/>
             </div>
             <div class="input-container">
               <i class="fas fa-envelope"></i>
