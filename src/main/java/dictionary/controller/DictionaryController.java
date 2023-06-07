@@ -1,7 +1,11 @@
 package dictionary.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dictionary.dao.UserDAO;
 import dictionary.model.UserBean;
+import dictionary.dto.*;
 
 @Controller
 public class DictionaryController {
@@ -39,12 +44,53 @@ public class DictionaryController {
 	}
 	
 	
-	@RequestMapping(value="ProcessRegister", method=RequestMethod.POST)
-	public String register(@ModelAttribute ("registerBean") @Validated UserBean ub,BindingResult br) {
+	@RequestMapping(value="/ProcessRegister", method=RequestMethod.POST)
+	public String register(
+			@ModelAttribute ("registerBean") 
+			@Validated UserBean ub,
+			BindingResult br,
+			ModelMap m) {
+		
 		if(br.hasErrors()) {
-			return "redirect:/";
+			return "redirect:/Register";
 		}
-		return null;
+		
+		boolean isSamePw = false;
+		boolean isDupe = false;
+		
+		UserRequestDTO req = new UserRequestDTO();
+		req.setUsername(ub.getUsername());
+		req.setEmail(ub.getEmail());
+		req.setPassword(ub.getPassword());
+		req.setConfirm_password(ub.getConfirm_password());
+		
+		ArrayList<UserResponseDTO> resList = userDao.getAllUsers();
+		
+		if(ub.getPassword().equals(ub.getConfirm_password()) ) {
+			isSamePw = true;
+			for(UserResponseDTO res : resList) {
+				if(res.getEmail().equals(ub.getEmail())) {
+					isDupe = true;
+					m.addAttribute("emailDupe", "This email already exists");
+					return "redirect:/Register";
+				}
+				
+			}
+			if(!isDupe) {
+				int result = userDao.storeUsers(req);
+				if(result==0) {
+					m.addAttribute("insertError", "Something went wrong while inserting data!");
+					return "Register";
+				}
+			}
+			
+			if(!isSamePw) {
+				m.addAttribute("pwError","Passwords Don't Match");
+				return "Register";
+			}
+		}
+		
+		return "DefinitionView";
 	}
 	
 
