@@ -1,14 +1,18 @@
 package dictionary.dao;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.*;
 
 import org.springframework.stereotype.Service;
 
 import dictionary.dto.UserRequestDTO;
+import dictionary.dto.UserResponseDTO;
 
 @Service("userDao")
 public class UserDAO {
@@ -37,4 +41,25 @@ public class UserDAO {
 		}
 		return result;
 	}
+	
+	public ArrayList<UserResponseDTO> getAllUsers(){
+		ArrayList<UserResponseDTO> resList = new ArrayList<>();
+		String sql = "select*from user";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				UserResponseDTO res = new UserResponseDTO();
+				res.setEmail(rs.getString("email"));
+				res.setUsername(rs.getString("name"));
+				resList.add(res);
+			}
+			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return resList;
+	}
+	
 }

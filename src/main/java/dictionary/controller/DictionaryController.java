@@ -1,7 +1,9 @@
 package dictionary.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dictionary.dao.UserDAO;
 import dictionary.model.UserBean;
+import dictionary.dto.*;
 
 @Controller
 public class DictionaryController {
@@ -39,11 +42,22 @@ public class DictionaryController {
 	}
 	
 	
-	@RequestMapping(value="ProcessRegister", method=RequestMethod.POST)
-	public String register(@ModelAttribute ("registerBean") @Validated UserBean ub,BindingResult br) {
+	@RequestMapping(value="/ProcessRegister", method=RequestMethod.POST)
+	public String register(
+			@ModelAttribute ("registerBean") 
+			@Validated UserBean ub,
+			BindingResult br,
+			ModelMap m) {
 		if(br.hasErrors()) {
-			return "redirect:/";
+			return "redirect:/Login";
 		}
+		
+		boolean isSamePw = false;
+		
+		UserRequestDTO req = new UserRequestDTO();
+		
+		
+		
 		return null;
 	}
 	
