@@ -381,7 +381,7 @@
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2>Login</h2>
-                <form:form action="/SlangEncyclopedia/ProcessLogin" method="POST">
+                <form:form action="/SlangEncyclopedia/ProcessLogin" method="POST" modelAttribute="userBean">
                     <form:input type="text" name="email" id="email" placeholder="Email" path="email"/>
                     <form:input type="password" name="password" id="password" placeholder="Password" path="password"/>
                     <div class="submit-btn">
@@ -399,7 +399,7 @@
           <div class="modal-content">
               <span class="close">&times;</span>
               <h2>Register</h2>
-              <form:form action="/SlangEncyclopedia/ProcessRegister" method="POST">
+              <form:form action="/SlangEncyclopedia/ProcessRegister" method="POST" modelAttribute="userBean">
                   <form:input type="text" name="username" id="username" placeholder="Username" path="username"/>
                   <form:input type="text" name="email" id="email" placeholder="Email" path="email"/>
                   <form:input type="password" name="password" id="password" placeholder="Password" path="password"/>

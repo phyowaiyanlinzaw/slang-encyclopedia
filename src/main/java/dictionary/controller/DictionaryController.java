@@ -3,6 +3,9 @@ package dictionary.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import dictionary.model.UserBean;
 
 @Controller
 public class DictionaryController {
@@ -13,8 +16,10 @@ public class DictionaryController {
 	}
 	
 	@RequestMapping(value="/DefinitionView",method=RequestMethod.GET)
-	public String definitionView() {
-		return "DefitionView";
+	public ModelAndView definitionView() {
+		return new ModelAndView("DefinitionView","userBean",new UserBean());
 	}
+	
+	
 
 }
