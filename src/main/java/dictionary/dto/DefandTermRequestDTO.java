@@ -1,6 +1,6 @@
-package dictionary.model;
+package dictionary.dto;
 
-public class DefinitionAndTermBean {
+public class DefandTermRequestDTO {
 	private String term;
 	private String definition_text;
 	public String getTerm() {

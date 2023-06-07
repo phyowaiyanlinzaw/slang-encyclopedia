@@ -1,11 +1,11 @@
-package dictionary.model;
+package dictionary.dto;
 
-public class UserBean {
-	
+public class UserRequestDTO {
 	private String username;
 	private String email;
 	private String password;
 	private String confirm_password;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -32,4 +32,6 @@ public class UserBean {
 	}
 	
 	
+	
+
 }
