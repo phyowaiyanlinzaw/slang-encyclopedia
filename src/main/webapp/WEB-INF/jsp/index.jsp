@@ -173,7 +173,7 @@
       
       <section>
         <div class="logo-pic">
-          <img src="/logo.png" alt="" />
+          <img src="/logo.png" alt="LOGO" />
         </div>
         <div class="search-section">
           <div class="search-bar">
