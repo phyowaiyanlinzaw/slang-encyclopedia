@@ -126,29 +126,49 @@ pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
       <header>REGISTER</header>
       <section>
         <div class="log-in-form">
-          <form action="register.php" method="POST">
+          <form:form
+            action="/SlangEncyclopedia/ProcessRegister"
+            method="POST"
+            modelAttribute="registerBean"
+          >
             <div class="input-container">
               <i class="fas fa-user"></i>
-              <input type="text" name="username" placeholder="Username" />
+              <form:input
+                type="text"
+                name="username"
+                placeholder="Username"
+                path="username"
+              />
             </div>
             <div class="input-container">
               <i class="fas fa-envelope"></i>
-              <input type="email" name="email" placeholder="Email" />
+              <form:input
+                type="email"
+                name="email"
+                placeholder="Email"
+                path="email"
+              />
             </div>
             <div class="input-container">
               <i class="fas fa-lock"></i>
-              <input type="password" name="password" placeholder="Password" />
+              <form:input
+                type="password"
+                name="password"
+                placeholder="Password"
+                path="password"
+              />
             </div>
             <div class="input-container">
               <i class="fas fa-lock"></i>
-              <input
+              <form:input
                 type="password"
                 name="confirm-password"
                 placeholder="Confirm Password"
+                path="confirm_password"
               />
             </div>
             <button type="submit" name="register">REGISTER</button>
-          </form>
+          </form:form>
           <div class="log-in-p">
             <p>Already have an account?<a> Log In</a></p>
           </div>

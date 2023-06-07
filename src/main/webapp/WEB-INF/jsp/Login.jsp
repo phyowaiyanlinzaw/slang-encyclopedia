@@ -142,7 +142,11 @@ prefix="form"%>
             <button type="submit">LOG IN</button>
           </form>
           <div class="register-p">
-            <p>Don't have an account?<a> Register</a></p>
+            <p>
+              Don't have an account?<a href="/SlangEncyclopedia/Register ">
+                Register</a
+              >
+            </p>
           </div>
         </div>
       </section>
