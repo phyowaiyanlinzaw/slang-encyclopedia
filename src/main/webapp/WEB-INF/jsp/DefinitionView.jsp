@@ -369,31 +369,17 @@
                           <i class="fas fa-plus"></i>
                         </button>
                       </a>
-                      
-                        <button title="user"  type = "button" id="reg-btn">
+                      	
+                      	<a href="/SlangEncyclopedia/Login">
+                      	<button title="user"  type = "button" id="reg-btn">
                           <i class="fas fa-user"></i>
-                          </button>
+                          </button></a>
+                        
                     </div>
             </div>
             
           </div>
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Login</h2>
-                <form:form action="/SlangEncyclopedia/ProcessLogin" method="POST" modelAttribute="userBean">
-                    <form:input type="text" name="email" id="email" placeholder="Email" path="email"/>
-                    <form:input type="password" name="password" id="password" placeholder="Password" path="password"/>
-                    <div class="submit-btn">
-                        <button type="submit" name="login">Login</button>
-                    </div>
-
-                </form:form>
-                <div class="register">
-                    <p>Don't have an account? <a onclick="showRegisterModal()">Register</a></p>
-            </div>
-        </div>
-            
-        </div>
+          
       </header>
       <section>
         <div class="searched-word card">

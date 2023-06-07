@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
+pageEncoding="UTF-8"%> 
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -170,7 +171,7 @@ pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
             <button type="submit" name="register">REGISTER</button>
           </form:form>
           <div class="log-in-p">
-            <p>Already have an account?<a> Log In</a></p>
+            <p>Already have an account?<a href="/SlangEncyclopedia/Login"> Log In</a></p>
           </div>
         </div>
       </section>
