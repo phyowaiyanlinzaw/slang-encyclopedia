@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import dictionary.dao.UserDAO;
+import dictionary.model.OtpBean;
 import dictionary.model.UserBean;
 import dictionary.dto.*;
 
@@ -93,5 +94,10 @@ public class DictionaryController {
 		return "DefinitionView";
 	}
 	
-
+	@RequestMapping(value ="/otpView", method=RequestMethod.GET)
+	public ModelAndView otpView() {
+		return new ModelAndView("otp", "otpBean", new OtpBean());
+	}
+	
+	
 }
