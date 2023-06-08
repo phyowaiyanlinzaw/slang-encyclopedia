@@ -251,7 +251,7 @@ prefix="form"%>
                 </button>
               </a>
 
-              <a href="/SlangEncyclopedia/Login">
+              <a href="/SlangEncyclopedia/UserProfile">
                 <button title="user" type="button" id="reg-btn">
                   <i class="fas fa-user"></i></button
               ></a>
