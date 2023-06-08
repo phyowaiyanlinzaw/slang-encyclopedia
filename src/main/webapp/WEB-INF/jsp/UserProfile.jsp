@@ -260,9 +260,9 @@ prefix="form"%>
   </head>
   <body>
     <div class="container">
-      <div class="avatar">P</div>
+      <div class="avatar">{res.username.charAt(0).toUpperCase()}</div>
       <div class="name-and-verification">
-        <h1>Phyo Phyo Lay</h1>
+        <h1>{res.username}</h1>
         <i class="fas fa-check-circle"></i>
       </div>
     
@@ -284,11 +284,11 @@ prefix="form"%>
                 <th>Dislikes Total</th>
                 <th>Definitions Amount</th>
                 <tr>
-                    <td>Phyo Phyo Lay</td>
-                    <td> email@email.com </td>
-                    <td> 10 </td>
-                    <td> 5 </td>
-                    <td> 15 </td>
+                    <td>{res.username}</td>
+                    <td> {res.email} </td>
+                    <td> 0 </td>
+                    <td> 0 </td>
+                    <td> 0 </td>
                 </tr>
             </table>
           </div>
