@@ -179,7 +179,7 @@ public class DictionaryController {
 		
 		boolean isCorrectUser = false;
 		boolean isAdmin = false;
-		boolean isLoggedIn = false;
+		boolean isUser = false;
 		
 		if(adminAccount.getEmail().equals(ub.getEmail())&&adminAccount.getPassword().equals(ub.getPassword())) {
 			isAdmin = true;
@@ -192,7 +192,8 @@ public class DictionaryController {
 				if(res.getEmail().equals(ub.getEmail())&&res.getPassword().equals(ub.getPassword())) 
 				{
 					isCorrectUser = true;
-					isLoggedIn = true;
+					isUser = true;
+					m.addAttribute("currentUser",res);
 					break;
 				}
 			}
@@ -205,7 +206,7 @@ public class DictionaryController {
 			
 		}	
 		
-		session.setAttribute("isLoggedIn", isLoggedIn);
+		session.setAttribute("isUser", isUser);
 		
 		
 		return "UserProfile";
@@ -216,9 +217,9 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
-		boolean isLoggedIn = (boolean) session.getAttribute("isLoggedIn");
+		boolean isUser = (boolean) session.getAttribute("isUser");
 		
-		if(!isLoggedIn) {
+		if(!isUser) {
 			return "redirect:/LogIn";
 		}
 		
