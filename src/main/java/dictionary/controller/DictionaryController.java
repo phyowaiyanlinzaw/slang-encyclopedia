@@ -22,7 +22,10 @@ import dictionary.dao.UserDAO;
 import dictionary.model.OtpBean;
 import dictionary.model.UserBean;
 import dictionary.services.OtpService;
-import dictionary.dto.*;
+import dictionary.dto.UserRequestDTO;
+import dictionary.dto.UserResponseDTO;
+import dictionary.dto.OtpRequestDTO;
+import dictionary.dto.OtpResponseDTO;
 
 @Controller
 public class DictionaryController {
@@ -183,7 +186,7 @@ public class DictionaryController {
 		
 		if(adminAccount.getEmail().equals(ub.getEmail())&&adminAccount.getPassword().equals(ub.getPassword())) {
 			isAdmin = true;
-			
+			return "AdminView";
 		}
 		
 		if(!isAdmin) {
@@ -208,32 +211,34 @@ public class DictionaryController {
 		session.setAttribute("isUser", isUser);
 		session.setAttribute("isAdmin",isAdmin);
 		
-		
-		return "redirect:/Dashboard";
-	}
-	
-	@RequestMapping(value="/Dashboard",method = RequestMethod.GET)
-	public String userProfile(
-			HttpSession session
-			) {
-		
-		boolean isUser = (boolean) session.getAttribute("isUser");
-		boolean isAdmin = (boolean) session.getAttribute("isAdmin");
-		
-		if(isAdmin) {
-			return "AdminView";
-		}
-		
-		if(isUser) {
-			return "UserProfile";
-		}
-		
-		if(!isAdmin && !isUser){
-			return "redirect:/LogIn";
-		}
+		session.setAttribute("isLoggedIn", "logged in");
 		
 		return "UserProfile";
 	}
+	
+//	@RequestMapping(value="/Dashboard",method = RequestMethod.GET)
+//	public String userProfile(
+//			HttpSession session
+//			) {
+//		
+//		boolean isUser = (boolean) session.getAttribute("isUser");
+//		boolean isAdmin = (boolean) session.getAttribute("isAdmin");
+//		
+//		
+//		if(isAdmin) {
+//			return "AdminView";
+//		}
+//		
+//		if(isUser) {
+//			return "UserProfile";
+//		}
+//		
+//		if(session.getAttribute("isLoggedIn")==null){
+//			return "redirect:/LogIn";
+//		}
+//		
+//		return "UserProfile";
+//	}
 	
 	
 }
