@@ -183,7 +183,6 @@ public class DictionaryController {
 		
 		if(adminAccount.getEmail().equals(ub.getEmail())&&adminAccount.getPassword().equals(ub.getPassword())) {
 			isAdmin = true;
-			return "AdminView";
 			
 		}
 		
@@ -210,7 +209,7 @@ public class DictionaryController {
 		session.setAttribute("isAdmin",isAdmin);
 		
 		
-		return "UserProfile";
+		return "redirect:/Dashboard";
 	}
 	
 	@RequestMapping(value="/Dashboard",method = RequestMethod.GET)
