@@ -2,6 +2,8 @@ package dictionary.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import dictionary.dao.UserDAO;
 import dictionary.model.OtpBean;
 import dictionary.model.UserBean;
+import dictionary.services.OtpService;
 import dictionary.dto.*;
 
 @Controller
@@ -50,14 +53,14 @@ public class DictionaryController {
 			@ModelAttribute ("registerBean") 
 			@Validated UserBean ub,
 			BindingResult br,
-			ModelMap m) {
+			ModelMap m,
+			HttpSession session) {
 		
 		if(br.hasErrors()) {
 			return "redirect:/Register";
 		}
 		
 		boolean isSamePw = false;
-		boolean isDupe = false;
 		
 		UserRequestDTO req = new UserRequestDTO();
 		req.setUsername(ub.getUsername());
@@ -71,18 +74,10 @@ public class DictionaryController {
 			isSamePw = true;
 			for(UserResponseDTO res : resList) {
 				if(res.getEmail().equals(ub.getEmail())) {
-					isDupe = true;
 					m.addAttribute("emailDupe", "This email already exists");
 					return "redirect:/Register";
 				}
 				
-			}
-			if(!isDupe) {
-				int result = userDao.storeUsers(req);
-				if(result==0) {
-					m.addAttribute("insertError", "Something went wrong while inserting data!");
-					return "Register";
-				}
 			}
 			
 			if(!isSamePw) {
@@ -91,13 +86,26 @@ public class DictionaryController {
 			}
 		}
 		
+		session.setAttribute("registeredUser", ub);
+		
 		return "DefinitionView";
 	}
 	
 	@RequestMapping(value ="/otpView", method=RequestMethod.GET)
-	public ModelAndView otpView() {
+	public ModelAndView otpView(
+			HttpSession session
+			) {
+		
+		String genereatedOtp = OtpService.generateOtp();
+		
+		UserBean userBean = (UserBean) session.getAttribute("registeredUser");
+		
+		OtpService.sendEmail(userBean.getEmail(), "OTP", "Your OTP is : " +genereatedOtp);
+		
 		return new ModelAndView("otp", "otpBean", new OtpBean());
 	}
+	
+	
 	
 	
 }
