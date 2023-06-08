@@ -65,4 +65,25 @@ public class UserDAO {
 		return resList;
 	}
 	
+	public UserResponseDTO getAdminAccount() {
+		UserResponseDTO res = new UserResponseDTO();
+		String sql = "select*from user where role_id=1";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				res.setEmail(rs.getString("email"));
+				res.setPassword(rs.getString("password"));
+				
+			}
+ 			
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return res;
+	}
+	
 }
