@@ -207,19 +207,29 @@ public class DictionaryController {
 		}	
 		
 		session.setAttribute("isUser", isUser);
+		session.setAttribute("isAdmin",isAdmin);
 		
 		
 		return "UserProfile";
 	}
 	
-	@RequestMapping(value="/UserProfile",method = RequestMethod.GET)
+	@RequestMapping(value="/Dashboard",method = RequestMethod.GET)
 	public String userProfile(
 			HttpSession session
 			) {
 		
 		boolean isUser = (boolean) session.getAttribute("isUser");
+		boolean isAdmin = (boolean) session.getAttribute("isAdmin");
 		
-		if(!isUser) {
+		if(isAdmin) {
+			return "AdminView";
+		}
+		
+		if(isUser) {
+			return "UserProfile";
+		}
+		
+		if(!isAdmin && !isUser){
 			return "redirect:/LogIn";
 		}
 		
