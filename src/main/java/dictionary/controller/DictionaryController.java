@@ -211,5 +211,19 @@ public class DictionaryController {
 		return "UserProfile";
 	}
 	
+	@RequestMapping(value="/UserProfile",method = RequestMethod.GET)
+	public String userProfile(
+			HttpSession session
+			) {
+		
+		boolean isLoggedIn = (boolean) session.getAttribute("isLoggedIn");
+		
+		if(!isLoggedIn) {
+			return "redirect:/LogIn";
+		}
+		
+		return "UserProfile";
+	}
+	
 	
 }
