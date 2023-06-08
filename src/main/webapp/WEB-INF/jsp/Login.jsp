@@ -131,17 +131,17 @@ prefix="form"%>
       <header>LOG IN</header>
       <section>
         <div class="log-in-form">
-          <form>
+          <form:form action="/SlangEncyclopedia/ProcessLogin" method="POST" modelAttribute="loginBean">
             <div class="input-container">
               <i class="fas fa-envelope"></i>
-              <input type="email" title="Email" placeholder="Email" />
+              <form:input type="email" title="Email" placeholder="Email" path="email"/>
             </div>
             <div class="input-container">
               <i class="fas fa-lock"></i>
-              <input type="password" title="Password" placeholder="Password" />
+              <form:input type="password" title="Password" placeholder="Password" path="password"/>
             </div>
             <button type="submit">LOG IN</button>
-          </form>
+          </form:form>
           <div class="register-p">
             <p>
               Don't have an account?<a href="/SlangEncyclopedia/Register ">

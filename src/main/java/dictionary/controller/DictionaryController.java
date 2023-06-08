@@ -129,18 +129,24 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
-		OtpRequestDTO req = new OtpRequestDTO();
+		OtpRequestDTO otpReq = new OtpRequestDTO();
 		
 		UserBean userBean = (UserBean) session.getAttribute("registeredUser");
 		
-		req.setRequestedBy(userBean.getEmail());
+		otpReq.setRequestedBy(userBean.getEmail());
 		
-		OtpResponseDTO res = otpDao.getOtp(req);
+		OtpResponseDTO res = otpDao.getOtp(otpReq);
 		
 		boolean isCorrectOTP = false;
 		
 		if(ob.getOtpNumber().equals(res.getOtpNumber())){
 			isCorrectOTP = true;
+			UserRequestDTO uReq = new UserRequestDTO();
+			uReq.setEmail(userBean.getEmail());
+			uReq.setUsername(userBean.getUsername());
+			uReq.setPassword(userBean.getPassword());
+			uReq.setConfirm_password(userBean.getConfirm_password());
+			int result = userDao.storeUsers(uReq);
 			
 		}
 		
@@ -174,11 +180,13 @@ public class DictionaryController {
 		for(UserResponseDTO res : resList) {
 			if(res.getEmail().equals(ub.getEmail())&&res.getPassword().equals(ub.getPassword())) 			{
 				isCorrectUser = true;
+				break;
 			}
 		}
 		
 		if(!isCorrectUser) {
 			m.addAttribute("incorrectUser", "Wrong Authentication");
+			System.out.println("Wrong");
 			return "Login";
 		}
 		

@@ -3,10 +3,12 @@ package dictionary.dao;
 import java.sql.Connection;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.stereotype.Service;
@@ -32,9 +34,9 @@ public class UserDAO {
 			ps.setString(3, req.getPassword());
 			ps.setString(4, req.getConfirm_password());
 			ps.setString(5, req.getUsername());
-			ps.setDate(6, Date.valueOf(LocalDate.now()));
+			ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setString(7, req.getUsername());
-			ps.setDate(8, Date.valueOf(LocalDate.now()));
+			ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 			result = ps.executeUpdate();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -53,6 +55,7 @@ public class UserDAO {
 				UserResponseDTO res = new UserResponseDTO();
 				res.setEmail(rs.getString("email"));
 				res.setUsername(rs.getString("username"));
+				res.setPassword(rs.getString("password"));
 				resList.add(res);
 			}
 			

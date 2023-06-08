@@ -112,12 +112,12 @@ prefix="form"%>
     <div class="container">
       <header>OTP Verification</header>
       <section>
-        <form class="otp-form" action="/SlangEncyclopedia/ProcessOtp" method="POST">
+        <form:form class="otp-form" action="/SlangEncyclopedia/ProcessOtp" method="POST" modelAttribute="otpBean">
           <div class="input-container">
-            <input type="text" placeholder="Enter OTP" name="otp" />
+            <form:input type="text" placeholder="Enter OTP" name="otp" path="otpNumber"/>
           </div>
           <input type="submit" value="Verify" class="btn solid" />
-        </form>
+        </form:form>
       </section>
     </div>
   </body>
