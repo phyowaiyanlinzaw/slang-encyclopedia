@@ -1,5 +1,7 @@
 package dictionary.controller;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -108,9 +110,7 @@ public class DictionaryController {
 		
 		req.setOtpNumber(genereatedOtp);
 		req.setRequestedBy(userBean.getEmail());
-		req.setExpTime(
-				String.valueOf(System.currentTimeMillis()+60000)
-				);
+		req.setExpTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)));
 		
 		int result = otpDao.storeOtp(req);
 		
@@ -132,7 +132,24 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
+		OtpRequestDTO req = new OtpRequestDTO();
 		
+		UserBean userBean = (UserBean) session.getAttribute("registeredUser");
+		
+		req.setRequestedBy(userBean.getEmail());
+		
+		OtpResponseDTO res = otpDao.getOtp(req);
+		
+		boolean isCorrectOTP = false;
+		
+		if(ob.getOtpNumber().equals(res.getOtpNumber())){
+			isCorrectOTP = true;
+			
+		}
+		
+		if(!isCorrectOTP) {
+			return "redirect:/otpView";
+		}
 		
 		return "redirect:/Login";
 		

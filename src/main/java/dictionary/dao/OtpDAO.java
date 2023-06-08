@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 import dictionary.dto.OtpRequestDTO;
+import dictionary.dto.OtpResponseDTO;
 
 @Service("otpDao")
 public class OtpDAO {
@@ -32,7 +33,7 @@ public class OtpDAO {
 			ps.setString(1, req.getOtpNumber());
 			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setString(3, req.getRequestedBy());
-			ps.setTimestamp(4, Timestamp.valueOf(req.getExpTime()));
+			ps.setTimestamp(4, req.getExpTime());
 			result = ps.executeUpdate();
 			
 		}catch (SQLException e) {
@@ -42,4 +43,24 @@ public class OtpDAO {
 		return result;
 	}
 	
+	public OtpResponseDTO getOtp(OtpRequestDTO req) {
+		OtpResponseDTO res = new OtpResponseDTO();
+		String sql = "select * from otp where createdBy=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, req.getRequestedBy());
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				res.setOtpNumber(rs.getString("otpNum"));
+				res.setExpTime(rs.getTimestamp("exp_time"));
+			}
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return res;
+		
+ 	}
 }

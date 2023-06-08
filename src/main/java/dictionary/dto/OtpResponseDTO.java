@@ -1,11 +1,14 @@
 package dictionary.dto;
 
+import java.sql.Timestamp;
+
 public class OtpResponseDTO {
 	
 	private String otpNumber;
 	private String requestedBy;
-	private String expTime;
-	private String createdAt;
+	private Timestamp expTime;
+	private Timestamp createdAt;
+	
 	public String getOtpNumber() {
 		return otpNumber;
 	}
@@ -18,16 +21,16 @@ public class OtpResponseDTO {
 	public void setRequestedBy(String requestedBy) {
 		this.requestedBy = requestedBy;
 	}
-	public String getExpTime() {
+	public Timestamp getExpTime() {
 		return expTime;
 	}
-	public void setExpTime(String expTime) {
+	public void setExpTime(Timestamp expTime) {
 		this.expTime = expTime;
 	}
-	public String getCreatedAt() {
+	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(String createdAt) {
+	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
 	}
 	
