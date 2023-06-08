@@ -169,29 +169,44 @@ public class DictionaryController {
 			@Validated
 			UserBean ub,
 			BindingResult br,
-			ModelMap m
-			
+			ModelMap m,
+			HttpSession session
 			) {
 		
 		ArrayList<UserResponseDTO> usersList = userDao.getAllUsers();
+		UserResponseDTO adminAccount = userDao.getAdminAccount();
 		
 		
 		boolean isCorrectUser = false;
+		boolean isAdmin = false;
+		boolean isLoggedIn = false;
 		
+		if(adminAccount.getEmail().equals(ub.getEmail())&&adminAccount.getPassword().equals(ub.getPassword())) {
+			isAdmin = true;
+			return "AdminView";
+			
+		}
 		
-		
-		for(UserResponseDTO res : usersList) {
-			if(res.getEmail().equals(ub.getEmail())&&res.getPassword().equals(ub.getPassword())) 			{
-				isCorrectUser = true;
-				break;
+		if(!isAdmin) {
+			for(UserResponseDTO res : usersList) {
+				if(res.getEmail().equals(ub.getEmail())&&res.getPassword().equals(ub.getPassword())) 
+				{
+					isCorrectUser = true;
+					isLoggedIn = true;
+					break;
+				}
 			}
-		}
+			
+			if(!isCorrectUser) {
+				m.addAttribute("incorrectUser", "Wrong Authentication");
+				System.out.println("Wrong");
+				return "Login";
+			}
+			
+		}	
 		
-		if(!isCorrectUser) {
-			m.addAttribute("incorrectUser", "Wrong Authentication");
-			System.out.println("Wrong");
-			return "Login";
-		}
+		session.setAttribute("isLoggedIn", isLoggedIn);
+		
 		
 		return "UserProfile";
 	}
