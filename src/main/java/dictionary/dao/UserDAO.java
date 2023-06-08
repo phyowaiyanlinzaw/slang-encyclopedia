@@ -46,7 +46,7 @@ public class UserDAO {
 	
 	public ArrayList<UserResponseDTO> getAllUsers(){
 		ArrayList<UserResponseDTO> resList = new ArrayList<>();
-		String sql = "select*from user";
+		String sql = "select*from user where role_id=2";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);

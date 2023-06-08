@@ -173,11 +173,14 @@ public class DictionaryController {
 			
 			) {
 		
-		ArrayList<UserResponseDTO> resList = userDao.getAllUsers();
+		ArrayList<UserResponseDTO> usersList = userDao.getAllUsers();
 		
 		
 		boolean isCorrectUser = false;
-		for(UserResponseDTO res : resList) {
+		
+		
+		
+		for(UserResponseDTO res : usersList) {
 			if(res.getEmail().equals(ub.getEmail())&&res.getPassword().equals(ub.getPassword())) 			{
 				isCorrectUser = true;
 				break;
