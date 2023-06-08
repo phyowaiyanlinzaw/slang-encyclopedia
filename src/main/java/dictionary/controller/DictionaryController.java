@@ -122,6 +122,21 @@ public class DictionaryController {
 	}
 	
 	
+	@RequestMapping(value = "/ProcessOtp",method = RequestMethod.POST)
+	public String processOtp(
+			@ModelAttribute("otpBean")
+			@Validated
+			OtpBean ob,
+			BindingResult br,
+			ModelMap m,
+			HttpSession session
+			) {
+		
+		
+		
+		return "redirect:/Login";
+		
+	}
 	
 	
 }
