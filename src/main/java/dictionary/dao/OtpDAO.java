@@ -4,9 +4,10 @@ import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
+import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class OtpDAO {
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, req.getOtpNumber());
-			ps.setDate(2, Date.valueOf(LocalDate.now()));
+			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setString(3, req.getRequestedBy());
 			ps.setTimestamp(4, Timestamp.valueOf(req.getExpTime()));
 			result = ps.executeUpdate();

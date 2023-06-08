@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import dictionary.dao.OtpDAO;
 import dictionary.dao.UserDAO;
 import dictionary.model.OtpBean;
 import dictionary.model.UserBean;
@@ -26,6 +27,7 @@ public class DictionaryController {
 	
 	@Autowired
 	private UserDAO userDao;
+	private OtpDAO otpDao;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String homeView() {
@@ -88,7 +90,7 @@ public class DictionaryController {
 		
 		session.setAttribute("registeredUser", ub);
 		
-		return "DefinitionView";
+		return "redirect:/otpView";
 	}
 	
 	@RequestMapping(value ="/otpView", method=RequestMethod.GET)
@@ -101,6 +103,20 @@ public class DictionaryController {
 		UserBean userBean = (UserBean) session.getAttribute("registeredUser");
 		
 		OtpService.sendEmail(userBean.getEmail(), "OTP", "Your OTP is : " +genereatedOtp);
+		
+		OtpRequestDTO req = new OtpRequestDTO();
+		
+		req.setOtpNumber(genereatedOtp);
+		req.setRequestedBy(userBean.getEmail());
+		req.setExpTime(
+				String.valueOf(System.currentTimeMillis()+60000)
+				);
+		
+		int result = otpDao.storeOtp(req);
+		
+		if(result ==0) {
+			System.out.println("Insert OTP Error");
+		}
 		
 		return new ModelAndView("otp", "otpBean", new OtpBean());
 	}
