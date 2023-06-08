@@ -29,6 +29,7 @@ public class DictionaryController {
 	
 	@Autowired
 	private UserDAO userDao;
+	@Autowired
 	private OtpDAO otpDao;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
@@ -46,11 +47,7 @@ public class DictionaryController {
 		return new ModelAndView("Register", "registerBean" , new UserBean());
 	}
 	
-	@RequestMapping(value="/Login",method=RequestMethod.GET)
-	public ModelAndView loginView() {
-		return new ModelAndView("Login", "loginBean" , new UserBean());
-	}
-	
+
 	
 	@RequestMapping(value="/ProcessRegister", method=RequestMethod.POST)
 	public String register(
@@ -153,6 +150,39 @@ public class DictionaryController {
 		
 		return "redirect:/Login";
 		
+	}
+	
+	@RequestMapping(value="/Login",method=RequestMethod.GET)
+	public ModelAndView loginView() {
+		return new ModelAndView("Login", "loginBean" , new UserBean());
+	}
+	
+	@RequestMapping(value="/ProcessLogin",method = RequestMethod.POST)
+	public String processLogin(
+			@ModelAttribute("loginBean")
+			@Validated
+			UserBean ub,
+			BindingResult br,
+			ModelMap m
+			
+			) {
+		
+		ArrayList<UserResponseDTO> resList = userDao.getAllUsers();
+		
+		
+		boolean isCorrectUser = false;
+		for(UserResponseDTO res : resList) {
+			if(res.getEmail().equals(ub.getEmail())&&res.getPassword().equals(ub.getPassword())) 			{
+				isCorrectUser = true;
+			}
+		}
+		
+		if(!isCorrectUser) {
+			m.addAttribute("incorrectUser", "Wrong Authentication");
+			return "Login";
+		}
+		
+		return "UserProfile";
 	}
 	
 	

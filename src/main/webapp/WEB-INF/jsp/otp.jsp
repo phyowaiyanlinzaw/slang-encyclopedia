@@ -112,7 +112,7 @@ prefix="form"%>
     <div class="container">
       <header>OTP Verification</header>
       <section>
-        <form class="otp-form" action="otp.php" method="POST">
+        <form class="otp-form" action="/SlangEncyclopedia/ProcessOtp" method="POST">
           <div class="input-container">
             <input type="text" placeholder="Enter OTP" name="otp" />
           </div>
