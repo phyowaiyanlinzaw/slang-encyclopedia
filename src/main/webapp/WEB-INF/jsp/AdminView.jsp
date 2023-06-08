@@ -195,7 +195,7 @@ prefix="form"%>
     const logoBtn = document.querySelector(".logo");
 
     logoBtn.addEventListener("click", () => {
-      window.location.href = "showSearchedWords.html";
+      window.location.href = "/SlangEncyclopedia/DefinitionView";
     });
   </script>
 </html>

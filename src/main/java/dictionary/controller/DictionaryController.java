@@ -186,6 +186,7 @@ public class DictionaryController {
 		
 		if(adminAccount.getEmail().equals(ub.getEmail())&&adminAccount.getPassword().equals(ub.getPassword())) {
 			isAdmin = true;
+			session.setAttribute("isAdmin",isAdmin);
 			return "AdminView";
 		}
 		
@@ -209,36 +210,30 @@ public class DictionaryController {
 		}	
 		
 		session.setAttribute("isUser", isUser);
-		session.setAttribute("isAdmin",isAdmin);
-		
 		session.setAttribute("isLoggedIn", "logged in");
 		
 		return "UserProfile";
 	}
 	
-//	@RequestMapping(value="/Dashboard",method = RequestMethod.GET)
-//	public String userProfile(
-//			HttpSession session
-//			) {
-//		
-//		boolean isUser = (boolean) session.getAttribute("isUser");
-//		boolean isAdmin = (boolean) session.getAttribute("isAdmin");
-//		
-//		
-//		if(isAdmin) {
-//			return "AdminView";
-//		}
-//		
-//		if(isUser) {
-//			return "UserProfile";
-//		}
-//		
-//		if(session.getAttribute("isLoggedIn")==null){
-//			return "redirect:/LogIn";
-//		}
-//		
-//		return "UserProfile";
-//	}
+	@RequestMapping(value="/Dashboard",method = RequestMethod.GET)
+	public String userProfile(
+			HttpSession session
+			) {
+		
+		if(session.getAttribute("isUser")!=null) {
+			return "UserProfile";
+		}
+		
+		else if (session.getAttribute("isAdmin")!=null) {
+			return "AdminView";
+		}
+		
+		if(session.getAttribute("isLoggedIn")==null){
+			return "redirect:/Login";
+		}
+		
+		return "UserProfile";
+	}
 	
 	
 }
