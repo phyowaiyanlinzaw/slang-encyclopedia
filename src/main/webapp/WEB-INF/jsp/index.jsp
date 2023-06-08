@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%> <%@ taglib prefix="c"
+uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -178,7 +179,7 @@ pageEncoding="UTF-8"%>
 
       <section>
         <div class="logo-pic">
-          <img src="/WEB-INF/jsp/logo.png" alt="LOGO" />
+          <img src="" alt="LOGO" />
         </div>
         <div class="search-section">
           <div class="search-bar">
