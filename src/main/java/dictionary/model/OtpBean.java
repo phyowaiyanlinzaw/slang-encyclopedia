@@ -1,13 +1,23 @@
 package dictionary.model;
 
 public class OtpBean {
-	private String id;
+	
+	
 	private String otpNumber;
-	public String getId() {
-		return id;
+	private String createdAt;
+	private String expTime;
+	
+	public String getCreatedAt() {
+		return createdAt;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+	public String getExpTime() {
+		return expTime;
+	}
+	public void setExpTime(String expTime) {
+		this.expTime = expTime;
 	}
 	public String getOtpNumber() {
 		return otpNumber;
