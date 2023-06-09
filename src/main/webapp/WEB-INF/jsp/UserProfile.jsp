@@ -260,9 +260,9 @@ prefix="form"%>
   </head>
   <body>
     <div class="container">
-      <div class="avatar">{res.username.charAt(0).toUpperCase()}</div>
+      <div class="avatar">${res.username.charAt(0).toUpperCase()}</div>
       <div class="name-and-verification">
-        <h1>{res.username}</h1>
+        <h1>${res.username}</h1>
         <i class="fas fa-check-circle"></i>
       </div>
     
@@ -284,7 +284,7 @@ prefix="form"%>
                 <th>Dislikes Total</th>
                 <th>Definitions Amount</th>
                 <tr>
-                    <td>{res.username}</td>
+                    <td>${res.username}</td>
                     <td> {res.email} </td>
                     <td> 0 </td>
                     <td> 0 </td>
