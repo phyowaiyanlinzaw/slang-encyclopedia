@@ -99,7 +99,8 @@ public class DictionaryController {
 	
 	@RequestMapping(value ="/otpView", method=RequestMethod.GET)
 	public ModelAndView otpView(
-			HttpSession session
+			HttpSession session,
+			ModelMap m
 			) {
 		
 		String genereatedOtp = OtpService.generateOtp();
@@ -114,10 +115,19 @@ public class DictionaryController {
 		req.setRequestedBy(userBean.getEmail());
 		req.setExpTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)));
 		
-		int result = otpDao.storeOtp(req);
+		int otpStoreResult = otpDao.storeOtp(req);
+		int otpCount = otpDao.getOtpCounts(userBean.getEmail());
+		int otpCountStoreResult = userDao.storeOtpCount(otpCount);
 		
-		if(result ==0) {
+		m.addAttribute("otp", genereatedOtp);
+		m.addAttribute("otpCount", otpCount);
+		
+		if(otpStoreResult ==0) {
 			System.out.println("Insert OTP Error");
+		}
+		
+		if(otpCountStoreResult ==0) {
+			System.out.println("Insert OTP Count Error");
 		}
 		
 		return new ModelAndView("otp", "otpBean", new OtpBean());
@@ -237,17 +247,17 @@ public class DictionaryController {
 		return "UserProfile";
 	}
 	
-	@RequestMapping(value="/UpdateOtpStatus",method = RequestMethod.GET)
+	@RequestMapping(value="/UpdateOtpStatus/{otpNumber}",method = RequestMethod.GET)
 	public String updateOtpStatus(
-		@PathVariable("otp") String otp,
+		@PathVariable("otpNumber") String otpNumber,
 		HttpSession session
 		) {
 
 		OtpRequestDTO req = new OtpRequestDTO();
 
-		req.setOtpNumber(otp);
+		req.setOtpNumber(otpNumber);
 		
-		System.out.println(otp);
+		System.out.println(otpNumber);
 		System.out.println(req.getOtpNumber());
 
 		int result = otpDao.updateOtpStatus(req);

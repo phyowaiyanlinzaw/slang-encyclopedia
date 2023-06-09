@@ -79,4 +79,22 @@ public class OtpDAO {
 
 		return result;
 	}
+	
+	public int getOtpCounts(String email) {
+		int rowCounts = 0;
+		String sql = "select count(*) from otp where createdBy=? ";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				rowCounts = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+ 		return rowCounts;
+	}
 }

@@ -113,16 +113,31 @@ prefix="form"%>
         color: #fff;
       }
 
-      .resend-otp {
-        font-size: 0.9rem;
+      .time-out {
+        width: 100%;
+        max-width: 400px;
+        padding: 2rem;
+        border-radius: 10px;
+        background-color: #1b2936;
+      }
+
+      .time-out p {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+      .go-back-btn {
+        font-size: 1rem;
         font-weight: 700;
         color: #fff;
         border: none;
         outline: none;
-        background: none;
+        background-color: #2f80ed;
         cursor: pointer;
         padding: 0.5rem 1rem;
         border-radius: 10px;
+        text-align: center;
       }
     </style>
   </head>
@@ -144,46 +159,52 @@ prefix="form"%>
               path="otpNumber"
               id="otp"
             />
-            <p class="timer">10</p>
-            <button
-              type="button"
-              class="resend-otp hidden"
-              onclick="window.location.href='/SlangEncyclopedia/otpView'"
-            >
-              Resend
-            </button>
+            <p class="timer">60</p>
           </div>
           <input type="submit" value="Verify" class="btn solid" />
         </form:form>
+        <div class="time-out hidden">
+          <p>Timed out because too many OTPs request!!!</p>
+          <button class="go-back-btn" onclick="">Back to Home</button>
+        </div>
       </section>
     </div>
   </body>
   <script>
     const timer = document.querySelector(".timer");
-    const resendOtp = document.querySelector(".resend-otp");
+    
+    countdownTimer(5,60);
 
-    const otpElement = document.getElementById("otp");
+    function countdownTimer(repetitions, count) {
+      let currentCount = count;
+      let currentRepetition = ${otpCount};
+      const timerElement = document.querySelector(".timer");
 
-    let time = 10;
-    let interval;
+      const timer = setInterval(() => {
+        timerElement.textContent = currentCount;
 
-    interval = setInterval(() => {
-      time--;
-      timer.textContent = time;
-      if (time === 0) {
-        clearInterval(interval);
-        resendOtp.classList.remove("hidden");
-        otpElement.disabled = true;
-        updateOtpStatus();
-      }
-    }, 1000);
-
+        if (currentCount === 1) {
+          if (currentRepetition === repetitions) {
+            clearInterval(timer);
+            document.querySelector(".otp-form").classList.add("hidden");
+            document.querySelector(".time-out").classList.remove("hidden");
+            document.querySelector(".go-back-btn").classList.remove("hidden");
+          } else {
+            currentCount = count;
+            currentRepetition++;
+            updateOtpStatus();
+          }
+        } else {
+          currentCount--;
+        }
+      }, 1000);
+    }
+	
     function updateOtpStatus() {
-      const otp = document.getElementById("otp").value;
+      const otp = "${otp}";
 
       const xhr = new XMLHttpRequest();
-      const url =
-        "/SlangEncyclopedia/UpdateOtpStatus?otp=" + otp + "&status=expired";
+      const url = "/SlangEncyclopedia/UpdateOtpStatus/" + otp;
 
       xhr.open("GET", url, true);
 
