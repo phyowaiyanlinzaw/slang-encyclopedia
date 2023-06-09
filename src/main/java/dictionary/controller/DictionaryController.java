@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -238,19 +239,21 @@ public class DictionaryController {
 	
 	@RequestMapping(value="/UpdateOtpStatus",method = RequestMethod.GET)
 	public String updateOtpStatus(
-		@RequestParam("otp") String otp,
+		@PathVariable("otp") String otp,
 		HttpSession session
 		) {
 
 		OtpRequestDTO req = new OtpRequestDTO();
 
 		req.setOtpNumber(otp);
+		
+		System.out.println(otp);
+		System.out.println(req.getOtpNumber());
 
 		int result = otpDao.updateOtpStatus(req);
 
 		if(result == 0) {
-			System.out.println(otp);
-			System.out.println(req.getOtpNumber());
+			
 			System.out.println("Update OTP Status Error");
 		}
 		
