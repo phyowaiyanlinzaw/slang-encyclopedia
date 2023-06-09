@@ -106,19 +106,96 @@ prefix="form"%>
       .otp-form .btn:active {
         background-color: #2b73c7;
       }
+
+      .timer {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .resend-otp {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #fff;
+        border: none;
+        outline: none;
+        background: none;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <header>OTP Verification</header>
       <section>
-        <form:form class="otp-form" action="/SlangEncyclopedia/ProcessOtp" method="POST" modelAttribute="otpBean">
+        <form:form
+          class="otp-form"
+          action="/SlangEncyclopedia/ProcessOtp"
+          method="POST"
+          modelAttribute="otpBean"
+        >
           <div class="input-container">
-            <form:input type="text" placeholder="Enter OTP" name="otp" path="otpNumber"/>
+            <form:input
+              type="text"
+              placeholder="Enter OTP"
+              name="otp"
+              path="otpNumber"
+              id="otp"
+            />
+            <p class="timer">10</p>
+            <button
+              type="button"
+              class="resend-otp hidden"
+              onclick="window.location.href='/SlangEncyclopedia/otpView'"
+            >
+              Resend
+            </button>
           </div>
           <input type="submit" value="Verify" class="btn solid" />
         </form:form>
       </section>
     </div>
   </body>
+  <script>
+    const timer = document.querySelector(".timer");
+    const resendOtp = document.querySelector(".resend-otp");
+
+    const otpElement = document.getElementById("otp");
+
+    let time = 10;
+    let interval;
+
+    interval = setInterval(() => {
+      time--;
+      timer.textContent = time;
+      if (time === 0) {
+        clearInterval(interval);
+        resendOtp.classList.remove("hidden");
+        otpElement.setAttribute("disabled", "disabled");
+        otpElement.value = "";
+        updateOtpStatus();
+      }
+    }, 1000);
+
+    function updateOtpStatus() {
+      const otpStatus = document.getElementById("otp");
+      otpStatus.value = "expired";
+
+      const xhr = new XMLHttpRequest();
+      const url =
+        "/SlangEncyclopedia/UpdateOtpStatus?otpStatus=" + otpStatus.value;
+
+      xhr.open("GET", url, true);
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log("Otp status updated");
+        }
+      };
+
+      xhr.send();
+    }
+  </script>
 </html>
