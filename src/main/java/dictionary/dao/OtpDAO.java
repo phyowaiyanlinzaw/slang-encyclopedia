@@ -76,5 +76,7 @@ public class OtpDAO {
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
+
+		return result;
 	}
 }
