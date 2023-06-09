@@ -43,7 +43,6 @@ prefix="form"%>
         width: 100vw;
         height: 100%;
         display: flex;
-
         align-items: center;
         color: #ffffff;
         background-color: #1b2936;
@@ -218,6 +217,77 @@ prefix="form"%>
         border-radius: 5px;
         margin-right: 1rem;
         padding: 0 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 0.5rem;
+        }
+        .logo h1 {
+          display: none;
+        }
+        .logo img {
+          width: 50px;
+          height: 50px;
+        }
+        .search-bar {
+          margin-left: 0.5rem;
+        }
+
+        .upload-and-user {
+          margin-left: 0.5rem;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          width: 30%;
+        }
+
+        .upload-and-user button {
+          font-size: 1.5rem;
+          width: 40px;
+          height: 40px;
+        }
+
+        .upload-and-user button i {
+          font-size: 1.5rem;
+        }
+        .searched-word {
+          padding: 20px;
+        }
+
+        .searched-word h1 {
+          font-size: 2rem;
+        }
+
+        .def,
+        .eg,
+        .info,
+        .vote {
+          font-size: 1rem;
+        }
+
+        .upvote,
+        .downvote {
+          font-size: 1rem;
+        }
+
+        .upvote,
+        .downvote {
+          margin-right: 0.5rem;
+          padding: 0 0.5rem;
+        }
+
+        .upvote i,
+        .downvote i {
+          font-size: 1rem;
+        }
+
+        .upvote:hover,
+        .downvote:hover {
+          background-color: #04ab38;
+          cursor: pointer;
+          color: #ffffff;
+        }
       }
     </style>
   </head>
