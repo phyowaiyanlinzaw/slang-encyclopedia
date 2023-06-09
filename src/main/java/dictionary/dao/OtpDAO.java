@@ -26,7 +26,7 @@ public class OtpDAO {
 	public int storeOtp(OtpRequestDTO req) {
 		
 		int result =0;
-		String sql = "insert into otp(otpNum,createdAt,createdBy,exp_time) values(?,?,?,?)";
+		String sql = "insert into otp(otpNum,createdAt,createdBy,exp_time,status) values(?,?,?,?,?)";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -34,6 +34,7 @@ public class OtpDAO {
 			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setString(3, req.getRequestedBy());
 			ps.setTimestamp(4, req.getExpTime());
+			ps.setString(5, "active");
 			result = ps.executeUpdate();
 			
 		}catch (SQLException e) {
@@ -45,7 +46,7 @@ public class OtpDAO {
 	
 	public OtpResponseDTO getOtp(OtpRequestDTO req) {
 		OtpResponseDTO res = new OtpResponseDTO();
-		String sql = "select * from otp where createdBy=?";
+		String sql = "select * from otp where createdBy=? and status='active'";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -63,4 +64,17 @@ public class OtpDAO {
 		return res;
 		
  	}
+
+	public int updateOtpStatus(OtpRequestDTO req){
+		int result = 0;
+		String sql = "update otp set status='expired' where otpNum=?";
+
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, req.getOtpNumber());
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 }

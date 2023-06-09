@@ -173,19 +173,17 @@ prefix="form"%>
       if (time === 0) {
         clearInterval(interval);
         resendOtp.classList.remove("hidden");
-        otpElement.setAttribute("disabled", "disabled");
-        otpElement.value = "";
+        otpElement.disabled = true;
         updateOtpStatus();
       }
     }, 1000);
 
     function updateOtpStatus() {
-      const otpStatus = document.getElementById("otp");
-      otpStatus.value = "expired";
+      const otp = document.getElementById("otp").value;
 
       const xhr = new XMLHttpRequest();
       const url =
-        "/SlangEncyclopedia/UpdateOtpStatus?otpStatus=" + otpStatus.value;
+        "/SlangEncyclopedia/UpdateOtpStatus?otp=" + otp + "&status=expired";
 
       xhr.open("GET", url, true);
 
