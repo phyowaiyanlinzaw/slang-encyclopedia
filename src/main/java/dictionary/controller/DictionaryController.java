@@ -235,5 +235,27 @@ public class DictionaryController {
 		return "UserProfile";
 	}
 	
+	@RequestMapping(value="/UpdateOtpStatus",method = RequestMethod.GET)
+	public String updateOtpStatus(
+		@RequestParam("otp") String otp,
+		HttpSession session
+		) {
+
+		OtpRequestDTO req = new OtpRequestDTO();
+
+		req.setOtpNumber(otp);
+
+		int result = otpDao.updateOtpStatus(req);
+
+		if(result == 0) {
+			System.out.println("Update OTP Status Error");
+
+		}
+		
+		return "redirect:/otpView";
+
+	}
+
+
 	
 }
