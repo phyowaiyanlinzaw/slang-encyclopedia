@@ -48,11 +48,12 @@ prefix="form"%>
         background-color: #1b2936;
       }
       .logo {
-        width: 20%;
+        width: 10%;
         height: 100%;
         display: flex;
-        margin-left: 10rem;
         align-items: center;
+        justify-content: center;
+        margin-left: 5rem;
       }
       .logo img {
         width: 50px;
@@ -223,6 +224,10 @@ prefix="form"%>
         .container {
           padding: 0.5rem;
         }
+        .navbar {
+          height: 100%;
+          border-radius: 10px;
+        }
         .logo h1 {
           display: none;
         }
@@ -232,6 +237,7 @@ prefix="form"%>
         }
         .search-bar {
           margin-left: 0.5rem;
+          width: 90%;
         }
 
         .upload-and-user {
@@ -298,7 +304,10 @@ prefix="form"%>
           <div class="logo">
             <h1>SLANGz</h1>
 
-            <img src="/logo.png" alt="logo" />
+            <img
+              src="<%=request.getContextPath()%>/resource/logo.png"
+              alt="logo"
+            />
           </div>
 
           <div class="search-bar">
@@ -360,46 +369,15 @@ prefix="form"%>
     </div>
   </body>
   <script>
-    // Get the modal
-    var logInModal = document.getElementById("loginModal");
-    var regBtn = document.getElementById("reg-btn");
-    var allCloseModalBtn = document.getElementsByClassName("close");
-    var regModal = document.getElementById("regModal");
-    var otpModal = document.getElementById("otpModal");
-    var registerModalBtn = document.getElementById("register-modal-button");
+    // Change Placeholder
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const searchPlaceHolder = document.getElementById("search");
 
-    regBtn.addEventListener("click", function () {
-      logInModal.style.display = "block";
-    });
-
-    // When the user clicks on <span> (x), close the modal
-    for (var i = 0; i < allCloseModalBtn.length; i++) {
-      allCloseModalBtn[i].addEventListener("click", function () {
-        logInModal.style.display = "none";
-        regModal.style.display = "none";
-        otpModal.style.display = "none";
-      });
-    }
-
-    window.addEventListener("click", function (event) {
-      if (event.target == logInModal) {
-        logInModal.style.display = "none";
-      }
-    });
-
-    function showRegisterModal() {
-      logInModal.style.display = "none";
-      regModal.style.display = "block";
-    }
-
-    function showLoginModal() {
-      regModal.style.display = "none";
-      logInModal.style.display = "block";
-    }
-
-    function showOtpModal() {
-      regModal.style.display = "none";
-      otpModal.style.display = "block";
+    if (mediaQuery.matches) {
+      // Change Placeholder
+      searchPlaceHolder.placeholder = "Search";
+    } else {
+      searchPlaceHolder.placeholder = "Search for a word";
     }
   </script>
 </html>

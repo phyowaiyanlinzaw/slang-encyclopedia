@@ -74,6 +74,12 @@ uri="http://java.sun.com/jsp/jstl/core"%>
         align-items: center;
         flex-direction: column;
       }
+
+      .logo-pic img {
+        width: 200px;
+        height: 200px;
+        border-radius: 30%;
+      }
       .search-section {
         width: 500px;
         height: 50px;
@@ -179,7 +185,10 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 
       <section>
         <div class="logo-pic">
-          <img src="<%=request.getContextPath()%>/resource/logo.png" alt="LOGO" />
+          <img
+            src="<%=request.getContextPath()%>/resource/logo.png"
+            alt="LOGO"
+          />
         </div>
         <div class="search-section">
           <div class="search-bar">
