@@ -179,7 +179,7 @@ uri="http://java.sun.com/jsp/jstl/core"%>
 
       <section>
         <div class="logo-pic">
-          <img src="" alt="LOGO" />
+          <img src="<%=request.getContextPath()%>/resource/logo.png" alt="LOGO" />
         </div>
         <div class="search-section">
           <div class="search-bar">
