@@ -249,8 +249,9 @@ public class DictionaryController {
 		int result = otpDao.updateOtpStatus(req);
 
 		if(result == 0) {
+			System.out.println(otp);
+			System.out.println(req.getOtpNumber());
 			System.out.println("Update OTP Status Error");
-
 		}
 		
 		return "redirect:/otpView";
