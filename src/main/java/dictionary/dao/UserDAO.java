@@ -86,20 +86,20 @@ public class UserDAO {
 		return res;
 	}
 	
-	public int storeOtpCount(int otpCount) {
-		int result = 0;
-		String sql = "insert into user(otpCount) values=?";
-		
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, otpCount);
-			result = ps.executeUpdate();
-			
-		}catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		return result;
-	}
+//	public int storeOtpCount(int otpCount) {
+//		int result = 0;
+//		String sql = "insert into user(otpCount) values=?";
+//		
+//		try {
+//			PreparedStatement ps = con.prepareStatement(sql);
+//			ps.setInt(1, otpCount);
+//			result = ps.executeUpdate();
+//			
+//		}catch (SQLException e) {
+//			System.out.println(e.getMessage());
+//		}
+//		
+//		return result;
+//	}
 	
 }

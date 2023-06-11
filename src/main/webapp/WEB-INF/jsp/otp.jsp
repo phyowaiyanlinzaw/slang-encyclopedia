@@ -139,6 +139,10 @@ prefix="form"%>
         border-radius: 10px;
         text-align: center;
       }
+      .hidden
+      {
+      display:none;
+      }
     </style>
   </head>
   <body>
@@ -159,7 +163,7 @@ prefix="form"%>
               path="otpNumber"
               id="otp"
             />
-            <p class="timer">60</p>
+            <p class="timer">15</p>
           </div>
           <input type="submit" value="Verify" class="btn solid" />
         </form:form>
@@ -173,11 +177,12 @@ prefix="form"%>
   <script>
     const timer = document.querySelector(".timer");
     
-    countdownTimer(5,60);
+    countdownTimer(5,15);
 
     function countdownTimer(repetitions, count) {
       let currentCount = count;
       let currentRepetition = ${otpCount};
+      console.log(currentRepetition);
       const timerElement = document.querySelector(".timer");
 
       const timer = setInterval(() => {
@@ -196,12 +201,15 @@ prefix="form"%>
           }
         } else {
           currentCount--;
+
         }
       }, 1000);
     }
 	
     function updateOtpStatus() {
-      const otp = "${otp}";
+      const otp = "${currentOtp}";
+      
+      console.log(otp);
 
       const xhr = new XMLHttpRequest();
       const url = "/SlangEncyclopedia/UpdateOtpStatus/" + otp;
