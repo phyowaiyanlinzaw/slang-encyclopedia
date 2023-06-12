@@ -101,7 +101,8 @@ public class DictionaryController {
 	public ModelAndView otpView(
 			HttpSession session,
 			ModelMap m
-			) {
+			)
+			{
 		
 		String genereatedOtp = OtpService.generateOtp();
 		
@@ -169,6 +170,7 @@ public class DictionaryController {
 		}
 		
 		if(!isCorrectOTP) {
+			m.addAttribute("wrongOtp", "wrong");
 			return "redirect:/otpView";
 		}
 		
