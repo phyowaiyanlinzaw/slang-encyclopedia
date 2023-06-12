@@ -139,9 +139,8 @@ prefix="form"%>
         border-radius: 10px;
         text-align: center;
       }
-      .hidden
-      {
-      display:none;
+      .hidden {
+        display: none;
       }
     </style>
   </head>
@@ -169,16 +168,21 @@ prefix="form"%>
         </form:form>
         <div class="time-out hidden">
           <p>Timed out because too many OTPs request!!!</p>
-          <button class="go-back-btn" onclick="">Back to Home</button>
+          <button
+            class="go-back-btn"
+            onclick="window.location.href='/SlangEncyclopedia/Register'"
+          >
+            Back to Home
+          </button>
         </div>
       </section>
     </div>
   </body>
   <script>
     const timer = document.querySelector(".timer");
-    
+
     const otpAuth = "${wrongOtp}";
-    
+
     countdownTimer(3,15);
 
     function countdownTimer(repetitions, count) {
@@ -207,7 +211,7 @@ prefix="form"%>
         }
       }, 1000);
     }
-	
+
     function updateOtpStatus() {
       const otp = "${currentOtp}";
       console.log(otp);
@@ -225,6 +229,5 @@ prefix="form"%>
 
       xhr.send();
     }
-    
   </script>
 </html>
