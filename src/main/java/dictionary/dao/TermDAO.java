@@ -43,7 +43,7 @@ public class TermDAO {
 	}
 	
 	public DefandTermResponseDTO getTerm(DefandTermResponseDTO req) {
-		DefandTermResponseDTO res = new DefandTermResponseDTO();
+		DefandTermResponseDTO resList = new DefandTermResponseDTO();
 		String sql = "select * from term where user_id=?";
 		
 		try {
@@ -51,13 +51,13 @@ public class TermDAO {
 			ps.setString(1, req.getUserId());
 			ResultSet rs=ps.executeQuery();
 			while(rs.next()) {
-				res.setTerm(rs.getString("term_name"));
+				DefandTermResponseDTO res=new DefandTermResponseDTO();
+				res.setTerm(rs.getString("term_name"));	
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			// TODO: handle exception
 		}
-		return res;
+		return resList;
 		
 	}
 }
