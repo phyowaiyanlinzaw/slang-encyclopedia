@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -286,6 +287,11 @@ public class DictionaryController {
 		
 		
 		return "DefinitionView";
+	}
+	
+	@RequestMapping(value = "/UploadForm", method = RequestMethod.GET)
+	public ModelAndView uploadFormView() {
+		return new ModelAndView("UploadForm", "termandDefBean", new UserBean());
 	}
 
 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -107,7 +108,8 @@ pageEncoding="UTF-8"%>
     </style>
   </head>
   <body>
-    <div class="container">
+	<form:form action="/SlangEncyclopedia/UploadProcess" method="POST">    
+            <div class="container">
       <header>
         <h1>NEW WORD</h1>
       </header>
@@ -137,5 +139,6 @@ pageEncoding="UTF-8"%>
         </div>
       </section>
     </div>
+    </form:form>
   </body>
 </html>

@@ -324,7 +324,7 @@ prefix="form"%>
               </div>
             </form>
             <div class="upload-and-user">
-              <a href="uploadform.html" title="to upload">
+              <a href="/SlangEncyclopedia/UploadForm" title="to upload">
                 <button title="upload" type="button" id="upload-btn">
                   <i class="fas fa-plus"></i>
                 </button>
