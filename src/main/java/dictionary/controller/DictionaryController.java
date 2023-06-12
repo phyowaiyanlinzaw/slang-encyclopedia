@@ -213,7 +213,7 @@ public class DictionaryController {
 				{
 					isCorrectUser = true;
 					isUser = true;
-					m.addAttribute("currentUser",res);
+					session.setAttribute("currentUser", res);
 					break;
 				}
 			}

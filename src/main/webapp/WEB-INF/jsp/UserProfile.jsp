@@ -435,7 +435,7 @@ prefix="form"%>
     });
 
     backHomeBtn.addEventListener("click", () => {
-      window.location.href = "showSearchedWords.html";
+      window.location.href = "/SlangEncyclopedia/DefinitionView";
     });
 
     logOutBtn.addEventListener("click", () => {
