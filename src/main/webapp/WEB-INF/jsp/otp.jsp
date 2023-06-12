@@ -177,7 +177,9 @@ prefix="form"%>
   <script>
     const timer = document.querySelector(".timer");
     
-    countdownTimer(5,15);
+    const otpAuth = "${wrongOtp}";
+    
+    countdownTimer(3,15);
 
     function countdownTimer(repetitions, count) {
       let currentCount = count;
@@ -208,7 +210,6 @@ prefix="form"%>
 	
     function updateOtpStatus() {
       const otp = "${currentOtp}";
-      
       console.log(otp);
 
       const xhr = new XMLHttpRequest();
@@ -224,5 +225,6 @@ prefix="form"%>
 
       xhr.send();
     }
+    
   </script>
 </html>

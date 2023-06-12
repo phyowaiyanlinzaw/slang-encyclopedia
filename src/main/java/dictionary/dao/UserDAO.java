@@ -26,7 +26,7 @@ public class UserDAO {
 	
 	public int storeUsers(UserRequestDTO req) {
 		int result =0;
-		String sql = "insert into user(username,email,password,cPassword,createdBy,createdAt,updatedBy,updatedAt) values(?,?,?,?,?,?,?,?)";
+		String sql = "insert into user(username,email,password,cPassword,createdBy,createdAt,updatedBy,updatedAt,role_id) values(?,?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, req.getUsername());
@@ -37,6 +37,7 @@ public class UserDAO {
 			ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setString(7, req.getUsername());
 			ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(9, 2);
 			result = ps.executeUpdate();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@taglib uri="http://www.springframework.org/tags/form"
+pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
 prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,35 +51,35 @@ prefix="form"%>
         font-weight: 700;
         color: #10151b;
       }
-        .avatar i {
-            color: #10151b;
-        }
-        .name-and-verification{
-            width: 100%;
-            max-width: 800px;
-            margin-top: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .name-and-verification h1{
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #fff;
-        }
-        .name-and-verification .verified{
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            background-color: #1e2a3a;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-        }
-        .name-and-verification i{
-            font-size: 1.5rem;
-            color: #fff;
-            margin-left: 1rem;
-        }
+      .avatar i {
+        color: #10151b;
+      }
+      .name-and-verification {
+        width: 100%;
+        max-width: 800px;
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .name-and-verification h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .name-and-verification .verified {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        background-color: #1e2a3a;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+      }
+      .name-and-verification i {
+        font-size: 1.5rem;
+        color: #fff;
+        margin-left: 1rem;
+      }
       .options {
         width: 100%;
         max-width: 800px;
@@ -115,157 +114,207 @@ prefix="form"%>
         border-radius: 10px;
         overflow: hidden;
       }
-      .card-body{
+      .card-body {
         padding: 1rem;
       }
-        .user-info-item{
-            margin-bottom: 1rem;
-        }
-        .user-info-item h3{
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-        }
-        .user-info-item p{
-            font-size: 1rem;
-            font-weight: 500;
-            color: #fff;
-        }
+      .user-info-item {
+        margin-bottom: 1rem;
+      }
+      .user-info-item h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .user-info-item p {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #fff;
+      }
 
-
-      .btn.selected{
+      .btn.selected {
         background-color: #fff;
         color: #10151b;
       }
-      table{
+      table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 1rem;
       }
-        th{
-            font-size: 1rem;
-            font-weight: 700;
-            color: #fff;
-            text-align: center;
-            padding: 0.5rem 0;
-            
-        }
-        td{
-            font-size: 1rem;
-            font-weight: 500;
-            color: #fff;
-            padding: 0.5rem 0;
-            text-align: center;
-        }
+      th {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+        padding: 0.5rem 0;
+      }
+      td {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #fff;
+        padding: 0.5rem 0;
+        text-align: center;
+      }
 
-        .hidden{
-            display: none;
-        }
+      .hidden {
+        display: none;
+      }
 
-        .edit-profile input{
-            width: 100%;
-            padding: 1rem;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            background-color: #1e2a3a;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 500;
-            border-bottom: #fff 1px solid;
-        }
-        .edit-profile button{
-            width: 100%;
-            padding: 1rem;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            background-color: #fff;
-            color: #10151b;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            margin-top: 1rem;
-        }
+      .edit-profile input {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        background-color: #1e2a3a;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 500;
+        border-bottom: #fff 1px solid;
+      }
+      .edit-profile button {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        background-color: #fff;
+        color: #10151b;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        margin-top: 1rem;
+      }
 
-        .edit-profile button:hover{
-            background-color: #10151b;
-            color: #fff;
-        }
+      .edit-profile button:hover {
+        background-color: #10151b;
+        color: #fff;
+      }
 
-        .log-out{
-            width: 100%;
-            padding: 1rem;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            background-color: #10151b;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
+      .log-out {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        background-color: #10151b;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+      }
 
-        }
+      .confirmation-btns button {
+        width: 80%;
+        padding: 1rem;
+        border-radius: 10px;
+        border: #fff 1px solid;
+        outline: none;
+        background-color: #10151b;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        margin: 0 0.5rem;
+      }
 
+      .yes-btn:hover {
+        background-color: #fff;
+        color: #10151b;
+      }
 
-        .confirmation-btns button{
-            width: 80%;
-            padding: 1rem;
-            border-radius: 10px;
-            border: #fff 1px solid;
-            outline: none;
-            background-color: #10151b;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            margin: 0 0.5rem;
+      .no-btn:hover {
+        background-color: #fff;
+        color: #10151b;
+      }
 
-        }
+      .back-home {
+        width: 10%;
+        padding: 1rem;
+        border-radius: 10px;
+        border: #fff 1px solid;
+        outline: none;
+        background-color: #10151b;
+        color: #fff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        margin-top: 3rem;
+      }
 
-        .yes-btn:hover{
-            background-color: #fff;
-            color: #10151b;
-        }
+      .back-home:hover {
+        background-color: #fff;
+        color: #10151b;
+      }
 
-        .no-btn:hover{
-            background-color: #fff;
-            color: #10151b;
-        }
+      .log-out-modal {
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+      }
 
-        .back-home{
-            width: 10%;
-            padding: 1rem;
-            border-radius: 10px;
-            border: #fff 1px solid;
-            outline: none;
-            background-color: #10151b;
-            color: #fff;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            margin-top: 3rem;
-        }
+      .log-out-modal-content {
+        width: 100%;
+        max-width: 400px;
+        background-color: #1e2a3a;
+        border-radius: 10px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
 
-        .back-home:hover{
-            background-color: #fff;
-            color: #10151b;
-        }
+      .log-out-modal-content h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
 
+      .log-out-modal-body {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .log-out-modal-content button {
+        width: 80%;
+        padding: 1rem;
+        border-radius: 10px;
+        border: #fff 1px solid;
+        outline: none;
+        background-color: #10151b;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        margin: 0 0.5rem;
+      }
+
+      .log-out-modal-content button:hover {
+        background-color: #fff;
+        color: #10151b;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="avatar">${res.username.charAt(0).toUpperCase()}</div>
+      <div class="avatar">${currentUser.username.charAt(0)}</div>
       <div class="name-and-verification">
-        <h1>${res.username}</h1>
+        <h1>${currentUser.username}</h1>
         <i class="fas fa-check-circle"></i>
       </div>
-    
+
       <div class="options">
         <button class="btn info-btn selected">User Info</button>
         <button class="btn edit-btn">Edit Profile</button>
@@ -273,73 +322,77 @@ prefix="form"%>
         <button class="btn logout-btn">Log Out</button>
       </div>
       <div class="card user-info">
-        <div class="card-header">
-        </div>
+        <div class="card-header"></div>
         <div class="card-body">
           <div class="user-info-item">
             <table>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Likes Total</th>
-                <th>Dislikes Total</th>
-                <th>Definitions Amount</th>
-                <tr>
-                    <td>${res.username}</td>
-                    <td> {res.email} </td>
-                    <td> 0 </td>
-                    <td> 0 </td>
-                    <td> 0 </td>
-                </tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Likes Total</th>
+              <th>Dislikes Total</th>
+              <th>Definitions Amount</th>
+              <tr>
+                <td>${currentUser.username}</td>
+                <td>${currentUser.email}</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+              </tr>
             </table>
           </div>
+        </div>
       </div>
-    </div>
-    <div class="card edit-profile hidden">
-        <div class="card-header">
-        </div>
-        <div class="card-body">
-            <div class="user-info-item">
-            <input type="text" placeholder="Username" />
-            </div>
-            <div class="user-info-item">
-            <input type="email" placeholder="Email" />
-            </div>
-            <div class="user-info-item">
-            <input type="password" placeholder="Password" />
-            </div>
-            <div class="user-info-item">
-            <input type="password" placeholder="Confirm Password" />
-            </div>
-            <div class="user-info-item">
-            <button class="btn">Save</button>
-            </div>
-        </div>
-    </div>
-    <div class="card log-out hidden">
+      <div class="card edit-profile hidden">
         <div class="card-header"></div>
         <div class="card-body">
-            <div class="user-info-item">
-                <h3>Are you sure you want to log out?</h3>
-            </div>
-            <div class="confirmation-btns">
-                <div class="user-info-item">
-                    <button class="yes-btn">Yes</button>
-                </div>
-                <div class="user-info-item">
-                    <button class="no-btn">No</button>
-                </div>
-            </div>
-            
+          <div class="user-info-item">
+            <input type="text" placeholder="Username" />
+          </div>
+          <div class="user-info-item">
+            <input type="email" placeholder="Email" />
+          </div>
+          <div class="user-info-item">
+            <input type="password" placeholder="Password" />
+          </div>
+          <div class="user-info-item">
+            <input type="password" placeholder="Confirm Password" />
+          </div>
+          <div class="user-info-item">
+            <button class="btn">Save</button>
+          </div>
         </div>
-    </div>
-    <div class="card uploaded-def hidden">
+      </div>
+      <div class="card log-out hidden">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <div class="user-info-item">
+            <h3>Are you sure you want to log out?</h3>
+          </div>
+          <div class="confirmation-btns">
+            <div class="user-info-item">
+              <button class="yes-btn">LOG OUT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card uploaded-def hidden"></div>
 
-    </div>
-
-    <div class="back-home">
+      <div class="back-home">
         <i class="fas fa-arrow-left"></i>
         <p>Home</p>
+      </div>
     </div>
+
+    <div class="log-out-modal hidden">
+      <div class="log-out-modal-content">
+        <div class="log-out-modal-header">
+          <h3>Are you sure you want to log out?</h3>
+        </div>
+        <div class="log-out-modal-body">
+          <button class="log-out-yes-btn">Yes</button>
+          <button class="log-out-no-btn">No</button>
+        </div>
+      </div>
     </div>
   </body>
   <script>
@@ -350,6 +403,10 @@ prefix="form"%>
     const editProfile = document.querySelector(".edit-profile");
     const logOut = document.querySelector(".log-out");
     const backHomeBtn = document.querySelector(".back-home");
+    const logOutModal = document.querySelector(".log-out-modal");
+    const logOutYesBtn = document.querySelector(".log-out-yes-btn");
+    const logOutNoBtn = document.querySelector(".log-out-no-btn");
+    const logOutBtn = document.querySelector(".yes-btn");
 
     infoBtn.addEventListener("click", () => {
       infoBtn.classList.add("selected");
@@ -359,7 +416,6 @@ prefix="form"%>
 
       editProfile.style.display = "none";
       logOut.style.display = "none";
-
     });
     editBtn.addEventListener("click", () => {
       infoBtn.classList.remove("selected");
@@ -367,8 +423,7 @@ prefix="form"%>
       logoutBtn.classList.remove("selected");
       editProfile.style.display = "block";
       userInfo.style.display = "none";
-        logOut.style.display = "none";
-
+      logOut.style.display = "none";
     });
     logoutBtn.addEventListener("click", () => {
       infoBtn.classList.remove("selected");
@@ -377,11 +432,24 @@ prefix="form"%>
       userInfo.style.display = "none";
       editProfile.style.display = "none";
       logOut.style.display = "block";
-
     });
 
     backHomeBtn.addEventListener("click", () => {
-        window.location.href = "showSearchedWords.html";
+      window.location.href = "showSearchedWords.html";
+    });
+
+    logOutBtn.addEventListener("click", () => {
+      logOutModal.style.display = "flex";
+      logOutModal.style.justifyContent = "center";
+      logOutModal.style.alignItems = "center";
+    });
+
+    logOutYesBtn.addEventListener("click", () => {
+      window.location.href = "/SlangEncyclopedia/LogOut";
+    });
+
+    logOutNoBtn.addEventListener("click", () => {
+      logOutModal.style.display = "none";
     });
   </script>
 </html>
