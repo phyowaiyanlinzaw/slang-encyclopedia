@@ -276,6 +276,17 @@ public class DictionaryController {
 		return "redirect:/otpView";
 
 	}
+	
+	@RequestMapping(value="/LogOut",method = RequestMethod.GET)
+	public String logOut(
+			HttpSession session
+			) {
+		
+		session.invalidate();
+		
+		
+		return "DefinitionView";
+	}
 
 
 	

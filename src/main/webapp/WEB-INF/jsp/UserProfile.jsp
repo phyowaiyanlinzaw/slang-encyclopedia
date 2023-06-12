@@ -249,6 +249,62 @@ prefix="form"%>
         background-color: #fff;
         color: #10151b;
       }
+
+      .log-out-modal {
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+      }
+
+      .log-out-modal-content {
+        width: 100%;
+        max-width: 400px;
+        background-color: #1e2a3a;
+        border-radius: 10px;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .log-out-modal-content h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .log-out-modal-body {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .log-out-modal-content button {
+        width: 80%;
+        padding: 1rem;
+        border-radius: 10px;
+        border: #fff 1px solid;
+        outline: none;
+        background-color: #10151b;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        margin: 0 0.5rem;
+      }
+
+      .log-out-modal-content button:hover {
+        background-color: #fff;
+        color: #10151b;
+      }
     </style>
   </head>
   <body>
@@ -314,15 +370,7 @@ prefix="form"%>
           </div>
           <div class="confirmation-btns">
             <div class="user-info-item">
-              <button
-                class="yes-btn"
-                onclick="window.location.href = '/SlangEncyclopedia/LogOut'"
-              >
-                Yes
-              </button>
-            </div>
-            <div class="user-info-item">
-              <button class="no-btn">No</button>
+              <button class="yes-btn">LOG OUT</button>
             </div>
           </div>
         </div>
@@ -334,6 +382,18 @@ prefix="form"%>
         <p>Home</p>
       </div>
     </div>
+
+    <div class="log-out-modal hidden">
+      <div class="log-out-modal-content">
+        <div class="log-out-modal-header">
+          <h3>Are you sure you want to log out?</h3>
+        </div>
+        <div class="log-out-modal-body">
+          <button class="log-out-yes-btn">Yes</button>
+          <button class="log-out-no-btn">No</button>
+        </div>
+      </div>
+    </div>
   </body>
   <script>
     const infoBtn = document.querySelector(".info-btn");
@@ -343,6 +403,10 @@ prefix="form"%>
     const editProfile = document.querySelector(".edit-profile");
     const logOut = document.querySelector(".log-out");
     const backHomeBtn = document.querySelector(".back-home");
+    const logOutModal = document.querySelector(".log-out-modal");
+    const logOutYesBtn = document.querySelector(".log-out-yes-btn");
+    const logOutNoBtn = document.querySelector(".log-out-no-btn");
+    const logOutBtn = document.querySelector(".yes-btn");
 
     infoBtn.addEventListener("click", () => {
       infoBtn.classList.add("selected");
@@ -372,6 +436,20 @@ prefix="form"%>
 
     backHomeBtn.addEventListener("click", () => {
       window.location.href = "showSearchedWords.html";
+    });
+
+    logOutBtn.addEventListener("click", () => {
+      logOutModal.style.display = "flex";
+      logOutModal.style.justifyContent = "center";
+      logOutModal.style.alignItems = "center";
+    });
+
+    logOutYesBtn.addEventListener("click", () => {
+      window.location.href = "/SlangEncyclopedia/LogOut";
+    });
+
+    logOutNoBtn.addEventListener("click", () => {
+      logOutModal.style.display = "none";
     });
   </script>
 </html>
