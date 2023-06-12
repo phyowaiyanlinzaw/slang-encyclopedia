@@ -154,9 +154,17 @@ prefix="form"%>
       .upload-and-user button i:hover {
         color: #04ab38;
       }
-      .searched-word {
-        width: 70vw;
+
+      .section {
+        width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .searched-word {
+        width: 80vw;
+        height: 50%;
         display: flex;
         background-color: #1b2936;
         margin-top: 20px;
@@ -192,7 +200,6 @@ prefix="form"%>
         font-size: 1.2rem;
         font-style: bold;
         display: flex;
-
         margin: 1rem 0;
       }
       .upvote {
@@ -218,6 +225,18 @@ prefix="form"%>
         border-radius: 5px;
         margin-right: 1rem;
         padding: 0 1rem;
+      }
+
+      .upvote:hover {
+        cursor: pointer;
+        background-color: #04ab38;
+        color: #ffffff;
+      }
+
+      .downvote:hover {
+        cursor: pointer;
+        background-color: #ff0000;
+        color: #ffffff;
       }
 
       @media (max-width: 768px) {
@@ -288,11 +307,16 @@ prefix="form"%>
           font-size: 1rem;
         }
 
-        .upvote:hover,
-        .downvote:hover {
+        .upvote:hover {
           background-color: #04ab38;
-          cursor: pointer;
           color: #ffffff;
+          cursor: pointer;
+        }
+
+        .downvote:hover {
+          background-color: #ff0000;
+          color: #ffffff;
+          cursor: pointer;
         }
       }
     </style>
@@ -365,6 +389,32 @@ prefix="form"%>
             </div>
           </div>
         </div>
+        <div class="searched-word card">
+          <div class="word">
+            <h1>Word</h1>
+            <p class="def">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea
+              optio, ad, officiis eos fugiat quo aut laudantium explicabo
+              placeat saepe repellendus fuga deleniti! Cupiditate, corporis. Ea
+              recusandae animi iure saepe.
+            </p>
+            <p class="eg">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Doloremque commodi exercitationem ullam laudantium dolorem
+            </p>
+            <p class="info">by Someone on 12/12/2020</p>
+          </div>
+          <div class="vote">
+            <div class="upvote">
+              👍
+              <p>100</p>
+            </div>
+            <div class="downvote">
+              👎
+              <p>100</p>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </body>
@@ -372,6 +422,12 @@ prefix="form"%>
     // Change Placeholder
     const mediaQuery = window.matchMedia("(max-width: 768px)");
     const searchPlaceHolder = document.getElementById("search");
+    const form = document.querySelector("inline");
+    const searchIcon = document.querySelector(".fa-search");
+
+    searchIcon.addEventListener("click", () => {
+      form.submit();
+    });
 
     if (mediaQuery.matches) {
       // Change Placeholder
