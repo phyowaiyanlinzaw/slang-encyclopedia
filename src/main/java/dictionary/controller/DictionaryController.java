@@ -20,13 +20,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import dictionary.dao.DefinitionDAO;
 import dictionary.dao.OtpDAO;
+import dictionary.dao.TermDAO;
 import dictionary.dao.UserDAO;
+import dictionary.model.DefinitionAndTermBean;
 import dictionary.model.OtpBean;
 import dictionary.model.UserBean;
 import dictionary.services.OtpService;
 import dictionary.dto.UserRequestDTO;
 import dictionary.dto.UserResponseDTO;
+import dictionary.dto.DefandTermRequestDTO;
 import dictionary.dto.OtpRequestDTO;
 import dictionary.dto.OtpResponseDTO;
 
@@ -37,6 +41,10 @@ public class DictionaryController {
 	private UserDAO userDao;
 	@Autowired
 	private OtpDAO otpDao;
+	@Autowired
+	private DefinitionDAO definitionDAO;
+	@Autowired
+	private TermDAO termDAO;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String homeView() {
@@ -291,8 +299,25 @@ public class DictionaryController {
 	
 	@RequestMapping(value = "/UploadForm", method = RequestMethod.GET)
 	public ModelAndView uploadFormView() {
-		return new ModelAndView("UploadForm", "termandDefBean", new UserBean());
+		return new ModelAndView("UploadForm", "termandDefBean", new DefinitionAndTermBean());
 	}
+	
+//	@RequestMapping(value="/ProcessuUpload", method=RequestMethod.POST)
+//	public String processUpload(@ModelAttribute ("termandDefBean") @Validated DefinitionAndTermBean dat,BindingResult br,ModelMap m) {
+//		
+//		
+//		DefandTermRequestDTO upl = new DefandTermRequestDTO(); //upl(upload)
+//		upl.setTerm(dat.getTerm());
+//		upl.setDefinition_text(dat.getDefinition_text());
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		return null;
+//	}
 
 
 	

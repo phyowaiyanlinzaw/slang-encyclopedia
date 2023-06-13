@@ -10,6 +10,7 @@ public class DefandTermRequestDTO {
 	private String status;
 	private String userId;
 	private String definitionId;
+	private String termId;
 	public String getTerm() {
 		return term;
 	}
@@ -63,6 +64,12 @@ public class DefandTermRequestDTO {
 	}
 	public void setDefinitionId(String definitionId) {
 		this.definitionId = definitionId;
+	}
+	public String getTermId() {
+		return termId;
+	}
+	public void setTermId(String termId) {
+		this.termId = termId;
 	}
 	
 

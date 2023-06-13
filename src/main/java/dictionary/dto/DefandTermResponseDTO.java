@@ -4,6 +4,8 @@ public class DefandTermResponseDTO {
 	private String term;
 	private String definition_text;
 	private String userId;
+	private String termId;
+	
 	public String getTerm() {
 	return term;
 }
@@ -21,6 +23,12 @@ public class DefandTermResponseDTO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getTermId() {
+		return termId;
+	}
+	public void setTermId(String termId) {
+		this.termId = termId;
 	}
 	
 
