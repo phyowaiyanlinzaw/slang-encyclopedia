@@ -1,7 +1,11 @@
 package dictionary.model;
 
+import javax.validation.constraints.NotEmpty;
+
 public class VoteBean {
+	@NotEmpty
 	private String id;
+	@NotEmpty
 	private String vote_type;
 	public String getId() {
 		return id;

@@ -1,10 +1,14 @@
 package dictionary.model;
 
+import javax.validation.constraints.NotEmpty;
+
 public class OtpBean {
 	
-	
+	@NotEmpty
 	private String otpNumber;
+	@NotEmpty
 	private String createdAt;
+	@NotEmpty
 	private String expTime;
 	
 	public String getCreatedAt() {

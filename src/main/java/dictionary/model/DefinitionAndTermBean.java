@@ -1,7 +1,11 @@
 package dictionary.model;
 
+import javax.validation.constraints.NotEmpty;
+
 public class DefinitionAndTermBean {
+	@NotEmpty
 	private String term;
+	@NotEmpty
 	private String definition_text;
 	public String getTerm() {
 		return term;
