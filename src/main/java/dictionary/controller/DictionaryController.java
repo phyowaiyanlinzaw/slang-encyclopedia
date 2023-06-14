@@ -1,5 +1,6 @@
 package dictionary.controller;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.cj.Session;
+
 import dictionary.dao.DefinitionDAO;
 import dictionary.dao.OtpDAO;
 import dictionary.dao.TermDAO;
@@ -31,6 +34,7 @@ import dictionary.services.OtpService;
 import dictionary.dto.UserRequestDTO;
 import dictionary.dto.UserResponseDTO;
 import dictionary.dto.DefandTermRequestDTO;
+import dictionary.dto.DefandTermResponseDTO;
 import dictionary.dto.OtpRequestDTO;
 import dictionary.dto.OtpResponseDTO;
 
@@ -42,9 +46,9 @@ public class DictionaryController {
 	@Autowired
 	private OtpDAO otpDao;
 	@Autowired
-	private DefinitionDAO definitionDAO;
+	private DefinitionDAO definitionDao;
 	@Autowired
-	private TermDAO termDAO;
+	private TermDAO termDao;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String homeView() {
@@ -302,22 +306,54 @@ public class DictionaryController {
 		return new ModelAndView("UploadForm", "termandDefBean", new DefinitionAndTermBean());
 	}
 	
-//	@RequestMapping(value="/ProcessuUpload", method=RequestMethod.POST)
-//	public String processUpload(@ModelAttribute ("termandDefBean") @Validated DefinitionAndTermBean dat,BindingResult br,ModelMap m) {
-//		
-//		
-//		DefandTermRequestDTO upl = new DefandTermRequestDTO(); //upl(upload)
-//		upl.setTerm(dat.getTerm());
-//		upl.setDefinition_text(dat.getDefinition_text());
-//		
-//		
-//		
-//		
-//		
-//		
-//		
-//		return null;
-//	}
+	@RequestMapping(value="/ProcessUpload", method=RequestMethod.POST)
+	public String processUpload(@ModelAttribute ("termandDefBean") @Validated DefinitionAndTermBean dat,BindingResult br,ModelMap m,HttpSession session) {
+	    
+	    
+	    
+		DefandTermRequestDTO upldt = new DefandTermRequestDTO(); 
+	    upldt.setTerm(dat.getTerm());
+	    upldt.setDefinition_text(dat.getDefinition_text());
+
+	//		UserBean userBean = (UserBean) session.getAttribute("loginUser");
+	//		upldt.setCreatedBy(userBean.getUsername());
+	//		System.out.println(userBean.getUsername() + "sss");
+		
+		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDef();
+		
+		boolean isDupe = false;
+		
+		for(DefandTermResponseDTO res:defList ) {
+			if(dat.getDefinition_text().equalsIgnoreCase(res.getDefinition_text())) {
+				isDupe = true;
+				m.addAttribute("dupeDef", "this definition already exists");
+				return "UploadForm";
+			}
+		}
+		
+		if(!isDupe) {
+			int result = definitionDao.storeDefinition(upldt);
+			result = termDao.storeTerm(upldt);
+			
+			if(result ==0) {
+				System.out.println("Insert Error");
+				return "UploadForm";
+			}
+		}
+		
+		
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		return "DefinitionView";
+	}
 
 
 	

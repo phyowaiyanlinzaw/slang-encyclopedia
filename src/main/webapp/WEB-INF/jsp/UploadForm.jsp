@@ -108,7 +108,7 @@ pageEncoding="UTF-8"%>
     </style>
   </head>
   <body>
-	<form:form action="/SlangEncyclopedia/UploadProcess" method="POST">    
+	<form:form action="/SlangEncyclopedia/ProcessUpload" method="POST" modelAttribute="termandDefBean">    
             <div class="container">
       <header>
         <h1>NEW WORD</h1>
@@ -124,14 +124,15 @@ pageEncoding="UTF-8"%>
             post hate speech or people’s personal information.
           </p>
           <form>
-            <input type="text" placeholder="Word" />
-            <textarea
+            <form:input type="text" placeholder="Word" path="term" />
+            <form:textarea
               name="definition"
               id="definition"
               cols="30"
               rows="10"
+              path="definition_text"
               placeholder="Type Your Definition Here"
-            ></textarea>
+            ></form:textarea>
 
             <input type="text" placeholder="Type the associated tags here" />
             <input type="submit" value="Submit" />

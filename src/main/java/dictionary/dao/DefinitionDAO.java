@@ -23,7 +23,7 @@ static Connection con=null;
 	
 	public int storeDefinition(DefandTermRequestDTO req) {
 		int result =0;
-		String sql="insert into definition(createdBy,createdAt,definition_text,updatedBy,updatedAt,status,term_id,user_id) values(?,?,?,?,?,?,?,?)";
+		String sql="insert into definition(createdBy,createdDate,definition_text,updatedBy,updatedAt,status,term_id,user_id) values(?,?,?,?,?,?,?,?)";
 		
 		try {
 			PreparedStatement ps=con.prepareStatement(sql);
@@ -43,7 +43,7 @@ static Connection con=null;
 		return result;
 	}
 	
-	public ArrayList<DefandTermResponseDTO> getAllTerm(){
+	public ArrayList<DefandTermResponseDTO> getAllDef(){
 		ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 		
 		String sql="select*from definition";
