@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import dictionary.dto.OtpRequestDTO;
 import dictionary.dto.OtpResponseDTO;
+import dictionary.dto.UserRequestDTO;
 
 @Service("otpDao")
 public class OtpDAO {
@@ -26,15 +27,18 @@ public class OtpDAO {
 	public int storeOtp(OtpRequestDTO req) {
 		
 		int result =0;
-		String sql = "insert into otp(otpNum,createdAt,createdBy,exp_time,status) values(?,?,?,?,?)";
+		String sql = "insert into otp(otpNum,createdAt,createdBy,count,status,userId,restrictionTime) "
+				+ "values(?,?,?,?,?,?,?)";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, req.getOtpNumber());
 			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setString(3, req.getRequestedBy());
-			ps.setTimestamp(4, req.getExpTime());
+			ps.setInt(4, req.getOtpCount());
 			ps.setString(5, "active");
+			ps.setInt(6, req.getUserId());
+			ps.setTimestamp(7, req.getRestrictTime());
 			result = ps.executeUpdate();
 			
 		}catch (SQLException e) {
@@ -55,7 +59,6 @@ public class OtpDAO {
 			
 			while(rs.next()) {
 				res.setOtpNumber(rs.getString("otpNum"));
-				res.setExpTime(rs.getTimestamp("exp_time"));
 			}
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -96,5 +99,66 @@ public class OtpDAO {
 			System.out.println(e.getMessage());
 		}
  		return rowCounts;
+	}
+	
+	public int deleteOtps(OtpRequestDTO req) {
+		int result = 0;
+		String sql = "delete from otp where userId=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, req.getUserId());
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+	
+	public int addRestrictionTime(OtpRequestDTO req) {
+		int result = 0;
+		String sql = "insert into otp(createdBy,createdAt,userId,restrictionTime)"
+				+ "values(?,?,?,?)";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, req.getRequestedBy());
+			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(3, req.getUserId());
+			ps.setTimestamp(4, req.getRestrictTime());
+			result = ps.executeUpdate();
+			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
+	}
+
+	public int deleteRestrictionTime(OtpRequestDTO req) {
+		int result = 0;
+		String sql = "delete TOP(1) from otp where userId=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, req.getUserId());
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+	
+	public int alterIncrement() {
+		int result = 0;
+		String sql = "alter table otp auto_increment=1";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
 	}
 }

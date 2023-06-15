@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.naming.java.javaURLContextFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.mysql.cj.Session;
 
 import dictionary.dao.DefinitionDAO;
 import dictionary.dao.OtpDAO;
@@ -74,6 +77,7 @@ public class DictionaryController {
 		}
 		
 		boolean isSamePw = false;
+		boolean isDupe = false;
 		
 		UserRequestDTO req = new UserRequestDTO();
 		req.setUsername(ub.getUsername());
@@ -87,55 +91,144 @@ public class DictionaryController {
 			isSamePw = true;
 			for(UserResponseDTO res : resList) {
 				if(res.getEmail().equals(ub.getEmail())) {
+					isDupe = true;
 					m.addAttribute("emailDupe", "This email already exists");
 					return "redirect:/Register";
 				}
 				
 			}
-			
-			if(!isSamePw) {
-				m.addAttribute("pwError","Passwords Don't Match");
-				return "Register";
+			if(!isDupe) {
+				int result = userDao.storeUsers(req);
+				session.setAttribute("registeredEmail", ub.getEmail());
+				if(result==0) {
+					m.addAttribute("insertUserError", "Error While Registering User");
+					return "redirect:/Register";
+				}
 			}
+			
+			
+		}
+		if(!isSamePw) {
+			m.addAttribute("pwError","Passwords Don't Match");
+			return "Register";
 		}
 		
-		session.setAttribute("registeredUser", ub);
+		return "redirect:/RequestOTP";
+	}
+
+	@RequestMapping(value="/RequestOTP",method = RequestMethod.GET)
+	public String requestOTP(
+			HttpSession session,
+			ModelMap m
+			) {
+
+				boolean isLimit = false;
+				String registeredEmail = (String) session.getAttribute("registeredEmail");
+				int otpCount = 0;
+				int userId = userDao.getUserId(registeredEmail);
+				
+				if(otpCount > 5) {
+					isLimit = true;
+					int deleteResult = otpDao.deleteOtps(req);
+					if(deleteResult==0) {
+						System.out.println("Error while deleting OTP");
+					}
+					req.setRestrictTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(5)));
+					req.setOtpCount(0);
+					int addRestrictionTimeResult = otpDao.addRestrictionTime(req);
+					if(addRestrictionTimeResult==0) {
+						System.out.println("Error while adding restriction time");
+					}
+					session.setAttribute("otpLimit", "true");
+
+					if(req.getRestrictTime().after(Timestamp.valueOf(LocalDateTime.now()))) {
+						isLimit =false;
+						session.setAttribute("otpLimit", "false");
+
+					}
+				}
+				if(!isLimit) {
+					String genereatedOtp = OtpService.generateOtp();
+					session.setAttribute("currentOtp", genereatedOtp);
+					OtpRequestDTO req = new OtpRequestDTO();
+					otpCount = otpCount > 0 ? otpCount + 1 : 1;
+					req.setOtpNumber(genereatedOtp);
+					req.setRequestedBy(registeredEmail);
+					req.setOtpCount(otpCount);
+					req.setUserId(userId);
+					int result = otpDao.storeOtp(req);
+					if(result==0) {
+						System.out.println("Error while storing OTP");
+					}
+					OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
+				}
+
+				
+		
+		// String genereatedOtp = OtpService.generateOtp();
+		// session.setAttribute("currentOtp", genereatedOtp);
+		// String registeredEmail = (String) session.getAttribute("registeredEmail");
+		
+		// OtpRequestDTO req = new OtpRequestDTO();
+		// int userId = userDao.getUserId(registeredEmail);
+		// int otpCount = otpDao.getOtpCounts(registeredEmail);
+		
+		// if(otpCount > 0 && otpCount <6) {
+		// 	otpCount++;
+		// 	req.setOtpNumber(genereatedOtp);
+		// 	req.setRequestedBy(registeredEmail);
+		// 	req.setOtpCount(otpCount);
+		// 	req.setUserId(userId);
+			
+		// 	int result = otpDao.storeOtp(req);
+			
+		// 	if(result==0) {
+		// 		System.out.println("Error while storing OTP");
+		// 	}
+			
+		// 	OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
+		// }else if(otpCount>5) {
+		// 	int deleteResult = otpDao.deleteOtps(req);
+		// 	if(deleteResult==0) {
+		// 		System.out.println("Error while deleting OTPs");
+		// 	}
+		// 	int aiResult = otpDao.alterIncrement(1);
+		// 	if(aiResult==0) {
+		// 		System.out.println("Error while resetting auto_increment");
+		// 	}
+		// 	req.setRestrictTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(3)));
+		// 	int addRTimeResult = otpDao.addRestrictionTime(req);
+		// 	if(addRTimeResult==0) {
+		// 		System.out.println("Error while adding restriction query");
+		// 	}
+		// 	m.addAttribute("otpLimit", "true");
+			
+		// }else {
+		// 	otpCount = 1;
+		// 	req.setOtpNumber(genereatedOtp);
+		// 	req.setRequestedBy(registeredEmail);
+		// 	req.setOtpCount(otpCount);
+		// 	req.setUserId(userId);
+			
+		// 	int result = otpDao.storeOtp(req);
+			
+		// 	if(result==0) {
+		// 		System.out.println("Error while storing OTP");
+		// 	}
+			
+		// 	OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
+		// }
+		
+
 		
 		return "redirect:/otpView";
 	}
 	
 	@RequestMapping(value ="/otpView", method=RequestMethod.GET)
-	public ModelAndView otpView(
-			HttpSession session,
-			ModelMap m
-			)
+	public ModelAndView otpView(ModelMap m,HttpSession session)
 			{
 		
-		String genereatedOtp = OtpService.generateOtp();
-		
-		UserBean userBean = (UserBean) session.getAttribute("registeredUser");
-		
-		OtpService.sendEmail(userBean.getEmail(), "OTP", "Your OTP is : " +genereatedOtp);
-		
-		OtpRequestDTO req = new OtpRequestDTO();
-		
-		req.setOtpNumber(genereatedOtp);
-		req.setRequestedBy(userBean.getEmail());
-		req.setExpTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(1)));
-		
-		int otpStoreResult = otpDao.storeOtp(req);
-		int otpCount = otpDao.getOtpCounts(userBean.getEmail());
-//		int otpCountStoreResult = userDao.storeOtpCount(otpCount);
-		
-		session.setAttribute("currentOtp", genereatedOtp);
-		
-//		m.addAttribute("otp", genereatedOtp);
-		m.addAttribute("otpCount", otpCount);
-		
-		if(otpStoreResult ==0) {
-			System.out.println("Insert OTP Error");
-		}
-		
+		m.addAttribute("otpLimit", session.getAttribute("otpLimit"));
 		
 		return new ModelAndView("otp", "otpBean", new OtpBean());
 	}
@@ -259,7 +352,7 @@ public class DictionaryController {
 		return "UserProfile";
 	}
 	
-	@RequestMapping(value="/UpdateOtpStatus/{otpNumber}",method = RequestMethod.GET)
+	@RequestMapping(value="/UpdateOtpStatus",method = RequestMethod.GET)
 	public String updateOtpStatus(
 		HttpSession session
 		) {
@@ -280,7 +373,7 @@ public class DictionaryController {
 			System.out.println("Update OTP Status Error");
 		}
 		
-		return "redirect:/otpView";
+		return "redirect:/RequestOTP";
 
 	}
 	

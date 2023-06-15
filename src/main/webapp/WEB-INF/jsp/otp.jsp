@@ -163,6 +163,7 @@ prefix="form"%>
           action="/SlangEncyclopedia/ProcessOtp"
           method="POST"
           modelAttribute="otpBean"
+          id="otpForm"
         >
           <div class="input-container">
             <form:input
@@ -173,7 +174,17 @@ prefix="form"%>
               id="otp"
             />
           </div>
-          <input type="submit" value="Verify" class="btn solid" />
+          <div class="otp-btns">
+            <button
+              type="button"
+              class="btn solid"
+              id="resendOtp"
+              onclick="window.location.href='/SlangEncyclopedia/RequestOTP'"
+            >
+              Resend
+            </button>
+            <input type="submit" value="Verify" class="btn solid" />
+          </div>
         </form:form>
         <div class="timeout-msg hidden">
           <p>You requested 5 OTPs already. Please check your email.</p>
@@ -187,5 +198,19 @@ prefix="form"%>
       </section>
     </div>
   </body>
-  <script></script>
+  <script>
+    const otpLimit = "${otpLimit}";
+    const form = document.getElementById("otpForm");
+    const timeOut = document.querySelector(".timeout-msg");
+
+    if (otpLimit == "true") {
+      form.classList.add("hidden");
+      timeOut.classList.remove("hidden");
+    }
+
+    if (otpLimit == "false") {
+      form.classList.remove("hidden");
+      timeOut.classList.add("hidden");
+    }
+  </script>
 </html>

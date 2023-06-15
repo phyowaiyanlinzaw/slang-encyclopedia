@@ -26,7 +26,8 @@ public class UserDAO {
 	
 	public int storeUsers(UserRequestDTO req) {
 		int result =0;
-		String sql = "insert into user(username,email,password,cPassword,createdBy,createdAt,updatedBy,updatedAt,role_id) values(?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into user(username,email,password,cPassword,createdBy,createdAt,updatedBy,updatedAt,role_id,isVerified,isLocked,status) "
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, req.getUsername());
@@ -38,6 +39,9 @@ public class UserDAO {
 			ps.setString(7, req.getUsername());
 			ps.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setInt(9, 2);
+			ps.setString(10, "No");
+			ps.setString(11, "No");
+			ps.setString(12, "Exist");
 			result = ps.executeUpdate();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -102,5 +106,24 @@ public class UserDAO {
 //		
 //		return result;
 //	}
+	
+	public int getUserId(String userEmail) {
+		int id = 0;
+		String sql = "select id from user where email=?";
+		
+		try {
+			PreparedStatement ps =con.prepareStatement(sql);
+			ps.setString(1, userEmail);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				id = rs.getInt("id");
+			}
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return id;
+	}
 	
 }

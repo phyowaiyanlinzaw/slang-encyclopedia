@@ -7,6 +7,9 @@ public class OtpRequestDTO {
 	private String otpNumber;
 	private String requestedBy;
 	private Timestamp expTime;
+	private int otpCount;
+	private int userId;
+	private Timestamp restrictTime;
 	
 	public String getOtpNumber() {
 		return otpNumber;
@@ -25,6 +28,24 @@ public class OtpRequestDTO {
 	}
 	public void setExpTime(Timestamp expTime) {
 		this.expTime = expTime;
+	}
+	public int getOtpCount() {
+		return otpCount;
+	}
+	public void setOtpCount(int otpCount) {
+		this.otpCount = otpCount;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public Timestamp getRestrictTime() {
+		return restrictTime;
+	}
+	public void setRestrictTime(Timestamp restrictTime) {
+		this.restrictTime = restrictTime;
 	}
 	
 	
