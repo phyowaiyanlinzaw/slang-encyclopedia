@@ -33,7 +33,7 @@ static Connection con=null;
 			ps.setString(4, req.getUpdatedBy());
 			ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
 			ps.setString(6, req.getStatus());
-			ps.setString(7, req.getTermId());
+			ps.setInt(7, req.getTermId());
 			ps.setString(8, req.getUserId());
 			result = ps.executeUpdate();
 		} catch (Exception e) {

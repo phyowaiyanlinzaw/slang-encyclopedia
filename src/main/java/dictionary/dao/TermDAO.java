@@ -82,4 +82,21 @@ public class TermDAO {
 		return resList;
 		
 	}
+	
+	public int getTermId(String term_name) {
+		int id=0;
+		String sql="select id from term where term_name=?";
+		try {
+			PreparedStatement ps=con.prepareStatement(sql);
+			ps.setString(1, term_name);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next()) {
+				id = rs.getInt("id");
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+			return id;
+	}
 }
