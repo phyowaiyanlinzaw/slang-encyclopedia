@@ -20,10 +20,10 @@ static Connection con=null;
 	public ArrayList<VoteResponseDTO> showVotes(){
 		ArrayList<VoteResponseDTO> list=new ArrayList<VoteResponseDTO>();
 		String sql="SELECT    "+
-					"FROM user u" +
-					"JOIN vote v ON u.id=v.user_id" +
-					"JOIN definition d ON v.definition_id=d.id" +
-					"ORDER BY   " ;
+				   "FROM user u" +
+				   "JOIN vote v ON       u.id=v.user_id" +
+				   "JOIN definition d ON v.definition_id=d.id" +
+				   "ORDER BY   " ;
 		try {
 			
 			PreparedStatement check=con.prepareStatement(sql);

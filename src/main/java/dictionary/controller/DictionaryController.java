@@ -121,7 +121,8 @@ public class DictionaryController {
 			HttpSession session,
 			ModelMap m
 			) {
-
+				
+				
 				boolean isLimit = false;
 				String registeredEmail = (String) session.getAttribute("registeredEmail");
 				int otpCount = 0;
@@ -150,7 +151,7 @@ public class DictionaryController {
 				if(!isLimit) {
 					String genereatedOtp = OtpService.generateOtp();
 					session.setAttribute("currentOtp", genereatedOtp);
-					OtpRequestDTO req = new OtpRequestDTO();
+					
 					otpCount = otpCount > 0 ? otpCount + 1 : 1;
 					req.setOtpNumber(genereatedOtp);
 					req.setRequestedBy(registeredEmail);
