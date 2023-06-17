@@ -122,113 +122,78 @@ public class DictionaryController {
 			return "Register";
 		}
 		
-		return "redirect:/RequestOTP";
+		return "redirect:/RegisterOTP";
 	}
 
-	@RequestMapping(value="/RequestOTP",method = RequestMethod.GET)
+	@RequestMapping(value="/RegisterOTP",method = RequestMethod.GET)
 	public String requestOTP(
 			HttpSession session,
 			ModelMap m
 			) {
-
-				boolean isLimit = false;
-				String registeredEmail = (String) session.getAttribute("registeredEmail");
-				int otpCount = 0;
-				int userId = userDao.getUserId(registeredEmail);
-				
-				if(otpCount > 5) {
-					isLimit = true;
-					int deleteResult = otpDao.deleteOtps(req);
-					if(deleteResult==0) {
-						System.out.println("Error while deleting OTP");
-					}
-					req.setRestrictTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(5)));
-					req.setOtpCount(0);
-					int addRestrictionTimeResult = otpDao.addRestrictionTime(req);
-					if(addRestrictionTimeResult==0) {
-						System.out.println("Error while adding restriction time");
-					}
-					session.setAttribute("otpLimit", "true");
-
-					if(req.getRestrictTime().after(Timestamp.valueOf(LocalDateTime.now()))) {
-						isLimit =false;
-						session.setAttribute("otpLimit", "false");
-
-					}
-				}
-				if(!isLimit) {
-					String genereatedOtp = OtpService.generateOtp();
-					session.setAttribute("currentOtp", genereatedOtp);
-					OtpRequestDTO req = new OtpRequestDTO();
-					otpCount = otpCount > 0 ? otpCount + 1 : 1;
-					req.setOtpNumber(genereatedOtp);
-					req.setRequestedBy(registeredEmail);
-					req.setOtpCount(otpCount);
-					req.setUserId(userId);
-					int result = otpDao.storeOtp(req);
-					if(result==0) {
-						System.out.println("Error while storing OTP");
-					}
-					OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
-				}
-
-				
 		
-		// String genereatedOtp = OtpService.generateOtp();
-		// session.setAttribute("currentOtp", genereatedOtp);
-		// String registeredEmail = (String) session.getAttribute("registeredEmail");
+		String generatedOtp = OtpService.generateOtp();
+		String registeredEmail = (String) session.getAttribute("registeredEmail");
+		int requestedUserId = userDao.getUserId(registeredEmail);
 		
-		// OtpRequestDTO req = new OtpRequestDTO();
-		// int userId = userDao.getUserId(registeredEmail);
-		// int otpCount = otpDao.getOtpCounts(registeredEmail);
+		OtpRequestDTO req = new OtpRequestDTO();
+		req.setOtpNumber(generatedOtp);
+		req.setOtpCount(1);
+		req.setRequestedBy(registeredEmail);
+		req.setUserId(requestedUserId);
 		
-		// if(otpCount > 0 && otpCount <6) {
-		// 	otpCount++;
-		// 	req.setOtpNumber(genereatedOtp);
-		// 	req.setRequestedBy(registeredEmail);
-		// 	req.setOtpCount(otpCount);
-		// 	req.setUserId(userId);
-			
-		// 	int result = otpDao.storeOtp(req);
-			
-		// 	if(result==0) {
-		// 		System.out.println("Error while storing OTP");
-		// 	}
-			
-		// 	OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
-		// }else if(otpCount>5) {
-		// 	int deleteResult = otpDao.deleteOtps(req);
-		// 	if(deleteResult==0) {
-		// 		System.out.println("Error while deleting OTPs");
-		// 	}
-		// 	int aiResult = otpDao.alterIncrement(1);
-		// 	if(aiResult==0) {
-		// 		System.out.println("Error while resetting auto_increment");
-		// 	}
-		// 	req.setRestrictTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(3)));
-		// 	int addRTimeResult = otpDao.addRestrictionTime(req);
-		// 	if(addRTimeResult==0) {
-		// 		System.out.println("Error while adding restriction query");
-		// 	}
-		// 	m.addAttribute("otpLimit", "true");
-			
-		// }else {
-		// 	otpCount = 1;
-		// 	req.setOtpNumber(genereatedOtp);
-		// 	req.setRequestedBy(registeredEmail);
-		// 	req.setOtpCount(otpCount);
-		// 	req.setUserId(userId);
-			
-		// 	int result = otpDao.storeOtp(req);
-			
-		// 	if(result==0) {
-		// 		System.out.println("Error while storing OTP");
-		// 	}
-			
-		// 	OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
-		// }
+		int storeOtpResult = otpDao.storeOtp(req);
 		
+		if(storeOtpResult==0) {
+			System.out.println("Error while storing OTP");
+		}
+		
+		OtpService.sendEmail(registeredEmail,"OTP","Your OTP Code is : "+generatedOtp);
 
+		return "redirect:/otpView";
+	}
+	
+	@RequestMapping(value="/ResendOTP",method = RequestMethod.GET)
+	public String resendOtp(
+			HttpSession session,
+			ModelMap m
+			) {
+		
+		
+		String registeredEmail = (String) session.getAttribute("registeredEmail");
+		int requestedUserId = userDao.getUserId(registeredEmail);
+		
+		int otpCount = otpDao.getOtpCount(requestedUserId);
+		
+		boolean isLimit = false;
+		
+		if(otpCount>=5) {
+			isLimit = true;
+			
+			int deleteOtpResult = otpDao.deleteOtps(requestedUserId);
+			if(deleteOtpResult==0) {
+				System.out.println("Error while deleting OTPs");
+			}
+			session.setAttribute("otpLimit", "true");
+			return "redirect:/otpView";
+		}
+		
+		if(!isLimit) {
+			String generatedOtp = OtpService.generateOtp();
+			
+			OtpRequestDTO req = new OtpRequestDTO();
+			req.setOtpNumber(generatedOtp);
+			req.setOtpCount(otpCount+1);
+			req.setRequestedBy(registeredEmail);
+			req.setUserId(requestedUserId);
+			
+			int storeOtpResult = otpDao.storeOtp(req);
+			
+			if(storeOtpResult==0) {
+				System.out.println("Error while storing OTP");
+			}
+			
+			OtpService.sendEmail(registeredEmail,"OTP","Your OTP Code is : "+generatedOtp);
+		}
 		
 		return "redirect:/otpView";
 	}
