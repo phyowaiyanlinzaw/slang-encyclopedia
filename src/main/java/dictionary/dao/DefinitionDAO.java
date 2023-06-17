@@ -93,7 +93,6 @@ static Connection con=null;
 
 	    String sql = "SELECT d.definition_text, t.term_name,u.username,t.createdDate FROM definition d JOIN term t ON d.term_id = t.id JOIN user u ON d.user_id=u.id";
 
-
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
 	        ResultSet rs = ps.executeQuery();

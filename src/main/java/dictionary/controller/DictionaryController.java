@@ -442,7 +442,7 @@ public class DictionaryController {
 				m.addAttribute("dupeDef", "this definition already exists");
 				return "UploadForm";
 			}
-		}
+		} 
 		
 		if(!isDupe) {
 			int result = termDao.storeTerm(upldt);
