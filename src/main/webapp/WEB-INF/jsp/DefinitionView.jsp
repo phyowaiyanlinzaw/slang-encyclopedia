@@ -398,7 +398,7 @@
         	<div class="word">
                 <h1>${def.term }</h1>
                 <p class = "def">${def.definition_text}</p>
-				<p>${def.createdBy}</p>
+				<p class="info">This was created By ${def.createdBy} on ${def.createdDate }</p>
           </div>
           <div class="vote">
             <div class="upvote">

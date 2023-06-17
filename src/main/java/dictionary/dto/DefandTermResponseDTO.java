@@ -1,11 +1,16 @@
 package dictionary.dto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class DefandTermResponseDTO {
 	private String term;
 	private String definition_text;
 	private String userId;
 	private String termId;
 	private String createdBy;
+    private LocalDate createdDate;
+
 	
 	public String getTerm() {
 	return term;
@@ -37,6 +42,13 @@ public class DefandTermResponseDTO {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
+	}
+
 	
 
 

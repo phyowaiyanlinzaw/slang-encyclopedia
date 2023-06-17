@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -90,7 +91,7 @@ static Connection con=null;
 	public ArrayList<DefandTermResponseDTO> getAllDefwithTerm() {
 	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 
-	    String sql = "SELECT d.definition_text, t.term_name FROM definition d JOIN term t ON d.term_id = t.id";
+	    String sql = "SELECT d.definition_text, t.term_name,u.username,t.createdDate FROM definition d JOIN term t ON d.term_id = t.id JOIN user u ON d.user_id=u.id";
 
 
 	    try {
@@ -100,7 +101,9 @@ static Connection con=null;
 	            DefandTermResponseDTO res = new DefandTermResponseDTO();
 	            res.setDefinition_text(rs.getString("definition_text"));
 	            res.setTerm(rs.getString("term_name"));
-	            resList.add(res);
+	            res.setCreatedBy(rs.getString("username"));
+                res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
+	           	resList.add(res);
 	        }
 	    } catch (Exception e) {
 	        System.out.println(e.getMessage());
