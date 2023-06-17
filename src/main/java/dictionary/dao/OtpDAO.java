@@ -83,31 +83,34 @@ public class OtpDAO {
 		return result;
 	}
 	
-	public int getOtpCounts(String email) {
-		int rowCounts = 0;
-		String sql = "select count(*) from otp where createdBy=? ";
+	public int getOtpCount(int userId) {
+		
+		int otpCount = 0;
+		String sql = "select * from otp where userId=?";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, email);
+			ps.setInt(1, userId);
 			ResultSet rs = ps.executeQuery();
 			
-			while (rs.next()) {
-				rowCounts = rs.getInt(1);
+			while(rs.next()) {
+				otpCount = rs.getInt("count");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
- 		return rowCounts;
+		
+		
+		return otpCount;
 	}
 	
-	public int deleteOtps(OtpRequestDTO req) {
+	public int deleteOtps(int userId) {
 		int result = 0;
 		String sql = "delete from otp where userId=?";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, req.getUserId());
+			ps.setInt(1, userId);
 			result = ps.executeUpdate();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
