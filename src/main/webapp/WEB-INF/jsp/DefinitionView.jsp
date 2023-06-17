@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
-prefix="form"%>
+    pageEncoding="UTF-8"%>
+       <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+       <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -362,7 +363,6 @@ prefix="form"%>
           </div>
         </div>
       </header>
-      <section>
         <div class="searched-word card">
           <div class="word">
             <h1>Word</h1>
@@ -388,21 +388,17 @@ prefix="form"%>
               <p>100</p>
             </div>
           </div>
-        </div>
-        <div class="searched-word card">
-          <div class="word">
-            <h1>Word</h1>
-            <p class="def">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea
-              optio, ad, officiis eos fugiat quo aut laudantium explicabo
-              placeat saepe repellendus fuga deleniti! Cupiditate, corporis. Ea
-              recusandae animi iure saepe.
-            </p>
-            <p class="eg">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Doloremque commodi exercitationem ullam laudantium dolorem
-            </p>
-            <p class="info">by Someone on 12/12/2020</p>
+          
+        </div> 
+<%--         <c:forEach items="${termList}" var="term">
+ --%>                   <c:forEach items="${defList}" var="def">
+        
+                <div class="searched-word card">
+        
+        	<div class="word">
+                <h1>${def.term }</h1>
+                <p class = "def">${def.definition_text}</p>
+				<p>${def.createdBy}</p>
           </div>
           <div class="vote">
             <div class="upvote">
@@ -414,10 +410,10 @@ prefix="form"%>
               <p>100</p>
             </div>
           </div>
-        </div>
-      </section>
     </div>
-  </body>
+      	            </c:forEach>
+<%--     </c:forEach>
+ --%>  </body>
   <script>
     // Change Placeholder
     const mediaQuery = window.matchMedia("(max-width: 768px)");

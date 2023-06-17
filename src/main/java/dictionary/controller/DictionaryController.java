@@ -53,8 +53,16 @@ public class DictionaryController {
 	}
 	
 	@RequestMapping(value="/DefinitionView",method=RequestMethod.GET)
-	public String definitionView() {
-		return "DefinitionView";
+	public String definitionView(ModelMap m) {
+		
+//		 ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDef();
+//		    m.addAttribute("defList", defList);
+//		 ArrayList<DefandTermResponseDTO> termList = termDao.getAllTerm();
+//		 m.addAttribute("termList", termList);
+		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
+		m.addAttribute("defList", defList);
+
+		    return "DefinitionView";
 	}
 	
 	@RequestMapping(value="/Register", method=RequestMethod.GET)
@@ -404,7 +412,6 @@ public class DictionaryController {
 	    UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
 	    
 		if (userDTO == null) {
-	        // User not logged in, handle the error
 	        m.addAttribute("error", "User not logged in");
 	        
 	        return "UploadForm";

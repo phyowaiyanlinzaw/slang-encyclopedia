@@ -5,6 +5,7 @@ public class DefandTermResponseDTO {
 	private String definition_text;
 	private String userId;
 	private String termId;
+	private String createdBy;
 	
 	public String getTerm() {
 	return term;
@@ -29,6 +30,12 @@ public class DefandTermResponseDTO {
 	}
 	public void setTermId(String termId) {
 		this.termId = termId;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 	
 

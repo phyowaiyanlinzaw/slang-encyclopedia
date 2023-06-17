@@ -3,6 +3,7 @@ package dictionary.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -84,5 +85,27 @@ static Connection con=null;
 			System.out.println(e.getMessage());
 		}
 		return resList;
+	}
+	
+	public ArrayList<DefandTermResponseDTO> getAllDefwithTerm() {
+	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
+
+	    String sql = "SELECT d.definition_text, t.term_name FROM definition d JOIN term t ON d.term_id = t.id";
+
+
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	            DefandTermResponseDTO res = new DefandTermResponseDTO();
+	            res.setDefinition_text(rs.getString("definition_text"));
+	            res.setTerm(rs.getString("term_name"));
+	            resList.add(res);
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	    }
+
+	    return resList;
 	}
 }
