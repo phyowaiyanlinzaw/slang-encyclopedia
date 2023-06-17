@@ -1,5 +1,6 @@
 package dictionary.controller;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class DictionaryController {
 		return "index";
 	}
 	
-	@RequestMapping(value="/DefinitionView",method=RequestMethod.GET)
+	@RequestMapping(value="/DefinitionView", method=RequestMethod.GET)
 	public String definitionView(ModelMap m) {
 		
 //		 ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDef();
@@ -457,7 +458,7 @@ public class DictionaryController {
 		}
 		
 		
-		return "DefinitionView";
+		return "redirect:/DefinitionView";
 	}
 
 
