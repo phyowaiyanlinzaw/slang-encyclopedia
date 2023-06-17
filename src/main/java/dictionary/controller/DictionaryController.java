@@ -108,7 +108,7 @@ public class DictionaryController {
 			}
 			if(!isDupe) {
 				int result = userDao.storeUsers(req);
-				session.setAttribute("registeredEmail", ub.getEmail());
+				session.setAttribute("registeredUser", ub);
 				if(result==0) {
 					m.addAttribute("insertUserError", "Error While Registering User");
 					return "redirect:/Register";
@@ -132,13 +132,13 @@ public class DictionaryController {
 			) {
 		
 		String generatedOtp = OtpService.generateOtp();
-		String registeredEmail = (String) session.getAttribute("registeredEmail");
-		int requestedUserId = userDao.getUserId(registeredEmail);
+		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
+		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
 		
 		OtpRequestDTO req = new OtpRequestDTO();
 		req.setOtpNumber(generatedOtp);
 		req.setOtpCount(1);
-		req.setRequestedBy(registeredEmail);
+		req.setRequestedBy(registeredUser.getEmail());
 		req.setUserId(requestedUserId);
 		
 		int storeOtpResult = otpDao.storeOtp(req);
@@ -147,7 +147,7 @@ public class DictionaryController {
 			System.out.println("Error while storing OTP");
 		}
 		
-		OtpService.sendEmail(registeredEmail,"OTP","Your OTP Code is : "+generatedOtp);
+		OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);
 
 		return "redirect:/otpView";
 	}
@@ -159,8 +159,8 @@ public class DictionaryController {
 			) {
 		
 		
-		String registeredEmail = (String) session.getAttribute("registeredEmail");
-		int requestedUserId = userDao.getUserId(registeredEmail);
+		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
+		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
 		
 		int otpCount = otpDao.getOtpCount(requestedUserId);
 		
@@ -183,7 +183,7 @@ public class DictionaryController {
 			OtpRequestDTO req = new OtpRequestDTO();
 			req.setOtpNumber(generatedOtp);
 			req.setOtpCount(otpCount+1);
-			req.setRequestedBy(registeredEmail);
+			req.setRequestedBy(registeredUser.getEmail());
 			req.setUserId(requestedUserId);
 			
 			int storeOtpResult = otpDao.storeOtp(req);
@@ -192,7 +192,7 @@ public class DictionaryController {
 				System.out.println("Error while storing OTP");
 			}
 			
-			OtpService.sendEmail(registeredEmail,"OTP","Your OTP Code is : "+generatedOtp);
+			OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);
 		}
 		
 		return "redirect:/otpView";
@@ -220,9 +220,9 @@ public class DictionaryController {
 		
 		OtpRequestDTO otpReq = new OtpRequestDTO();
 		
-		UserBean userBean = (UserBean) session.getAttribute("registeredUser");
+		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
 		
-		otpReq.setRequestedBy(userBean.getEmail());
+		otpReq.setRequestedBy(registeredUser.getEmail());
 		
 		OtpResponseDTO res = otpDao.getOtp(otpReq);
 		
@@ -231,10 +231,10 @@ public class DictionaryController {
 		if(ob.getOtpNumber().equals(res.getOtpNumber())){
 			isCorrectOTP = true;
 			UserRequestDTO uReq = new UserRequestDTO();
-			uReq.setEmail(userBean.getEmail());
-			uReq.setUsername(userBean.getUsername());
-			uReq.setPassword(userBean.getPassword());
-			uReq.setConfirm_password(userBean.getConfirm_password());
+			uReq.setEmail(registeredUser.getEmail());
+			uReq.setUsername(registeredUser.getUsername());
+			uReq.setPassword(registeredUser.getPassword());
+			uReq.setConfirm_password(registeredUser.getConfirm_password());
 			int result = userDao.storeUsers(uReq);
 			
 			if(result==0) {
