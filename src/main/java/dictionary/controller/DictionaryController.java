@@ -376,24 +376,12 @@ public class DictionaryController {
 	    upldt.setTerm(dat.getTerm());
 	    upldt.setDefinition_text(dat.getDefinition_text());
 	    UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
-	    
 		if (userDTO == null) {
 	        m.addAttribute("error", "User not logged in");
 	        
 	        return "UploadForm";
 	    }
-		
-	    int userId = userDao.getUserId(userDTO.getEmail());
 
-		
-		if(userId ==0) {
-			m.addAttribute("IdError", "Invlaid User");
-			System.out.println("ball");
-			return "UploadForm";
-		}
-		
-		upldt.setUserId(String.valueOf(userId));
-		
 	    upldt.setCreatedBy(userDTO.getUsername());
 	    upldt.setUpdatedBy(userDTO.getUsername());
 
@@ -401,7 +389,7 @@ public class DictionaryController {
 		
 		boolean isDupe = false;
 		
-		for(DefandTermResponseDTO res: defList ) {
+		for(DefandTermResponseDTO res:defList ) {
 			if(dat.getDefinition_text().equalsIgnoreCase(res.getDefinition_text())) {
 				isDupe = true;
 				m.addAttribute("dupeDef", "this definition already exists");
@@ -410,11 +398,8 @@ public class DictionaryController {
 		} 
 		
 		if(!isDupe) {
-			int result = termDao.storeTerm(upldt);
-			int termId = termDao.getTermId(dat.getTerm());
-			upldt.setTermId(termId);
-			result = definitionDao.storeDefinition(upldt);
-			
+			int result = definitionDao.storeDefinition(upldt);
+			result = termDao.storeTerm(upldt);
 			
 			if(result ==0) {
 				System.out.println("Insert Error");
