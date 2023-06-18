@@ -359,7 +359,7 @@ public class DictionaryController {
 		session.invalidate();
 		
 		
-		return "DefinitionView";
+		return "redirect:/DefinitionView";
 	}
 	
 	@RequestMapping(value = "/UploadForm", method = RequestMethod.GET)
