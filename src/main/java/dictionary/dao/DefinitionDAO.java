@@ -111,17 +111,17 @@ static Connection con=null;
 	    return resList;
 	}
 	
-	public int getDefinitionCountForCurrentUser(String currentUserId) {
+	public int getDefinitionCountForCurrentUser(int currentUserId) {
 	    int definitionCount = 0;
-	    String sql = "SELECT COUNT(*) AS defCount FROM definition WHERE user_id = ?";
+	    String sql = "SELECT COUNT(*) AS count FROM definition WHERE user_id = ?";
 
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
-	        ps.setString(1, currentUserId);
+	        ps.setInt(1, currentUserId);
 	        ResultSet rs = ps.executeQuery();
 
 	        if (rs.next()) {
-	            definitionCount = rs.getInt("defCount");
+	            definitionCount = rs.getInt("count");
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();

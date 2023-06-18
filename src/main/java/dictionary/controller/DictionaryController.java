@@ -319,11 +319,18 @@ public class DictionaryController {
 		    if (userDTO == null) {
 		        m.addAttribute("error", "User not logged in");
 		        
-		        return "UploadForm";
+		        return "redirect:/Login";
 		    }
 		    
-		    String currentUserId = userDTO.getUserId(); // Assuming you have a getter method for the user ID in the UserResponseDTO class
+		    
+		    int currentUserId = userDao.getUserId(userDTO.getEmail()); // Assuming you have a getter method for the user ID in the UserResponseDTO class
+		    System.out.println("Current User ID: " + currentUserId);
+		    System.out.println("Current User: " + userDTO);
+
 		    int defCount =definitionDao.getDefinitionCountForCurrentUser(currentUserId);
+		    
+	        m.addAttribute("defCount", defCount); // Pass defCount to the view
+
 			return "UserProfile";
 		}
 		
