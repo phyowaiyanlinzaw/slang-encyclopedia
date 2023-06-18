@@ -84,7 +84,7 @@ public class OtpDAO {
 	}
 	
 	public int getOtpCount(int userId) {
-		
+
 		int otpCount = 0;
 		String sql = "select * from otp where userId=?";
 		
@@ -92,22 +92,22 @@ public class OtpDAO {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, userId);
 			ResultSet rs = ps.executeQuery();
-			
+
 			while(rs.next()) {
 				otpCount = rs.getInt("count");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
-		
+
+
 		return otpCount;
 	}
-	
+
 	public int deleteOtps(int userId) {
 		int result = 0;
 		String sql = "delete from otp where userId=?";
-		
+
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, userId);

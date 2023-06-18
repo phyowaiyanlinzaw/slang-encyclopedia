@@ -130,24 +130,24 @@ public class DictionaryController {
 			HttpSession session,
 			ModelMap m
 			) {
-
+		
 		String generatedOtp = OtpService.generateOtp();
-		String registeredEmail = (String) session.getAttribute("registeredEmail");
-		int requestedUserId = userDao.getUserId(registeredEmail);
-
+		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
+		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
+		
 		OtpRequestDTO req = new OtpRequestDTO();
 		req.setOtpNumber(generatedOtp);
 		req.setOtpCount(1);
-		req.setRequestedBy(registeredEmail);
+		req.setRequestedBy(registeredUser.getEmail());
 		req.setUserId(requestedUserId);
-
+		
 		int storeOtpResult = otpDao.storeOtp(req);
-
+		
 		if(storeOtpResult==0) {
 			System.out.println("Error while storing OTP");
 		}
-
-		OtpService.sendEmail(registeredEmail,"OTP","Your OTP Code is : "+generatedOtp);
+		
+		OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);
 
 		return "redirect:/otpView";
 	}
