@@ -2,6 +2,9 @@ package dictionary.dto;
 
 import java.time.LocalDate;
 
+import javax.management.loading.PrivateClassLoader;
+import javax.print.event.PrintJobAttributeEvent;
+
 public class UserResponseDTO {
 	private String username;
 	private String email;
@@ -11,7 +14,7 @@ public class UserResponseDTO {
 	private String term;
 	private LocalDate createdDate;
 	private LocalDate UpdatedDate; 
-
+	private String userId;
 	public String getUsername() {
 		return username;
 	}
@@ -54,6 +57,12 @@ public class UserResponseDTO {
 	}
 	public void setUpdatedDate(LocalDate updatedDate) {
 		UpdatedDate = updatedDate;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 	

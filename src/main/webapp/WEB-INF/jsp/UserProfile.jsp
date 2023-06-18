@@ -326,17 +326,21 @@ prefix="form"%>
         <div class="card-body">
           <div class="user-info-item">
             <table>
+            <thead>
+            <tr>
               <th>Username</th>
               <th>Email</th>
               <th>Likes Total</th>
               <th>Dislikes Total</th>
               <th>Definitions Amount</th>
+              </tr>
+              </thead>
               <tr>
                 <td>${currentUser.username}</td>
                 <td>${currentUser.email}</td>
                 <td>0</td>
                 <td>0</td>
-                <td>0</td>
+                <td>${defCount}</td>
               </tr>
             </table>
           </div>

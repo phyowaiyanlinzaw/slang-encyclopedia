@@ -180,6 +180,7 @@ prefix="form"%>
         <th>Actions</th>
         </tr>
         </thead>
+        <tbody>
         
 	        		<c:forEach items="${userList}" var="udt" varStatus="inc">
 	
@@ -199,7 +200,7 @@ prefix="form"%>
           
         </tr>	
                           </c:forEach>
-        
+        </tbody>
       </table>
     </section>
   </body>
