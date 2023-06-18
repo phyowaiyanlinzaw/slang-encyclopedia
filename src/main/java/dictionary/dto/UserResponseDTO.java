@@ -1,10 +1,17 @@
 package dictionary.dto;
 
+import java.time.LocalDate;
+
 public class UserResponseDTO {
 	private String username;
 	private String email;
 	private String password;
 	private String confirm_password;
+	
+	private String term;
+	private LocalDate createdDate;
+	private LocalDate UpdatedDate; 
+
 	public String getUsername() {
 		return username;
 	}
@@ -29,6 +36,25 @@ public class UserResponseDTO {
 	public void setConfirm_password(String confirm_password) {
 		this.confirm_password = confirm_password;
 	}
-	
+	public String getTerm() {
+		return term;
+	}
+	public void setTerm(String term) {
+		this.term = term;
+	}
 
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
+	}
+	public LocalDate getUpdatedDate() {
+		return UpdatedDate;
+	}
+	public void setUpdatedDate(LocalDate updatedDate) {
+		UpdatedDate = updatedDate;
+	}
+	
+	
 }

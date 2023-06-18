@@ -126,4 +126,29 @@ public class UserDAO {
 		return id;
 	}
 	
+	public ArrayList<UserResponseDTO> getAllUsersWithDT() {
+	    ArrayList<UserResponseDTO> userList = new ArrayList<>();
+
+	    String sql = "SELECT u.username, t.term_name,  t.createdDate, t.updatedAt " +
+	                 "FROM user u " +
+	                 "JOIN term t ON u.id = t.userId ";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	        	UserResponseDTO userdt = new UserResponseDTO();
+	        	userdt.setUsername(rs.getString("username"));
+	        	userdt.setTerm(rs.getString("term_name"));
+	        	userdt.setCreatedDate(rs.getDate("createdDate").toLocalDate());
+	        	userdt.setUpdatedDate(rs.getDate("updatedAt").toLocalDate());
+	            userList.add(userdt);
+	        }
+	    } catch (SQLException e) {
+	        System.out.println(e.getMessage());
+	    }
+
+	    return userList;
+	}
+
+	
 }

@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%> 
 <%@taglib uri="http://www.springframework.org/tags/form"
 prefix="form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -166,6 +168,8 @@ prefix="form"%>
     </header>
     <section>
       <table>
+      <thead>
+      <tr>
         <th>No.</th>
         <th>Term</th>
         <th>User</th>
@@ -174,20 +178,28 @@ prefix="form"%>
         <th>Likes</th>
         <th>Dislikes</th>
         <th>Actions</th>
-
-        <tr>
-          <td>1</td>
-          <td>Term 1</td>
-          <td>User 1</td>
-          <td>2021-09-01</td>
-          <td>2021-09-01</td>
+        </tr>
+        </thead>
+        
+	        		<c:forEach items="${userList}" var="udt" varStatus="inc">
+	
+       <tr>
+        
+          <td>${inc.index +1}</td>
+          <td>${udt.term }</td>
+          <td>${udt.username }</td>
+          <td>${udt.createdDate}</td>
+          <td>${udt.updatedDate}</td>
           <td>1</td>
           <td>1</td>
           <td class="actions-td">
             <a href="#">Edit</i></a>
             <a href="#">Delete</i></a>
           </td>
-        </tr>
+          
+        </tr>	
+                          </c:forEach>
+        
       </table>
     </section>
   </body>

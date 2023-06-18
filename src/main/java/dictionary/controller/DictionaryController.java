@@ -308,7 +308,8 @@ public class DictionaryController {
 	
 	@RequestMapping(value="/Dashboard",method = RequestMethod.GET)
 	public String userProfile(
-			HttpSession session
+			HttpSession session,
+			ModelMap m
 			) {
 		
 		if(session.getAttribute("isUser")!=null) {
@@ -316,6 +317,10 @@ public class DictionaryController {
 		}
 		
 		else if (session.getAttribute("isAdmin")!=null) {
+			
+			ArrayList<UserResponseDTO> userList = userDao.getAllUsersWithDT();
+			m.addAttribute("userList",userList);
+			System.out.println(userList);
 			return "AdminView";
 		}
 		
