@@ -130,71 +130,24 @@ public class DictionaryController {
 			HttpSession session,
 			ModelMap m
 			) {
-<<<<<<< HEAD
-				
-				
-				boolean isLimit = false;
-				String registeredEmail = (String) session.getAttribute("registeredEmail");
-				int otpCount = 0;
-				int userId = userDao.getUserId(registeredEmail);
-				
-				if(otpCount > 5) {
-					isLimit = true;
-					int deleteResult = otpDao.deleteOtps(req);
-					if(deleteResult==0) {
-						System.out.println("Error while deleting OTP");
-					}
-					req.setRestrictTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(5)));
-					req.setOtpCount(0);
-					int addRestrictionTimeResult = otpDao.addRestrictionTime(req);
-					if(addRestrictionTimeResult==0) {
-						System.out.println("Error while adding restriction time");
-					}
-					session.setAttribute("otpLimit", "true");
 
-					if(req.getRestrictTime().after(Timestamp.valueOf(LocalDateTime.now()))) {
-						isLimit =false;
-						session.setAttribute("otpLimit", "false");
-
-					}
-				}
-				if(!isLimit) {
-					String genereatedOtp = OtpService.generateOtp();
-					session.setAttribute("currentOtp", genereatedOtp);
-					
-					otpCount = otpCount > 0 ? otpCount + 1 : 1;
-					req.setOtpNumber(genereatedOtp);
-					req.setRequestedBy(registeredEmail);
-					req.setOtpCount(otpCount);
-					req.setUserId(userId);
-					int result = otpDao.storeOtp(req);
-					if(result==0) {
-						System.out.println("Error while storing OTP");
-					}
-					OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
-				}
-
-				
-=======
->>>>>>> 75408d7f5697b456ee45969e147aab22472f8bbe
-		
 		String generatedOtp = OtpService.generateOtp();
-		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
-		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
-		
+		String registeredEmail = (String) session.getAttribute("registeredEmail");
+		int requestedUserId = userDao.getUserId(registeredEmail);
+
 		OtpRequestDTO req = new OtpRequestDTO();
 		req.setOtpNumber(generatedOtp);
 		req.setOtpCount(1);
-		req.setRequestedBy(registeredUser.getEmail());
+		req.setRequestedBy(registeredEmail);
 		req.setUserId(requestedUserId);
-		
+
 		int storeOtpResult = otpDao.storeOtp(req);
-		
+
 		if(storeOtpResult==0) {
 			System.out.println("Error while storing OTP");
 		}
-		
-		OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);
+
+		OtpService.sendEmail(registeredEmail,"OTP","Your OTP Code is : "+generatedOtp);
 
 		return "redirect:/otpView";
 	}
