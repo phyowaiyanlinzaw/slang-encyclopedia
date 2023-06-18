@@ -179,7 +179,7 @@ prefix="form"%>
               type="button"
               class="btn solid"
               id="resendOtp"
-              onclick="window.location.href='/SlangEncyclopedia/RequestOTP'"
+              onclick="window.location.href='/SlangEncyclopedia/ResendOTP'"
             >
               Resend
             </button>
@@ -203,7 +203,7 @@ prefix="form"%>
     const form = document.getElementById("otpForm");
     const timeOut = document.querySelector(".timeout-msg");
 
-    if (otpLimit == "true") {
+    if (otpLimit === "true") {
       form.classList.add("hidden");
       timeOut.classList.remove("hidden");
     }

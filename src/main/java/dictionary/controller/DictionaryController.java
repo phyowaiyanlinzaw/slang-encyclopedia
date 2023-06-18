@@ -1,5 +1,6 @@
 package dictionary.controller;
 
+import java.lang.ProcessBuilder.Redirect;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class DictionaryController {
 		return "index";
 	}
 	
-	@RequestMapping(value="/DefinitionView",method=RequestMethod.GET)
+	@RequestMapping(value="/DefinitionView", method=RequestMethod.GET)
 	public String definitionView(ModelMap m) {
 		
 //		 ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDef();
@@ -107,7 +108,7 @@ public class DictionaryController {
 			}
 			if(!isDupe) {
 				int result = userDao.storeUsers(req);
-				session.setAttribute("registeredEmail", ub.getEmail());
+				session.setAttribute("registeredUser", ub);
 				if(result==0) {
 					m.addAttribute("insertUserError", "Error While Registering User");
 					return "redirect:/Register";
@@ -121,14 +122,15 @@ public class DictionaryController {
 			return "Register";
 		}
 		
-		return "redirect:/RequestOTP";
+		return "redirect:/RegisterOTP";
 	}
 
-	@RequestMapping(value="/RequestOTP",method = RequestMethod.GET)
+	@RequestMapping(value="/RegisterOTP",method = RequestMethod.GET)
 	public String requestOTP(
 			HttpSession session,
 			ModelMap m
 			) {
+<<<<<<< HEAD
 				
 				
 				boolean isLimit = false;
@@ -173,62 +175,72 @@ public class DictionaryController {
 				}
 
 				
+=======
+>>>>>>> 75408d7f5697b456ee45969e147aab22472f8bbe
 		
-		// String genereatedOtp = OtpService.generateOtp();
-		// session.setAttribute("currentOtp", genereatedOtp);
-		// String registeredEmail = (String) session.getAttribute("registeredEmail");
+		String generatedOtp = OtpService.generateOtp();
+		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
+		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
 		
-		// OtpRequestDTO req = new OtpRequestDTO();
-		// int userId = userDao.getUserId(registeredEmail);
-		// int otpCount = otpDao.getOtpCounts(registeredEmail);
+		OtpRequestDTO req = new OtpRequestDTO();
+		req.setOtpNumber(generatedOtp);
+		req.setOtpCount(1);
+		req.setRequestedBy(registeredUser.getEmail());
+		req.setUserId(requestedUserId);
 		
-		// if(otpCount > 0 && otpCount <6) {
-		// 	otpCount++;
-		// 	req.setOtpNumber(genereatedOtp);
-		// 	req.setRequestedBy(registeredEmail);
-		// 	req.setOtpCount(otpCount);
-		// 	req.setUserId(userId);
-			
-		// 	int result = otpDao.storeOtp(req);
-			
-		// 	if(result==0) {
-		// 		System.out.println("Error while storing OTP");
-		// 	}
-			
-		// 	OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
-		// }else if(otpCount>5) {
-		// 	int deleteResult = otpDao.deleteOtps(req);
-		// 	if(deleteResult==0) {
-		// 		System.out.println("Error while deleting OTPs");
-		// 	}
-		// 	int aiResult = otpDao.alterIncrement(1);
-		// 	if(aiResult==0) {
-		// 		System.out.println("Error while resetting auto_increment");
-		// 	}
-		// 	req.setRestrictTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(3)));
-		// 	int addRTimeResult = otpDao.addRestrictionTime(req);
-		// 	if(addRTimeResult==0) {
-		// 		System.out.println("Error while adding restriction query");
-		// 	}
-		// 	m.addAttribute("otpLimit", "true");
-			
-		// }else {
-		// 	otpCount = 1;
-		// 	req.setOtpNumber(genereatedOtp);
-		// 	req.setRequestedBy(registeredEmail);
-		// 	req.setOtpCount(otpCount);
-		// 	req.setUserId(userId);
-			
-		// 	int result = otpDao.storeOtp(req);
-			
-		// 	if(result==0) {
-		// 		System.out.println("Error while storing OTP");
-		// 	}
-			
-		// 	OtpService.sendEmail(registeredEmail, "OTP", "Your OTP is : " +genereatedOtp);
-		// }
+		int storeOtpResult = otpDao.storeOtp(req);
 		
+		if(storeOtpResult==0) {
+			System.out.println("Error while storing OTP");
+		}
+		
+		OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);
 
+		return "redirect:/otpView";
+	}
+	
+	@RequestMapping(value="/ResendOTP",method = RequestMethod.GET)
+	public String resendOtp(
+			HttpSession session,
+			ModelMap m
+			) {
+		
+		
+		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
+		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
+		
+		int otpCount = otpDao.getOtpCount(requestedUserId);
+		
+		boolean isLimit = false;
+		
+		if(otpCount>=5) {
+			isLimit = true;
+			
+			int deleteOtpResult = otpDao.deleteOtps(requestedUserId);
+			if(deleteOtpResult==0) {
+				System.out.println("Error while deleting OTPs");
+			}
+			session.setAttribute("otpLimit", "true");
+			return "redirect:/otpView";
+		}
+		
+		if(!isLimit) {
+			String generatedOtp = OtpService.generateOtp();
+			
+			OtpRequestDTO req = new OtpRequestDTO();
+			req.setOtpNumber(generatedOtp);
+			req.setOtpCount(otpCount+1);
+			req.setRequestedBy(registeredUser.getEmail());
+			req.setUserId(requestedUserId);
+			
+			int storeOtpResult = otpDao.storeOtp(req);
+			
+			if(storeOtpResult==0) {
+				System.out.println("Error while storing OTP");
+			}
+			
+			OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);
+		}
 		
 		return "redirect:/otpView";
 	}
@@ -255,9 +267,9 @@ public class DictionaryController {
 		
 		OtpRequestDTO otpReq = new OtpRequestDTO();
 		
-		UserBean userBean = (UserBean) session.getAttribute("registeredUser");
+		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
 		
-		otpReq.setRequestedBy(userBean.getEmail());
+		otpReq.setRequestedBy(registeredUser.getEmail());
 		
 		OtpResponseDTO res = otpDao.getOtp(otpReq);
 		
@@ -266,10 +278,10 @@ public class DictionaryController {
 		if(ob.getOtpNumber().equals(res.getOtpNumber())){
 			isCorrectOTP = true;
 			UserRequestDTO uReq = new UserRequestDTO();
-			uReq.setEmail(userBean.getEmail());
-			uReq.setUsername(userBean.getUsername());
-			uReq.setPassword(userBean.getPassword());
-			uReq.setConfirm_password(userBean.getConfirm_password());
+			uReq.setEmail(registeredUser.getEmail());
+			uReq.setUsername(registeredUser.getUsername());
+			uReq.setPassword(registeredUser.getPassword());
+			uReq.setConfirm_password(registeredUser.getConfirm_password());
 			int result = userDao.storeUsers(uReq);
 			
 			if(result==0) {
@@ -443,7 +455,7 @@ public class DictionaryController {
 		}
 		
 		
-		return "DefinitionView";
+		return "redirect:/DefinitionView";
 	}
 
 
