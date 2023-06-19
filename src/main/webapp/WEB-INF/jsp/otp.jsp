@@ -179,7 +179,7 @@ prefix="form"%>
               type="button"
               class="btn solid"
               id="resendOtp"
-              onclick="window.location.href='/SlangEncyclopedia/ResendOTP'"
+              onclick="window.location.href='/SlangEncyclopedia/UpdateOtpStatus'"
             >
               Resend
             </button>

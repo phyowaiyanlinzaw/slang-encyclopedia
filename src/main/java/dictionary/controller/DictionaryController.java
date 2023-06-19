@@ -141,6 +141,7 @@ public class DictionaryController {
 			) {
 		
 		String generatedOtp = OtpService.generateOtp();
+		session.setAttribute("currentOtp", generatedOtp);
 		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
 		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
 		
@@ -167,6 +168,7 @@ public class DictionaryController {
 			ModelMap m
 			) {
 		
+		session.removeAttribute("currentOtp");
 		
 		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
 		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
@@ -228,7 +230,7 @@ public class DictionaryController {
 			}
 			
 			String generatedOtp = OtpService.generateOtp();
-			
+			session.setAttribute("currentOtp", generatedOtp);
 
 			req.setOtpNumber(generatedOtp);
 			req.setOtpCount(otpCount+1);
@@ -420,7 +422,7 @@ public class DictionaryController {
 			System.out.println("Update OTP Status Error");
 		}
 		
-		return "redirect:/RequestOTP";
+		return "redirect:/ResendOTP";
 
 	}
 	
@@ -429,7 +431,10 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
-		session.invalidate();
+		session.removeAttribute("isLoggedIn");
+		session.removeAttribute("isUser");
+		session.removeAttribute("isAdmin");
+		session.removeAttribute("currentUser");
 		
 		
 		return "redirect:/DefinitionView";
@@ -448,7 +453,9 @@ public class DictionaryController {
 			ModelMap m,
 			HttpSession session) {
 	    
-	    
+		if(session.getAttribute("isLoggedIn")==null){
+			return "redirect:/Login";
+		}
 	    
 		DefandTermRequestDTO upldt = new DefandTermRequestDTO(); 
 	    upldt.setTerm(dat.getTerm());
