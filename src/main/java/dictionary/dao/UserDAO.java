@@ -51,10 +51,11 @@ public class UserDAO {
 	
 	public ArrayList<UserResponseDTO> getAllUsers(){
 		ArrayList<UserResponseDTO> resList = new ArrayList<>();
-		String sql = "select*from user where role_id=2";
+		String sql = "select*from user where role_id=2 and isVerified=?";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "Yes");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				UserResponseDTO res = new UserResponseDTO();
@@ -91,21 +92,6 @@ public class UserDAO {
 		return res;
 	}
 	
-//	public int storeOtpCount(int otpCount) {
-//		int result = 0;
-//		String sql = "insert into user(otpCount) values=?";
-//		
-//		try {
-//			PreparedStatement ps = con.prepareStatement(sql);
-//			ps.setInt(1, otpCount);
-//			result = ps.executeUpdate();
-//			
-//		}catch (SQLException e) {
-//			System.out.println(e.getMessage());
-//		} 
-//		
-//		return result;
-//	}
 	
 	public int getUserId(String userEmail) {
 		int id = 0;
@@ -148,6 +134,23 @@ public class UserDAO {
 	    }
 
 	    return userList;
+	}
+	
+	public int updateUserVerifiedStatus(String email) {
+		int result = 0;
+		
+		String sql = "update user set isVerfied=? where email=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "Yes");
+			ps.setString(2, email);
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
 	}
 
 	

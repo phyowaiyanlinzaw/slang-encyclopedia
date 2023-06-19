@@ -232,17 +232,11 @@ public class DictionaryController {
 		
 		if(ob.getOtpNumber().equals(res.getOtpNumber())){
 			isCorrectOTP = true;
-			UserRequestDTO uReq = new UserRequestDTO();
-			uReq.setEmail(registeredUser.getEmail());
-			uReq.setUsername(registeredUser.getUsername());
-			uReq.setPassword(registeredUser.getPassword());
-			uReq.setConfirm_password(registeredUser.getConfirm_password());
-			int result = userDao.storeUsers(uReq);
-			
+			int result = userDao.updateUserVerifiedStatus(registeredUser.getEmail());
 			if(result==0) {
-				System.out.println("Insert user error");
+				System.out.println("Updating Verfied Status error");
+				return "redirect:/otpView";
 			}
-			
 		}
 		
 		if(!isCorrectOTP) {
