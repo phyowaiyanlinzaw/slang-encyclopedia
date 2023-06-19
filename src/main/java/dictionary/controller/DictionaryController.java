@@ -1,15 +1,13 @@
 package dictionary.controller;
 
-import java.lang.ProcessBuilder.Redirect;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.naming.java.javaURLContextFactory;
-import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
-import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.cj.Session;
 
 import dictionary.dao.DefinitionDAO;
 import dictionary.dao.OtpDAO;
@@ -220,6 +217,10 @@ public class DictionaryController {
 					int updateUserLockedStatusResult = userDao.updateUserLockedStatus("No", registeredUser.getEmail());
 					if(updateUserLockedStatusResult==0) {
 						System.out.println("Error while updating user locked status");
+					}
+					int deleteRestrictionTimeResult = otpDao.deleteRestrictionTime(req);
+					if(deleteRestrictionTimeResult==0) {
+						System.out.println("Error While deleting restriction time");
 					}
 				}
 			}catch(Exception e) {
@@ -440,7 +441,12 @@ public class DictionaryController {
 	}
 	
 	@RequestMapping(value="/ProcessUpload", method=RequestMethod.POST)
-	public String processUpload(@ModelAttribute ("termandDefBean") @Validated DefinitionAndTermBean dat,BindingResult br,ModelMap m,HttpSession session) {
+	public String processUpload(
+			@ModelAttribute ("termandDefBean") 
+			@Validated DefinitionAndTermBean dat,
+			BindingResult br,
+			ModelMap m,
+			HttpSession session) {
 	    
 	    
 	    
