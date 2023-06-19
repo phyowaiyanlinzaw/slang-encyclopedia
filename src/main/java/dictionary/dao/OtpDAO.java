@@ -137,6 +137,25 @@ public class OtpDAO {
 		
 		return result;
 	}
+	
+	public OtpResponseDTO getRestrictionTime(OtpRequestDTO req) {
+		OtpResponseDTO res = new OtpResponseDTO();
+		String sql = "select restrictionTime from otp where userId=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, req.getUserId());
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+			res.setRestrictionTimestamp(rs.getTimestamp("restrictionTime"));	
+			}
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return res;
+	}
 
 	public int deleteRestrictionTime(OtpRequestDTO req) {
 		int result = 0;

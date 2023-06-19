@@ -15,6 +15,10 @@ public class UserResponseDTO {
 	private LocalDate createdDate;
 	private LocalDate UpdatedDate; 
 	private String userId;
+	
+	private String isVerified;
+	private String isLocked;
+	
 	public String getUsername() {
 		return username;
 	}
@@ -63,6 +67,18 @@ public class UserResponseDTO {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getIsVerified() {
+		return isVerified;
+	}
+	public void setIsVerified(String isVerified) {
+		this.isVerified = isVerified;
+	}
+	public String getIsLocked() {
+		return isLocked;
+	}
+	public void setIsLocked(String isLocked) {
+		this.isLocked = isLocked;
 	}
 	
 	

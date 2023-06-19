@@ -1,15 +1,13 @@
 package dictionary.controller;
 
-import java.lang.ProcessBuilder.Redirect;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.naming.java.javaURLContextFactory;
-import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
-import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.cj.Session;
 
 import dictionary.dao.DefinitionDAO;
 import dictionary.dao.OtpDAO;
@@ -101,7 +98,7 @@ public class DictionaryController {
 		if(ub.getPassword().equals(ub.getConfirm_password()) ) {
 			isSamePw = true;
 			for(UserResponseDTO res : resList) {
-				if(res.getEmail().equals(ub.getEmail())) {
+				if(res.getEmail().equals(ub.getEmail())&&res.getIsVerified().equalsIgnoreCase("Yes")) {
 					isDupe = true;
 					m.addAttribute("emailDupe", "This email already exists");
 					return "redirect:/Register";
@@ -109,8 +106,18 @@ public class DictionaryController {
 				
 			}
 			if(!isDupe) {
-				int result = userDao.storeUsers(req);
 				session.setAttribute("registeredUser", ub);
+				for(UserResponseDTO res:resList) {
+					if(res.getEmail().equals(ub.getEmail())&&res.getIsVerified().equalsIgnoreCase("No")) {
+						System.out.println("Need to verify OTP - User");
+						session.removeAttribute("otpLimit");
+						return "redirect:/ResendOTP";
+					}
+				}	
+				
+				session.removeAttribute("otpLimit");
+				int result = userDao.storeUsers(req);
+
 				if(result==0) {
 					m.addAttribute("insertUserError", "Error While Registering User");
 					return "redirect:/Register";
@@ -165,6 +172,7 @@ public class DictionaryController {
 		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
 		
 		int otpCount = otpDao.getOtpCount(requestedUserId);
+		OtpRequestDTO req = new OtpRequestDTO();
 		
 		boolean isLimit = false;
 		
@@ -175,18 +183,57 @@ public class DictionaryController {
 			if(deleteOtpResult==0) {
 				System.out.println("Error while deleting OTPs");
 			}
+			
+			req.setUserId(requestedUserId);
+			req.setRequestedBy(registeredUser.getEmail());
+			req.setRestrictTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(5)));
+			
+			int resTimeResult = otpDao.addRestrictionTime(req);
+			if(resTimeResult==0) {
+				System.out.println("Error while adding restriction time");
+			}
+			int updateUserLockedStatusResult = userDao.updateUserLockedStatus("Yes", registeredUser.getEmail());
+			if(updateUserLockedStatusResult==0) {
+				System.out.println("Error while updating user locked status");
+			}
+			
 			session.setAttribute("otpLimit", "true");
 			return "redirect:/otpView";
 		}
 		
 		if(!isLimit) {
+			 
+			req.setUserId(requestedUserId);
+
+			OtpResponseDTO res = otpDao.getRestrictionTime(req);
+			
+			try {
+				if(res.getRestrictionTimestamp().after(Timestamp.valueOf(LocalDateTime.now()))) {
+					session.setAttribute("otpLimit", "true");
+					System.out.println("Times not up yet");
+					return "redirect:/otpView";
+				}else {
+					System.out.println("Time is before");
+					int updateUserLockedStatusResult = userDao.updateUserLockedStatus("No", registeredUser.getEmail());
+					if(updateUserLockedStatusResult==0) {
+						System.out.println("Error while updating user locked status");
+					}
+					int deleteRestrictionTimeResult = otpDao.deleteRestrictionTime(req);
+					if(deleteRestrictionTimeResult==0) {
+						System.out.println("Error While deleting restriction time");
+					}
+				}
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
 			String generatedOtp = OtpService.generateOtp();
 			
-			OtpRequestDTO req = new OtpRequestDTO();
+
 			req.setOtpNumber(generatedOtp);
 			req.setOtpCount(otpCount+1);
 			req.setRequestedBy(registeredUser.getEmail());
-			req.setUserId(requestedUserId);
+
 			
 			int storeOtpResult = otpDao.storeOtp(req);
 			
@@ -232,17 +279,11 @@ public class DictionaryController {
 		
 		if(ob.getOtpNumber().equals(res.getOtpNumber())){
 			isCorrectOTP = true;
-			UserRequestDTO uReq = new UserRequestDTO();
-			uReq.setEmail(registeredUser.getEmail());
-			uReq.setUsername(registeredUser.getUsername());
-			uReq.setPassword(registeredUser.getPassword());
-			uReq.setConfirm_password(registeredUser.getConfirm_password());
-			int result = userDao.storeUsers(uReq);
-			
+			int result = userDao.updateUserVerifiedStatus(registeredUser.getEmail());
 			if(result==0) {
-				System.out.println("Insert user error");
+				System.out.println("Updating Verfied Status error");
+				return "redirect:/otpView";
 			}
-			
 		}
 		
 		if(!isCorrectOTP) {
@@ -395,7 +436,12 @@ public class DictionaryController {
 	}
 	
 	@RequestMapping(value="/ProcessUpload", method=RequestMethod.POST)
-	public String processUpload(@ModelAttribute ("termandDefBean") @Validated DefinitionAndTermBean dat,BindingResult br,ModelMap m,HttpSession session) {
+	public String processUpload(
+			@ModelAttribute ("termandDefBean") 
+			@Validated DefinitionAndTermBean dat,
+			BindingResult br,
+			ModelMap m,
+			HttpSession session) {
 	    
 	    
 	    

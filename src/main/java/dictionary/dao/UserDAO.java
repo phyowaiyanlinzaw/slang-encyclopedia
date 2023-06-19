@@ -61,6 +61,8 @@ public class UserDAO {
 				res.setEmail(rs.getString("email"));
 				res.setUsername(rs.getString("username"));
 				res.setPassword(rs.getString("password"));
+				res.setIsVerified(rs.getString("isVerified"));
+				res.setIsLocked(rs.getString("isLocked"));
 				resList.add(res);
 			}
 			
@@ -91,21 +93,6 @@ public class UserDAO {
 		return res;
 	}
 	
-//	public int storeOtpCount(int otpCount) {
-//		int result = 0;
-//		String sql = "insert into user(otpCount) values=?";
-//		
-//		try {
-//			PreparedStatement ps = con.prepareStatement(sql);
-//			ps.setInt(1, otpCount);
-//			result = ps.executeUpdate();
-//			
-//		}catch (SQLException e) {
-//			System.out.println(e.getMessage());
-//		} 
-//		
-//		return result;
-//	}
 	
 	public int getUserId(String userEmail) {
 		int id = 0;
@@ -148,6 +135,39 @@ public class UserDAO {
 	    }
 
 	    return userList;
+	}
+	
+	public int updateUserVerifiedStatus(String email) {
+		int result = 0;
+		
+		String sql = "update user set isVerfied=? where email=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "Yes");
+			ps.setString(2, email);
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public int updateUserLockedStatus(String status,String email) {
+		int result=0;
+		String sql = "update user set isLocked=? where email=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, status);
+			ps.setString(2, email);
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
 	}
 
 	
