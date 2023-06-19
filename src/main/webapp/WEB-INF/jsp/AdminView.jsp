@@ -157,6 +157,7 @@ prefix="form"%>
     </style>
   </head>
   <body>
+  
     <header>
       <div class="logo">
         <img src="/logo.png" alt="Logo" />
@@ -201,7 +202,9 @@ prefix="form"%>
         </tr>	
                           </c:forEach>
         </tbody>
+       
       </table>
+      
     </section>
   </body>
   <script>

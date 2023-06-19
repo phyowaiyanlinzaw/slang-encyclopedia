@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 
 import org.apache.naming.java.javaURLContextFactory;
+import org.apache.taglibs.standard.lang.jstl.test.beans.PublicBean1;
+import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -278,7 +280,7 @@ public class DictionaryController {
 		if(adminAccount.getEmail().equals(ub.getEmail())&&adminAccount.getPassword().equals(ub.getPassword())) {
 			isAdmin = true;
 			session.setAttribute("isAdmin",isAdmin);
-			return "AdminView";
+			return "redirect:/AdminView";
 		}
 		
 		if(!isAdmin) {
@@ -336,10 +338,8 @@ public class DictionaryController {
 		
 		else if (session.getAttribute("isAdmin")!=null) {
 			
-			ArrayList<UserResponseDTO> userList = userDao.getAllUsersWithDT();
-			m.addAttribute("userList",userList);
-			System.out.println(userList);
-			return "AdminView";
+		
+			return "redirect:/AdminView";
 		}
 		
 		if(session.getAttribute("isLoggedIn")==null){
@@ -348,6 +348,13 @@ public class DictionaryController {
 		
 		return "UserProfile";
 	}
+	
+	@RequestMapping(value = "/AdminView", method = RequestMethod.GET)
+		public String adminView(ModelMap m) {
+		ArrayList<UserResponseDTO> userList = userDao.getAllUsersWithDT();
+		m.addAttribute("userList",userList);
+		return "AdminView";
+		}
 	
 	@RequestMapping(value="/UpdateOtpStatus",method = RequestMethod.GET)
 	public String updateOtpStatus(
