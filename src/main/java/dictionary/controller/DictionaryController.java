@@ -316,20 +316,16 @@ public class DictionaryController {
 			) {
 		
 		if(session.getAttribute("isUser")!=null) {
-		   
 			return "redirect:/UserProfile";
 		}
 		
 		else if (session.getAttribute("isAdmin")!=null) {
-			
-		
 			return "redirect:/AdminView";
 		}
 		
 		if(session.getAttribute("isLoggedIn")==null){
 			return "redirect:/Login";
 		}
-		
 		return "redirect:/UserProfile";
 	}
 	
@@ -353,8 +349,7 @@ public class DictionaryController {
 		    		    
 		    String currentUserId = String.valueOf(userDao.getUserId(userDTO.getEmail()));
 		    int defCount =definitionDao.getDefinitionCountForCurrentUser(currentUserId);
-	        m.addAttribute("defCount", defCount); // Pass defCount to the view
-	        
+	        m.addAttribute("defCount", defCount); 
 	        return "UserProfile";
 	}
 	
