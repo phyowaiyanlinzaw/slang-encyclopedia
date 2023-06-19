@@ -24,18 +24,17 @@ public class TermDAO {
 	public int storeTerm(DefandTermRequestDTO req) {
 		int result =0;
 		
-		String sql ="insert into term(term_name,createdBy,createdDate,definition_id,updatedBy,updatedAt,status,userId) values(?,?,?,?,?,?,?,?)";
+		String sql ="insert into term(term_name,createdBy,createdDate,updatedBy,updatedAt,status,userId) values(?,?,?,?,?,?,?)";
 		
 		try {
 			PreparedStatement ps= con.prepareStatement(sql);
 			ps.setString(1, req.getTerm());
 			ps.setString(2, req.getCreatedBy());
 			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-			ps.setString(4, req.getDefinitionId());
-			ps.setString(5, req.getUpdatedBy());
-			ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
-			ps.setString(7, req.getStatus());
-			ps.setString(8, req.getUserId());
+			ps.setString(4, req.getUpdatedBy());
+			ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setString(6, req.getStatus());
+			ps.setString(7, req.getUserId());
 			result = ps.executeUpdate();
 		}catch (SQLException e) {
 			System.out.println(e.getMessage());
