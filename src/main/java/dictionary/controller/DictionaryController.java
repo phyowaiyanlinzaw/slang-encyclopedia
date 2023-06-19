@@ -4,6 +4,7 @@ package dictionary.controller;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import dictionary.dao.DefinitionDAO;
 import dictionary.dao.OtpDAO;
@@ -55,14 +57,10 @@ public class DictionaryController {
 	@RequestMapping(value="/DefinitionView", method=RequestMethod.GET)
 	public String definitionView(ModelMap m) {
 		
-//		 ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDef();
-//		    m.addAttribute("defList", defList);
-//		 ArrayList<DefandTermResponseDTO> termList = termDao.getAllTerm();
-//		 m.addAttribute("termList", termList);
 		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
 		m.addAttribute("defList", defList);
 
-		    return "DefinitionView";
+		return "DefinitionView";
 	}
 	
 	@RequestMapping(value="/Register", method=RequestMethod.GET)
@@ -510,6 +508,17 @@ public class DictionaryController {
 		return "redirect:/DefinitionView";
 	}
 
+	@RequestMapping(value = "/Shuffle",method = RequestMethod.GET)
+	public String shuffleHomeView(
+			ModelMap m
+			) {
+		
+		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
+		Collections.shuffle(defList);
+		m.addAttribute("defList", defList);
+		
+		return "DefinitionView";
+	}
 
 	
 }
