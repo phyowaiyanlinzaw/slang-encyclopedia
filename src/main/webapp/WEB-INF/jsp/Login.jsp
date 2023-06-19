@@ -14,6 +14,8 @@ prefix="form"%>
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -124,6 +126,22 @@ prefix="form"%>
       .register-p p a:hover {
         text-decoration: underline;
       }
+.input-container {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translate(0, -50%);
+  cursor: pointer;
+  user-select: none;
+}
+  .toggle-password.show-password::before {
+    content: "\f070";
+  }
+      
     </style>
   </head>
   <body>
@@ -136,10 +154,11 @@ prefix="form"%>
               <i class="fas fa-envelope"></i>
               <form:input type="email" title="Email" placeholder="Email" path="email"/>
             </div>
-            <div class="input-container">
-              <i class="fas fa-lock"></i>
-              <form:input type="password" title="Password" placeholder="Password" path="password"/>
-            </div>
+	            <div class="input-container">
+  				<i class="fas fa-lock"></i>
+  				<form:input type="password" name="password" title="Password" placeholder="Password" path="password" id="login-password" />
+  				<i id="togglePassword" class="fas fa-eye toggle-password"></i>
+			</div>
             <button type="submit">LOG IN</button>
           </form:form>
           <div class="register-p">
@@ -153,4 +172,20 @@ prefix="form"%>
       </section>
     </div>
   </body>
+   <script>
+  $(document).ready(function () {
+    $(".toggle-password").click(function () {
+      const input = $(this).siblings("input");
+      const type = input.attr("type");
+
+      if (type === "password") {
+        input.attr("type", "text");
+        $(this).addClass("show-password");
+      } else {
+        input.attr("type", "password");
+        $(this).removeClass("show-password");
+      }
+    });
+  });
+</script>
 </html>

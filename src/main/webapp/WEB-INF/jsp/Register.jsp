@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> 
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+	
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,6 +14,8 @@ pageEncoding="UTF-8"%>
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -120,6 +123,23 @@ pageEncoding="UTF-8"%>
       .log-in-p p a:hover {
         text-decoration: underline;
       }
+      
+.input-container {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translate(0, -50%);
+  cursor: pointer;
+  user-select: none;
+}
+  .toggle-password.show-password::before {
+    content: "\f070";
+  }
+      
     </style>
   </head>
   <body>
@@ -148,25 +168,27 @@ pageEncoding="UTF-8"%>
                 placeholder="Email"
                 path="email"
               />
-            </div>
-            <div class="input-container">
-              <i class="fas fa-lock"></i>
-              <form:input
-                type="password"
-                name="password"
-                placeholder="Password"
-                path="password"
-              />
-            </div>
-            <div class="input-container">
-              <i class="fas fa-lock"></i>
-              <form:input
-                type="password"
-                name="confirm-password"
-                placeholder="Confirm Password"
-                path="confirm_password"
-              />
-            </div>
+	            </div>
+	            <div class="input-container">
+  <form:input
+    type="password"
+    name="password"
+    placeholder="Password"
+    path="password"
+    id="password"
+  />
+  <i id="togglePassword1" class="fas fa-eye toggle-password"></i>
+</div>
+<div class="input-container">
+  <form:input
+    type="password"
+    name="confirm-password"
+    placeholder="Confirm Password"
+    path="confirm_password"
+    id="confirm-password"
+  />
+  <i id="togglePassword2" class="fas fa-eye toggle-password"></i>
+</div>
             <button type="submit" name="register">REGISTER</button>
           </form:form>
           <div class="log-in-p">
@@ -176,4 +198,22 @@ pageEncoding="UTF-8"%>
       </section>
     </div>
   </body>
+  <script>
+  $(document).ready(function () {
+    $(".toggle-password").click(function () {
+      const input = $(this).siblings("input");
+      const type = input.attr("type");
+
+      if (type === "password") {
+        input.attr("type", "text");
+        $(this).addClass("show-password");
+      } else {
+        input.attr("type", "password");
+        $(this).removeClass("show-password");
+      }
+    });
+  });
+</script>
+
+  
 </html>
