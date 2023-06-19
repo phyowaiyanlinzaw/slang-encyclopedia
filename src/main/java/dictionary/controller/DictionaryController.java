@@ -306,7 +306,7 @@ public class DictionaryController {
 		session.setAttribute("isUser", isUser);
 		session.setAttribute("isLoggedIn", "logged in");
 		
-		return "UserProfile";
+		return "redirect:/UserProfile";
 	}
 	
 	@RequestMapping(value="/Dashboard",method = RequestMethod.GET)
@@ -316,24 +316,8 @@ public class DictionaryController {
 			) {
 		
 		if(session.getAttribute("isUser")!=null) {
-		    UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
-		    
-		    if (userDTO == null) {
-		        m.addAttribute("error", "User not logged in");
-		        
-		        return "redirect:/Login";
-		    }
-		    
-		    
-		    int currentUserId = userDao.getUserId(userDTO.getEmail()); // Assuming you have a getter method for the user ID in the UserResponseDTO class
-		    System.out.println("Current User ID: " + currentUserId);
-		    System.out.println("Current User: " + userDTO);
-
-		    int defCount =definitionDao.getDefinitionCountForCurrentUser(currentUserId);
-		    
-	        m.addAttribute("defCount", defCount); // Pass defCount to the view
-
-			return "UserProfile";
+		   
+			return "redirect:/UserProfile";
 		}
 		
 		else if (session.getAttribute("isAdmin")!=null) {
@@ -346,7 +330,7 @@ public class DictionaryController {
 			return "redirect:/Login";
 		}
 		
-		return "UserProfile";
+		return "redirect:/UserProfile";
 	}
 	
 	@RequestMapping(value = "/AdminView", method = RequestMethod.GET)
@@ -355,6 +339,24 @@ public class DictionaryController {
 		m.addAttribute("userList",userList);
 		return "AdminView";
 		}
+	
+	@RequestMapping(value="/UserProfile", method = RequestMethod.GET)
+	public String userProfileView(ModelMap m,HttpSession session) {
+		
+		 UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
+		    
+		    if (userDTO == null) {
+		        m.addAttribute("error", "User not logged in");
+		        
+		        return "redirect:/Login";
+		    }
+		    		    
+		    String currentUserId = String.valueOf(userDao.getUserId(userDTO.getEmail()));
+		    int defCount =definitionDao.getDefinitionCountForCurrentUser(currentUserId);
+	        m.addAttribute("defCount", defCount); // Pass defCount to the view
+	        
+	        return "UserProfile";
+	}
 	
 	@RequestMapping(value="/UpdateOtpStatus",method = RequestMethod.GET)
 	public String updateOtpStatus(
@@ -444,6 +446,11 @@ public class DictionaryController {
 				System.out.println("Insert Error");
 				return "UploadForm";
 			}
+			
+			  	String currentUserId = String.valueOf(userId);
+		        int defCount = definitionDao.getDefinitionCountForCurrentUser(currentUserId);
+		        defCount++; 
+		        m.addAttribute("defCount", defCount);
 		}
 		
 		
