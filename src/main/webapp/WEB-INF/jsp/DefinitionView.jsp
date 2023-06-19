@@ -389,6 +389,23 @@
     const searchPlaceHolder = document.getElementById("search");
     const form = document.querySelector("inline");
     const searchIcon = document.querySelector(".fa-search");
+    const upvoteDiv =  document.querySelector(".upvote");
+    const downvoteDiv =  document.querySelector(".downvote");
+
+    upvoteDiv.addEventListener("click", updateLikeFunction())
+
+    function updateLikeFunction() {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/SlangEncyclopedia/UpdateLike", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this.responseText);
+          
+        }
+      };
+      xhr.send();
+    }
 
     searchIcon.addEventListener("click", () => {
       form.submit();
