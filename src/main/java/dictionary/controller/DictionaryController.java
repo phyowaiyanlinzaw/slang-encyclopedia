@@ -479,12 +479,15 @@ public class DictionaryController {
 		} 
 		
 		if(!isDupe) {
-			int result = termDao.storeTerm(upldt);
+			int termStoreResult = termDao.storeTerm(upldt);
+			if(termStoreResult==0) {
+				System.out.println("Term store error");
+			}
 			int termId = termDao.getTermId(dat.getTerm());
 			upldt.setTermId(termId);
-			result = definitionDao.storeDefinition(upldt);
+			int definitionStoreResult = definitionDao.storeDefinition(upldt);
 			
-			if(result ==0) {
+			if(definitionStoreResult ==0) {
 				System.out.println("Insert Error");
 				return "UploadForm";
 			}
