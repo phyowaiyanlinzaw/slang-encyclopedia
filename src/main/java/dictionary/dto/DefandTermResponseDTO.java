@@ -10,8 +10,16 @@ public class DefandTermResponseDTO {
 	private String termId;
 	private String createdBy;
     private LocalDate createdDate;
-
+    private int voteCount;
+    
+    
 	
+	public int getVoteCount() {
+		return voteCount;
+	}
+	public void setVoteCount(int voteCount) {
+		this.voteCount = voteCount;
+	}
 	public String getTerm() {
 	return term;
 }

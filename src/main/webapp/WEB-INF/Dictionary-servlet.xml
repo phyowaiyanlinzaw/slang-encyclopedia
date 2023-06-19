@@ -24,6 +24,7 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 <bean id="otpDao" class="dictionary.dao.OtpDAO"></bean>
 <bean id="definitionDao" class="dictionary.dao.DefinitionDAO"></bean>
 <bean id="termDao" class="dictionary.dao.TermDAO"></bean>
+<bean id="voteDao" class="dictionary.dao.VoteDAO"></bean>
 
 <mvc:annotation-driven/>
 <mvc:resources mapping="/resource/**" location="/resource/"/>

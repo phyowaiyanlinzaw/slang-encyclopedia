@@ -373,11 +373,11 @@
           		<div class="vote">
             		<div class="upvote">
               				👍
-              			<p>100</p>
+              			<p>${def.voteCount}</p>
             		</div>
             		<div class="downvote">
               				👎
-              			<p>100</p>
+              			<p>${def.voteCount}</p>
             		</div>
           		</div>
     		</div>

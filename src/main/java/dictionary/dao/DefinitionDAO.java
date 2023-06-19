@@ -91,7 +91,7 @@ static Connection con=null;
 	public ArrayList<DefandTermResponseDTO> getAllDefwithTerm() {
 	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 
-	    String sql = "SELECT d.definition_text, t.term_name,u.username,t.createdDate FROM definition d JOIN term t ON d.term_id = t.id JOIN user u ON d.user_id=u.id";
+	    String sql = "SELECT d.definition_text, t.term_name,u.username,t.createdDate,v.count FROM definition d JOIN term t ON d.term_id = t.id JOIN user u ON d.user_id=u.id JOIN vote v ON d.id=v.definitionId";
 
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
@@ -102,7 +102,8 @@ static Connection con=null;
 	            res.setTerm(rs.getString("term_name"));
 	            res.setCreatedBy(rs.getString("username"));
                 res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
-	           	resList.add(res);
+	           	res.setVoteCount(rs.getInt("count"));
+                resList.add(res);
 	        }
 	    } catch (Exception e) {
 	        System.out.println(e.getMessage());
@@ -129,4 +130,24 @@ static Connection con=null;
 
 	    return definitionCount;
 	}
+	
+	public int getDefId(DefandTermRequestDTO req) {
+		int defId = 0;
+		String sql = "select id from definition where term_id=? and user_id=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, req.getTermId());
+			ps.setString(2, req.getUserId());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				defId = rs.getInt("id");
+			}
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return defId;
+	}
+	
 }

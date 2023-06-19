@@ -20,18 +20,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import dictionary.dao.DefinitionDAO;
 import dictionary.dao.OtpDAO;
 import dictionary.dao.TermDAO;
 import dictionary.dao.UserDAO;
+import dictionary.dao.VoteDAO;
 import dictionary.model.DefinitionAndTermBean;
 import dictionary.model.OtpBean;
 import dictionary.model.UserBean;
 import dictionary.services.OtpService;
 import dictionary.dto.UserRequestDTO;
 import dictionary.dto.UserResponseDTO;
+import dictionary.dto.VoteRequestDTO;
 import dictionary.dto.DefandTermRequestDTO;
 import dictionary.dto.DefandTermResponseDTO;
 import dictionary.dto.OtpRequestDTO;
@@ -48,6 +49,8 @@ public class DictionaryController {
 	private DefinitionDAO definitionDao;
 	@Autowired
 	private TermDAO termDao;
+	@Autowired
+	private VoteDAO voteDao;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String homeView() {
@@ -451,6 +454,7 @@ public class DictionaryController {
 		}
 	    
 		DefandTermRequestDTO upldt = new DefandTermRequestDTO(); 
+		
 	    upldt.setTerm(dat.getTerm());
 	    upldt.setDefinition_text(dat.getDefinition_text());
 	    UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
@@ -485,6 +489,7 @@ public class DictionaryController {
 			}
 			int termId = termDao.getTermId(dat.getTerm());
 			upldt.setTermId(termId);
+			
 			int definitionStoreResult = definitionDao.storeDefinition(upldt);
 			
 			if(definitionStoreResult ==0) {
@@ -492,10 +497,26 @@ public class DictionaryController {
 				return "UploadForm";
 			}
 			
-			  	String currentUserId = String.valueOf(userId);
-		        int defCount = definitionDao.getDefinitionCountForCurrentUser(currentUserId);
-		        defCount++; 
-		        m.addAttribute("defCount", defCount);
+			VoteRequestDTO voteReq = new VoteRequestDTO();
+			voteReq.setCount(0);
+			voteReq.setCreatedBy(currentUser.getUsername());
+			voteReq.setDefinitionId(definitionDao.getDefId(upldt));
+			
+			int likeStoreResult = voteDao.storeLikeVote(voteReq);
+			
+			if(likeStoreResult==0) {
+				System.out.println("Like vote store error");
+			}
+			
+			int dislikeStoreResult = voteDao.storeDislikeVote(voteReq);
+			if(dislikeStoreResult==0) {
+				System.out.println("Dislike vote store error");
+			}
+			
+			String currentUserId = String.valueOf(userId);
+		    int defCount = definitionDao.getDefinitionCountForCurrentUser(currentUserId);
+		    defCount++; 
+		    m.addAttribute("defCount", defCount);
 		}
 		
 		
