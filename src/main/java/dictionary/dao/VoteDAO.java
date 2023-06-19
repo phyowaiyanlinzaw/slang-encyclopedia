@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import org.eclipse.jdt.internal.compiler.ast.ReturnStatement;
 
-
+import dictionary.dto.VoteRequestDTO;
 import dictionary.dto.VoteResponseDTO;
 
 public class VoteDAO {
@@ -40,6 +43,7 @@ static Connection con=null;
 			
 		return list;
 	}
+	
 	public int definitionTotalVotes(int definition_id) {
 		
 		int total = 0;
@@ -55,10 +59,86 @@ static Connection con=null;
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			return total;
-			
-			
+			return total;		
 		}
+	
+	public int storeLikeVote(VoteRequestDTO req) {
+		int result = 0;
+		String sql = "insert into vote(vote_type,createdBy,createdAt,definitionId,count) values(?,?,?,?,?)";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "Like");
+			ps.setString(2, req.getCreatedBy());
+			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(4, req.getDefinitionId());
+			ps.setInt(5, req.getCount());
+			
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public int storeDislikeVote(VoteRequestDTO req) {
+		int result = 0;
+		String sql = "insert into vote(vote_type,createdBy,createdAt,definitionId,count) values(?,?,?,?,?)";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "Dislike");
+			ps.setString(2, req.getCreatedBy());
+			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(4, req.getDefinitionId());
+			ps.setInt(5, req.getCount());
+			
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public int updateLikeVote(VoteRequestDTO req) {
+		int result = 0;
+		String sql = "update vote set updatedAt=?,count=?,updatedBy=? where vote_type=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(2, req.getCount());
+			ps.setString(3, req.getUpdatedBy());
+			ps.setString(4, "Like");
+			
+			result = ps.executeUpdate();
+			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}	
+		return result;
+	}
+	
+	public int updateDislikeVote(VoteRequestDTO req) {
+		int result = 0;
+		String sql = "update vote set updatedAt=?,count=?,updatedBy=? where vote_type=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(2, req.getCount());
+			ps.setString(3, req.getUpdatedBy());
+			ps.setString(4, "Dislike");
+			
+			result = ps.executeUpdate();
+			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}	
+		return result;
+	}
 }
 
 

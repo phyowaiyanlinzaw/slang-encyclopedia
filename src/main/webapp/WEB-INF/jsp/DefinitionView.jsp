@@ -345,7 +345,7 @@
                   id="search"
                   placeholder="Search for a word"
                 />
-                <i class="fas fa-shuffle"></i>
+                <a href="/SlangEncyclopedia/Shuffle"><i class="fas fa-shuffle"></i></a>
               </div>
             </form>
             <div class="upload-and-user">
@@ -363,57 +363,26 @@
           </div>
         </div>
       </header>
-        <div class="searched-word card">
-          <div class="word">
-            <h1>Word</h1>
-            <p class="def">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea
-              optio, ad, officiis eos fugiat quo aut laudantium explicabo
-              placeat saepe repellendus fuga deleniti! Cupiditate, corporis. Ea
-              recusandae animi iure saepe.
-            </p>
-            <p class="eg">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Doloremque commodi exercitationem ullam laudantium dolorem
-            </p>
-            <p class="info">by Someone on 12/12/2020</p>
-          </div>
-          <div class="vote">
-            <div class="upvote">
-              👍
-              <p>100</p>
-            </div>
-            <div class="downvote">
-              👎
-              <p>100</p>
-            </div>
-          </div>
-          
-        </div> 
-<%--         <c:forEach items="${termList}" var="term">
- --%>                   <c:forEach items="${defList}" var="def">
-        
-                <div class="searched-word card">
-        
-        	<div class="word">
-                <h1>${def.term }</h1>
-                <p class = "def"> ${def.definition_text}</p>
-				<p class="info"> By ${def.createdBy}  ${def.createdDate }</p>
-          </div>
-          <div class="vote">
-            <div class="upvote">
-              👍
-              <p>100</p>
-            </div>
-            <div class="downvote">
-              👎
-              <p>100</p>
-            </div>
-          </div>
-    </div>
+		<c:forEach items="${defList}" var="def">
+        	<div class="searched-word card">
+        		<div class="word">
+                	<h1>${def.term }</h1>
+                	<p class = "def"> ${def.definition_text}</p>
+					<p class="info"> By ${def.createdBy}  ${def.createdDate }</p>
+          		</div>
+          		<div class="vote">
+            		<div class="upvote">
+              				👍
+              			<p>100</p>
+            		</div>
+            		<div class="downvote">
+              				👎
+              			<p>100</p>
+            		</div>
+          		</div>
+    		</div>
       	            </c:forEach>
-<%--     </c:forEach>
- --%>  </body>
+	</body>
   <script>
     // Change Placeholder
     const mediaQuery = window.matchMedia("(max-width: 768px)");

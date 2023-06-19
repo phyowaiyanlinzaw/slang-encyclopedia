@@ -140,7 +140,7 @@ public class UserDAO {
 	public int updateUserVerifiedStatus(String email) {
 		int result = 0;
 		
-		String sql = "update user set isVerfied=? where email=?";
+		String sql = "update user set isVerified=? where email=?";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);

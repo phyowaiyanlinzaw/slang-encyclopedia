@@ -4,6 +4,7 @@ package dictionary.controller;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import dictionary.dao.DefinitionDAO;
 import dictionary.dao.OtpDAO;
@@ -55,14 +57,10 @@ public class DictionaryController {
 	@RequestMapping(value="/DefinitionView", method=RequestMethod.GET)
 	public String definitionView(ModelMap m) {
 		
-//		 ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDef();
-//		    m.addAttribute("defList", defList);
-//		 ArrayList<DefandTermResponseDTO> termList = termDao.getAllTerm();
-//		 m.addAttribute("termList", termList);
 		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
 		m.addAttribute("defList", defList);
 
-		    return "DefinitionView";
+		return "DefinitionView";
 	}
 	
 	@RequestMapping(value="/Register", method=RequestMethod.GET)
@@ -141,6 +139,7 @@ public class DictionaryController {
 			) {
 		
 		String generatedOtp = OtpService.generateOtp();
+		session.setAttribute("currentOtp", generatedOtp);
 		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
 		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
 		
@@ -167,6 +166,7 @@ public class DictionaryController {
 			ModelMap m
 			) {
 		
+		session.removeAttribute("currentOtp");
 		
 		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
 		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
@@ -228,7 +228,7 @@ public class DictionaryController {
 			}
 			
 			String generatedOtp = OtpService.generateOtp();
-			
+			session.setAttribute("currentOtp", generatedOtp);
 
 			req.setOtpNumber(generatedOtp);
 			req.setOtpCount(otpCount+1);
@@ -415,7 +415,7 @@ public class DictionaryController {
 			System.out.println("Update OTP Status Error");
 		}
 		
-		return "redirect:/RequestOTP";
+		return "redirect:/ResendOTP";
 
 	}
 	
@@ -424,7 +424,10 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
-		session.invalidate();
+		session.removeAttribute("isLoggedIn");
+		session.removeAttribute("isUser");
+		session.removeAttribute("isAdmin");
+		session.removeAttribute("currentUser");
 		
 		
 		return "redirect:/DefinitionView";
@@ -443,18 +446,16 @@ public class DictionaryController {
 			ModelMap m,
 			HttpSession session) {
 	    
-	    
+		if(session.getAttribute("isLoggedIn")==null){
+			return "redirect:/Login";
+		}
 	    
 		DefandTermRequestDTO upldt = new DefandTermRequestDTO(); 
 	    upldt.setTerm(dat.getTerm());
 	    upldt.setDefinition_text(dat.getDefinition_text());
-	    UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
-		if (userDTO == null) {
-	        m.addAttribute("error", "User not logged in");
-	        
-	        return "UploadForm";
-	    }
-	    int userId = userDao.getUserId(userDTO.getEmail());
+	    UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
+
+	    int userId = userDao.getUserId(currentUser.getEmail());
 	    
 	    if(userId ==0) {
 			m.addAttribute("IdError", "Invlaid User");
@@ -462,8 +463,8 @@ public class DictionaryController {
 			return "UploadForm";
 		}
 		upldt.setUserId(String.valueOf(userId));
-		upldt.setCreatedBy(userDTO.getUsername());
-	    upldt.setUpdatedBy(userDTO.getUsername());
+		upldt.setCreatedBy(currentUser.getUsername());
+	    upldt.setUpdatedBy(currentUser.getUsername());
 
 		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDef();
 		
@@ -498,6 +499,17 @@ public class DictionaryController {
 		return "redirect:/DefinitionView";
 	}
 
+	@RequestMapping(value = "/Shuffle",method = RequestMethod.GET)
+	public String shuffleHomeView(
+			ModelMap m
+			) {
+		
+		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
+		Collections.shuffle(defList);
+		m.addAttribute("defList", defList);
+		
+		return "DefinitionView";
+	}
 
 	
 }
