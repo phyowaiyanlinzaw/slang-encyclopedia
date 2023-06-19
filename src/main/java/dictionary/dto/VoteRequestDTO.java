@@ -1,9 +1,28 @@
 package dictionary.dto;
 
+import java.sql.Timestamp;
+
 public class VoteRequestDTO {
+	
 	private String user_id;
 	private String vote_type;
-	private String definition_id;
+	private int definitionId;
+	private String createdBy;
+	private String updatedBy;
+	private int count;
+	
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
@@ -16,11 +35,17 @@ public class VoteRequestDTO {
 	public void setVote_type(String vote_type) {
 		this.vote_type = vote_type;
 	}
-	public String getDefinition_id() {
-		return definition_id;
+	public int getDefinitionId() {
+		return definitionId;
 	}
-	public void setDefinition_id(String definition_id) {
-		this.definition_id = definition_id;
+	public void setDefinitionId(int definitionId) {
+		this.definitionId = definitionId;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
 	}
 	
 

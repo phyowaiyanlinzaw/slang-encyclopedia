@@ -458,13 +458,9 @@ public class DictionaryController {
 		DefandTermRequestDTO upldt = new DefandTermRequestDTO(); 
 	    upldt.setTerm(dat.getTerm());
 	    upldt.setDefinition_text(dat.getDefinition_text());
-	    UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
-		if (userDTO == null) {
-	        m.addAttribute("error", "User not logged in");
-	        
-	        return "UploadForm";
-	    }
-	    int userId = userDao.getUserId(userDTO.getEmail());
+	    UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
+
+	    int userId = userDao.getUserId(currentUser.getEmail());
 	    
 	    if(userId ==0) {
 			m.addAttribute("IdError", "Invlaid User");
@@ -472,8 +468,8 @@ public class DictionaryController {
 			return "UploadForm";
 		}
 		upldt.setUserId(String.valueOf(userId));
-		upldt.setCreatedBy(userDTO.getUsername());
-	    upldt.setUpdatedBy(userDTO.getUsername());
+		upldt.setCreatedBy(currentUser.getUsername());
+	    upldt.setUpdatedBy(currentUser.getUsername());
 
 		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDef();
 		
