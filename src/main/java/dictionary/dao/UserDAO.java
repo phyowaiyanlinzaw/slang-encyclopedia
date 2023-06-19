@@ -51,17 +51,18 @@ public class UserDAO {
 	
 	public ArrayList<UserResponseDTO> getAllUsers(){
 		ArrayList<UserResponseDTO> resList = new ArrayList<>();
-		String sql = "select*from user where role_id=2 and isVerified=?";
+		String sql = "select*from user where role_id=2";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setString(1, "Yes");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				UserResponseDTO res = new UserResponseDTO();
 				res.setEmail(rs.getString("email"));
 				res.setUsername(rs.getString("username"));
 				res.setPassword(rs.getString("password"));
+				res.setIsVerified(rs.getString("isVerified"));
+				res.setIsLocked(rs.getString("isLocked"));
 				resList.add(res);
 			}
 			
@@ -144,6 +145,22 @@ public class UserDAO {
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, "Yes");
+			ps.setString(2, email);
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public int updateUserLockedStatus(String status,String email) {
+		int result=0;
+		String sql = "update user set isLocked=? where email=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, status);
 			ps.setString(2, email);
 			result = ps.executeUpdate();
 		}catch(SQLException e) {

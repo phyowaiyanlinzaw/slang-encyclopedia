@@ -101,7 +101,7 @@ public class DictionaryController {
 		if(ub.getPassword().equals(ub.getConfirm_password()) ) {
 			isSamePw = true;
 			for(UserResponseDTO res : resList) {
-				if(res.getEmail().equals(ub.getEmail())) {
+				if(res.getEmail().equals(ub.getEmail())&&res.getIsVerified().equalsIgnoreCase("Yes")) {
 					isDupe = true;
 					m.addAttribute("emailDupe", "This email already exists");
 					return "redirect:/Register";
@@ -109,8 +109,18 @@ public class DictionaryController {
 				
 			}
 			if(!isDupe) {
-				int result = userDao.storeUsers(req);
 				session.setAttribute("registeredUser", ub);
+				for(UserResponseDTO res:resList) {
+					if(res.getEmail().equals(ub.getEmail())&&res.getIsVerified().equalsIgnoreCase("No")) {
+						System.out.println("Need to verify OTP - User");
+						session.removeAttribute("otpLimit");
+						return "redirect:/ResendOTP";
+					}
+				}	
+				
+				session.removeAttribute("otpLimit");
+				int result = userDao.storeUsers(req);
+
 				if(result==0) {
 					m.addAttribute("insertUserError", "Error While Registering User");
 					return "redirect:/Register";
@@ -165,6 +175,7 @@ public class DictionaryController {
 		int requestedUserId = userDao.getUserId(registeredUser.getEmail());
 		
 		int otpCount = otpDao.getOtpCount(requestedUserId);
+		OtpRequestDTO req = new OtpRequestDTO();
 		
 		boolean isLimit = false;
 		
@@ -175,18 +186,53 @@ public class DictionaryController {
 			if(deleteOtpResult==0) {
 				System.out.println("Error while deleting OTPs");
 			}
+			
+			req.setUserId(requestedUserId);
+			req.setRequestedBy(registeredUser.getEmail());
+			req.setRestrictTime(Timestamp.valueOf(LocalDateTime.now().plusMinutes(5)));
+			
+			int resTimeResult = otpDao.addRestrictionTime(req);
+			if(resTimeResult==0) {
+				System.out.println("Error while adding restriction time");
+			}
+			int updateUserLockedStatusResult = userDao.updateUserLockedStatus("Yes", registeredUser.getEmail());
+			if(updateUserLockedStatusResult==0) {
+				System.out.println("Error while updating user locked status");
+			}
+			
 			session.setAttribute("otpLimit", "true");
 			return "redirect:/otpView";
 		}
 		
 		if(!isLimit) {
+			 
+			req.setUserId(requestedUserId);
+
+			OtpResponseDTO res = otpDao.getRestrictionTime(req);
+			
+			try {
+				if(res.getRestrictionTimestamp().after(Timestamp.valueOf(LocalDateTime.now()))) {
+					session.setAttribute("otpLimit", "true");
+					System.out.println("Times not up yet");
+					return "redirect:/otpView";
+				}else {
+					System.out.println("Time is before");
+					int updateUserLockedStatusResult = userDao.updateUserLockedStatus("No", registeredUser.getEmail());
+					if(updateUserLockedStatusResult==0) {
+						System.out.println("Error while updating user locked status");
+					}
+				}
+			}catch(Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
 			String generatedOtp = OtpService.generateOtp();
 			
-			OtpRequestDTO req = new OtpRequestDTO();
+
 			req.setOtpNumber(generatedOtp);
 			req.setOtpCount(otpCount+1);
 			req.setRequestedBy(registeredUser.getEmail());
-			req.setUserId(requestedUserId);
+
 			
 			int storeOtpResult = otpDao.storeOtp(req);
 			

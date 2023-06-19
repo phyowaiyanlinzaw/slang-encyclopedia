@@ -8,6 +8,7 @@ public class OtpResponseDTO {
 	private String requestedBy;
 	private Timestamp expTime;
 	private Timestamp createdAt;
+	private Timestamp restrictionTimestamp;
 	
 	public String getOtpNumber() {
 		return otpNumber;
@@ -32,6 +33,12 @@ public class OtpResponseDTO {
 	}
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
+	}
+	public Timestamp getRestrictionTimestamp() {
+		return restrictionTimestamp;
+	}
+	public void setRestrictionTimestamp(Timestamp restrictionTimestamp) {
+		this.restrictionTimestamp = restrictionTimestamp;
 	}
 	
 	
