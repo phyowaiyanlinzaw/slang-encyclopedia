@@ -184,7 +184,7 @@ prefix="form"%>
         <tbody>
         
 	        		<c:forEach items="${userList}" var="udt" varStatus="inc">
-	
+		<c:forEach items="${defList}" var="def">
        <tr>
         
           <td>${inc.index +1}</td>
@@ -192,14 +192,21 @@ prefix="form"%>
           <td>${udt.username }</td>
           <td>${udt.createdDate}</td>
           <td>${udt.updatedDate}</td>
-          <td>1</td>
-          <td>1</td>
+          <td>
+              				
+              			<p>${def.likeCount}</p>
+            		</td>
+            		<td>
+              				
+              			<p>${def.dislikeCount}</p>
+          		</td>
           <td class="actions-td">
             <a href="#">Edit</i></a>
             <a href="#">Delete</i></a>
           </td>
           
         </tr>	
+                          </c:forEach>
                           </c:forEach>
         </tbody>
        
