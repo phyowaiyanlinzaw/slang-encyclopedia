@@ -12,6 +12,7 @@ public class DefandTermResponseDTO {
 	private String termId;
 	private String createdBy;
     private LocalDate createdDate;
+    private LocalDate updatedAt;
     private int voteCount;
     private int likeCount;
     private int dislikeCount;
@@ -78,6 +79,12 @@ public class DefandTermResponseDTO {
 	}
 	public void setCreatedDate(LocalDate createdDate) {
 		this.createdDate = createdDate;
+	}
+	public LocalDate getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(LocalDate updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	

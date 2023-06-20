@@ -190,7 +190,7 @@ prefix="form"%>
           <td>${def.term }</td>
           <td>${def.createdBy }</td>
           <td>${def.createdDate}</td>
-          <td>${def.createdDate}</td>
+          <td>${def.updatedAt}</td>
           <td>
               				
               			<p>${def.likeCount}</p>
