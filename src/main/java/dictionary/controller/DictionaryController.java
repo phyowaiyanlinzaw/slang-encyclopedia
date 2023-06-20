@@ -502,7 +502,7 @@ public class DictionaryController {
 			
 			VoteRequestDTO voteReq = new VoteRequestDTO();
 			voteReq.setCount(0);
-			voteReq.setCreatedBy(currentUser.getUsername());
+			voteReq.setUser_id(upldt.getUserId());
 			voteReq.setDefinitionId(definitionDao.getDefId(upldt));
 			
 			int likeStoreResult = voteDao.storeLikeVote(voteReq);
@@ -548,7 +548,7 @@ public class DictionaryController {
 		System.out.println(definitionId);
 		System.out.println("Update Like Method");
 		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
-		
+		int userId = userDao.getUserId(currentUser.getEmail());
 		VoteRequestDTO voteReq = new VoteRequestDTO();
 		voteReq.setDefinitionId(Integer.parseInt(definitionId));
 		voteReq.setUpdatedBy(currentUser.getUsername());
