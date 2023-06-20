@@ -124,12 +124,16 @@ static Connection con=null;
 	
 	public int getLikeCount(int defId) {
 		int likeCount =0;
-		String sql = "select count from vote where definitionId=? and vote_type=?";
+		String sql = "select * from vote where definitionId=? and vote_type=?";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, defId);
 			ps.setString(2, "Like");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				likeCount = rs.getInt("count");
+			}
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}

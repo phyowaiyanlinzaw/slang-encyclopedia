@@ -547,13 +547,17 @@ public class DictionaryController {
 			return "redirect:/Login";
 		}
 		
+		System.out.println(defId);
+		System.out.println("Update Like Method");
 		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 		
 		VoteRequestDTO voteReq = new VoteRequestDTO();
 		voteReq.setDefinitionId(Integer.parseInt(defId));
 		voteReq.setUpdatedBy(currentUser.getUsername());
-		int getLikeCount = voteDao.getLikeCount(voteReq.getDefinitionId());
+		int getLikeCount = voteDao.getLikeCount(Integer.parseInt(defId));
+		System.out.println(getLikeCount);
 		int updatedLikeCount = getLikeCount+1;
+		System.out.println(updatedLikeCount);
 
 		voteReq.setCount(updatedLikeCount);
 		

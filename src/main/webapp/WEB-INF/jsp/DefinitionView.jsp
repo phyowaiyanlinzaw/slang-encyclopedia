@@ -410,7 +410,6 @@
       xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        likeCount.innerHTML = xhr.responseText;// Handle the response
 
       } else {
         // Handle the error response

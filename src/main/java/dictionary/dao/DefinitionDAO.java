@@ -91,9 +91,12 @@ static Connection con=null;
 	public ArrayList<DefandTermResponseDTO> getAllDefwithTerm() {
 	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 
-	    String sql = "SELECT d.id, d.definition_text, t.term_name,u.username,t.createdDate,"
-	    		+ "SUM(CASE WHEN v.vote_type = 'Like' THEN 1 ELSE 0 END) AS like_count,SUM(CASE WHEN v.vote_type = 'Dislike' THEN 1 ELSE 0 END) AS dislike_count"
-	    		+ "FROM definition d JOIN term t ON d.term_id = t.id JOIN user u ON d.user_id=u.id JOIN vote v ON d.id=v.definitionId";
+	    String sql = "SELECT d.id, d.definition_text, t.term_name, u.username, t.createdDate, "
+	            + "MAX(CASE WHEN v.vote_type = 'Like' THEN v.count END) AS like_count, "
+	            + "MAX(CASE WHEN v.vote_type = 'Dislike' THEN v.count END) AS dislike_count "
+	            + "FROM definition d JOIN term t ON d.term_id = t.id "
+	            + "JOIN user u ON d.user_id = u.id JOIN vote v ON d.id = v.definitionId "
+	            + "GROUP BY d.id, d.definition_text, t.term_name, u.username, t.createdDate";
 
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
