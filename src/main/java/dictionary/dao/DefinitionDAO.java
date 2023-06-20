@@ -91,18 +91,23 @@ static Connection con=null;
 	public ArrayList<DefandTermResponseDTO> getAllDefwithTerm() {
 	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 
-	    String sql = "SELECT d.definition_text, t.term_name,u.username,t.createdDate,v.count FROM definition d JOIN term t ON d.term_id = t.id JOIN user u ON d.user_id=u.id JOIN vote v ON d.id=v.definitionId";
+	    String sql = "SELECT d.id, d.definition_text, t.term_name,u.username,t.createdDate,"
+	    		+ "SUM(CASE WHEN v.vote_type = 'Like' THEN 1 ELSE 0 END) AS like_count,SUM(CASE WHEN v.vote_type = 'Dislike' THEN 1 ELSE 0 END) AS dislike_count"
+	    		+ "FROM definition d JOIN term t ON d.term_id = t.id JOIN user u ON d.user_id=u.id JOIN vote v ON d.id=v.definitionId";
 
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
 	        ResultSet rs = ps.executeQuery();
 	        while (rs.next()) {
 	            DefandTermResponseDTO res = new DefandTermResponseDTO();
+	            
+	            res.setDefId(rs.getInt("id"));
 	            res.setDefinition_text(rs.getString("definition_text"));
 	            res.setTerm(rs.getString("term_name"));
 	            res.setCreatedBy(rs.getString("username"));
                 res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
-	           	res.setVoteCount(rs.getInt("count"));
+	           	res.setLikeCount(rs.getInt("like_count"));
+	           	res.setDislikeCount(rs.getInt("dislike_count"));
                 resList.add(res);
 	        }
 	    } catch (Exception e) {

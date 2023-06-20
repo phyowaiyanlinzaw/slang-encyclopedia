@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DefandTermResponseDTO {
+	
+	private int defId;
 	private String term;
 	private String definition_text;
 	private String userId;
@@ -11,9 +13,30 @@ public class DefandTermResponseDTO {
 	private String createdBy;
     private LocalDate createdDate;
     private int voteCount;
+    private int likeCount;
+    private int dislikeCount;
     
+     
     
 	
+	public int getDefId() {
+		return defId;
+	}
+	public void setDefId(int defId) {
+		this.defId = defId;
+	}
+	public int getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+	public int getDislikeCount() {
+		return dislikeCount;
+	}
+	public void setDislikeCount(int dislikeCount) {
+		this.dislikeCount = dislikeCount;
+	}
 	public int getVoteCount() {
 		return voteCount;
 	}

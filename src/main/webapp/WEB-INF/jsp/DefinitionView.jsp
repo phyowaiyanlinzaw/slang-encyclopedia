@@ -371,13 +371,13 @@
 					<p class="info"> By ${def.createdBy}  ${def.createdDate }</p>
           		</div>
           		<div class="vote">
-            		<div class="upvote">
+            		<div class="upvote" onclick="updateLikeFunction(this)" data-definitionId="${def.defId}">
               				👍
-              			<p>${def.voteCount}</p>
+              			<p>${def.likeCount}</p>
             		</div>
-            		<div class="downvote">
+            		<div class="downvote" onclick="updateDislikeFunction(this)" data-definitionId="${def.defId}">
               				👎
-              			<p>${def.voteCount}</p>
+              			<p>${def.dislikeCount}</p>
             		</div>
           		</div>
     		</div>
@@ -389,22 +389,41 @@
     const searchPlaceHolder = document.getElementById("search");
     const form = document.querySelector("inline");
     const searchIcon = document.querySelector(".fa-search");
-    const upvoteDiv =  document.querySelector(".upvote");
-    const downvoteDiv =  document.querySelector(".downvote");
+    const likeButtonAll = document.querySelectorAll(".upvote");
+    const dislikeButtonAll = document.querySelectorAll(".downvote");
+    const likeButton = document.querySelector(".upvote");
+    const dislikeButton = document.querySelector(".downvote");
 
-    upvoteDiv.addEventListener("click", updateLikeFunction())
+    likeButtonAll.forEach((likeButton) => {
+      likeButton.addEventListener("click", () => {
+        updateLikeFunction(likeButton);
+      });
+    });
 
-    function updateLikeFunction() {
+    function updateLikeFunction(likeButton) {
+      const defId = likeButton.dataset.definitionid;
+      const likeCount = likeButton.querySelector("p");
+
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "/SlangEncyclopedia/UpdateLike", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText);
-          
-        }
-      };
-      xhr.send();
+      xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        likeCount.innerHTML = xhr.responseText;// Handle the response
+
+      } else {
+        // Handle the error response
+        console.error("Error: " + xhr.status);
+      }
+    }
+
+    };
+
+    const params = "defId=" + defId;
+
+    xhr.send(params);
+
     }
 
     searchIcon.addEventListener("click", () => {

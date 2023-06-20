@@ -18,6 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -535,5 +536,33 @@ public class DictionaryController {
 		return "DefinitionView";
 	}
 
-	
+	@RequestMapping(value="/UpdateLike",method=RequestMethod.POST)
+	public String updateLikeCount(
+			@RequestParam("defId") String defId,
+
+			HttpSession session
+			) {
+		
+		if(session.getAttribute("isLoggedIn")==null){
+			return "redirect:/Login";
+		}
+		
+		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
+		
+		VoteRequestDTO voteReq = new VoteRequestDTO();
+		voteReq.setDefinitionId(Integer.parseInt(defId));
+		voteReq.setUpdatedBy(currentUser.getUsername());
+		int getLikeCount = voteDao.getLikeCount(voteReq.getDefinitionId());
+		int updatedLikeCount = getLikeCount+1;
+
+		voteReq.setCount(updatedLikeCount);
+		
+		int result = voteDao.updateLikeVote(voteReq);
+		
+		if(result==0) {
+			System.out.println("Update like count error");
+		}
+
+		return "redirect:/DefinitionView";
+	}//end updateLikeCount
 }
