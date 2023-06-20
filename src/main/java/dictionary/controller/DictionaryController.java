@@ -538,26 +538,23 @@ public class DictionaryController {
 
 	@RequestMapping(value="/UpdateLike",method=RequestMethod.POST)
 	public String updateLikeCount(
-			@RequestParam("defId") String defId,
-
+			@RequestParam("definitionId") String definitionId,
+			ModelMap m,
 			HttpSession session
 			) {
 		
-		if(session.getAttribute("isLoggedIn")==null){
-			return "redirect:/Login";
-		}
-		
-		System.out.println(defId);
+		System.out.println(definitionId);
 		System.out.println("Update Like Method");
 		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 		
 		VoteRequestDTO voteReq = new VoteRequestDTO();
-		voteReq.setDefinitionId(Integer.parseInt(defId));
+		voteReq.setDefinitionId(Integer.parseInt(definitionId));
 		voteReq.setUpdatedBy(currentUser.getUsername());
-		int getLikeCount = voteDao.getLikeCount(Integer.parseInt(defId));
+		int getLikeCount = voteDao.getLikeCount(Integer.parseInt(definitionId));
 		System.out.println(getLikeCount);
 		int updatedLikeCount = getLikeCount+1;
 		System.out.println(updatedLikeCount);
+		
 
 		voteReq.setCount(updatedLikeCount);
 		
@@ -568,5 +565,37 @@ public class DictionaryController {
 		}
 
 		return "redirect:/DefinitionView";
-	}//end updateLikeCount
+	}
+	
+	@RequestMapping(value="/UpdateDislike",method=RequestMethod.POST)
+	public String updateDislikeCount(
+			@RequestParam("definitionId") String definitionId,
+			ModelMap m,
+			HttpSession session
+			) {
+		
+		System.out.println(definitionId);
+		System.out.println("Update Dislike Method");
+		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
+		
+		VoteRequestDTO voteReq = new VoteRequestDTO();
+		voteReq.setDefinitionId(Integer.parseInt(definitionId));
+		voteReq.setUpdatedBy(currentUser.getUsername());
+		int getDislikeCount = voteDao.getDislikeCount(Integer.parseInt(definitionId));
+		System.out.println(getDislikeCount);
+		int updatedDislikeCount = getDislikeCount+1;
+		System.out.println(updatedDislikeCount);
+		
+
+		voteReq.setCount(updatedDislikeCount);
+		
+		System.out.println(voteReq.getDefinitionId());
+		int result = voteDao.updateDislikeVote(voteReq);
+		
+		if(result==0) {
+			System.out.println("Update like count error");
+		}
+
+		return "redirect:/DefinitionView";
+	}
 }

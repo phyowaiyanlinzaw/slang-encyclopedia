@@ -165,7 +165,7 @@
       }
       .searched-word {
         width: 80vw;
-        height: 50%;
+        height: 30%;
         display: flex;
         background-color: #1b2936;
         margin-top: 20px;
@@ -371,11 +371,11 @@
 					<p class="info"> By ${def.createdBy}  ${def.createdDate }</p>
           		</div>
           		<div class="vote">
-            		<div class="upvote" onclick="updateLikeFunction(this)" data-definitionId="${def.defId}">
+            		<div class="upvote"  data-definitionId="${def.defId}">
               				👍
               			<p>${def.likeCount}</p>
             		</div>
-            		<div class="downvote" onclick="updateDislikeFunction(this)" data-definitionId="${def.defId}">
+            		<div class="downvote" data-definitionId="${def.defId}">
               				👎
               			<p>${def.dislikeCount}</p>
             		</div>
@@ -393,37 +393,75 @@
     const dislikeButtonAll = document.querySelectorAll(".downvote");
     const likeButton = document.querySelector(".upvote");
     const dislikeButton = document.querySelector(".downvote");
+    const isLoggedIn = "${isLoggedIn}";
 
     likeButtonAll.forEach((likeButton) => {
       likeButton.addEventListener("click", () => {
-        updateLikeFunction(likeButton);
+        if(isLoggedIn=="logged in"){
+          updateLikeFunction(likeButton);
+        }
+        else{
+          window.location.href="/SlangEncyclopedia/Login"
+        }
+        
       });
+    });
+    
+    dislikeButtonAll.forEach((dislikeButton) => {
+        dislikeButton.addEventListener("click", () => {
+          if(isLoggedIn=="logged in"){
+            updateDislikeFunction(dislikeButton);
+          }
+          else{
+            window.location.href="/SlangEncyclopedia/Login"
+          }
+          
+        });
+        
     });
 
     function updateLikeFunction(likeButton) {
-      const defId = likeButton.dataset.definitionid;
-      const likeCount = likeButton.querySelector("p");
+    	  const definitionId = likeButton.getAttribute("data-definitionId");
+    	  const likeCount = likeButton.querySelector("p").textContent;
+    	  console.log("definitionId:", definitionId);
+    	  console.log("likeCount:", likeCount);
+    	  
+    	  const likeCountInt = parseInt(likeCount);
+    	  const likeCountNew = likeCountInt + 1;
+    	  likeButton.querySelector("p").textContent = likeCountNew;
+    	  
+    	  const xhr = new XMLHttpRequest();
+    	  xhr.open("POST", "/SlangEncyclopedia/UpdateLike", true);
+    	  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    	  xhr.send("definitionId=" + definitionId);
 
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/SlangEncyclopedia/UpdateLike", true);
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = function() {
-      if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
+    	  xhr.onreadystatechange = function () {
+    	    if (this.readyState == 4 && this.status == 200) {
+    	    }
+    	  };
+    	}
 
-      } else {
-        // Handle the error response
-        console.error("Error: " + xhr.status);
-      }
+    function updateDislikeFunction(dislikeButton) {
+    	  const definitionId = dislikeButton.getAttribute("data-definitionId");
+    	  const dislikeCount = dislikeButton.querySelector("p").textContent;
+    	  console.log("definitionId:", definitionId);
+    	  console.log("dislikeCount:", dislikeCount);
+    	  
+    	  const dislikeCountInt = parseInt(dislikeCount);
+    	  const dislikeCountNew = dislikeCountInt + 1;
+    	  dislikeButton.querySelector("p").textContent = dislikeCountNew;
+    	  
+    	  const xhr = new XMLHttpRequest();
+    	  xhr.open("POST", "/SlangEncyclopedia/UpdateDislike", true);
+    	  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    	  xhr.send("definitionId=" + definitionId);
+
+    	  xhr.onreadystatechange = function () {
+    	    if (this.readyState == 4 && this.status == 200) {
+    	    }
+    	  };
     }
 
-    };
-
-    const params = "defId=" + defId;
-
-    xhr.send(params);
-
-    }
 
     searchIcon.addEventListener("click", () => {
       form.submit();

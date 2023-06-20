@@ -140,9 +140,27 @@ static Connection con=null;
 		return likeCount;
 	}
 	
+	public int getDislikeCount(int defId) {
+		int likeCount =0;
+		String sql = "select * from vote where definitionId=? and vote_type=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, defId);
+			ps.setString(2, "Dislike");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				likeCount = rs.getInt("count");
+			}
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return likeCount;
+	}
+	
 	public int updateDislikeVote(VoteRequestDTO req) {
 		int result = 0;
-		String sql = "update vote set updatedAt=?,count=?,updatedBy=? where vote_type=?";
+		String sql = "update vote set updatedAt=?,count=?,updatedBy=? where vote_type=? and definitionId=?";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -150,6 +168,7 @@ static Connection con=null;
 			ps.setInt(2, req.getCount());
 			ps.setString(3, req.getUpdatedBy());
 			ps.setString(4, "Dislike");
+			ps.setInt(5, req.getDefinitionId());
 			
 			result = ps.executeUpdate();
 			
