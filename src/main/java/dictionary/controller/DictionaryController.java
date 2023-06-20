@@ -376,8 +376,7 @@ public class DictionaryController {
 	
 	@RequestMapping(value = "/AdminView", method = RequestMethod.GET)
 		public String adminView(ModelMap m) {
-		ArrayList<UserResponseDTO> userList = userDao.getAllUsersWithDT();
-		m.addAttribute("userList",userList);
+	
 		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
 		m.addAttribute("defList", defList);
 
