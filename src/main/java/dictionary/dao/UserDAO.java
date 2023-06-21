@@ -63,6 +63,7 @@ public class UserDAO {
 				res.setPassword(rs.getString("password"));
 				res.setIsVerified(rs.getString("isVerified"));
 				res.setIsLocked(rs.getString("isLocked"));
+				res.setUserId(rs.getInt("id"));
 				resList.add(res);
 			}
 			

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class VoteRequestDTO {
 	
-	private String user_id;
+	private int user_id;
 	private String vote_type;
 	private int definitionId;
 	private String createdBy;
@@ -23,10 +23,10 @@ public class VoteRequestDTO {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	public String getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(String user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 	public String getVote_type() {

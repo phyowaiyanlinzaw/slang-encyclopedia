@@ -319,6 +319,18 @@
           color: #ffffff;
           cursor: pointer;
         }
+
+        .upvote .active{
+          background-color: #04ab38;
+          color: #ffffff;
+          cursor: pointer;
+        }
+
+        .downvote .active{
+          background-color: #ff0000;
+          color: #ffffff;
+          cursor: pointer;
+        }
       }
     </style>
   </head>
@@ -394,17 +406,31 @@
     const likeButton = document.querySelector(".upvote");
     const dislikeButton = document.querySelector(".downvote");
     const isLoggedIn = "${isLoggedIn}";
+    const currentUserLikedDefs = "${currentUser.likedDefIds}";
+    const currentUserDislikedDefs = "${currentUser.dislikedDefIds}";
+    const definitionId = dislikeButton.getAttribute("data-definitionId");
+
+
+
 
     likeButtonAll.forEach((likeButton) => {
-      likeButton.addEventListener("click", () => {
+
+      if(currentUserLikedDefs.includes(likeButton.getAttribute("data-definitionId"))){
+        likeButton.classList.add("active");
+      }
+      else{
+        likeButton.addEventListener("click", () => {
         if(isLoggedIn=="logged in"){
-          updateLikeFunction(likeButton);
+
         }
         else{
           window.location.href="/SlangEncyclopedia/Login"
         }
-        
+       
       });
+      }
+
+
     });
     
     dislikeButtonAll.forEach((dislikeButton) => {
@@ -439,10 +465,13 @@
     	    if (this.readyState == 4 && this.status == 200) {
     	    }
     	  };
+
+        likeButton.removeEventListener("click", updateLikeFunction);
+        
     	}
 
     function updateDislikeFunction(dislikeButton) {
-    	  const definitionId = dislikeButton.getAttribute("data-definitionId");
+
     	  const dislikeCount = dislikeButton.querySelector("p").textContent;
     	  console.log("definitionId:", definitionId);
     	  console.log("dislikeCount:", dislikeCount);

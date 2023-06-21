@@ -1,11 +1,10 @@
 package dictionary.dto;
 
 import java.time.LocalDate;
-
-import javax.management.loading.PrivateClassLoader;
-import javax.print.event.PrintJobAttributeEvent;
+import java.util.ArrayList;
 
 public class UserResponseDTO {
+	
 	private String username;
 	private String email;
 	private String password;
@@ -14,11 +13,41 @@ public class UserResponseDTO {
 	private String term;
 	private LocalDate createdDate;
 	private LocalDate UpdatedDate; 
-	private String userId;
+	private int userId;
 	
 	private String isVerified;
 	private String isLocked;
 	
+	private String hasLiked;
+	private String hasDisliked;
+	
+	private ArrayList<Integer> likedDefIds;
+	private ArrayList<Integer> dislikedDefIds;
+
+	public ArrayList<Integer> getLikedDefIds() {
+		return likedDefIds;
+	}
+	public void setLikedDefIds(ArrayList<Integer> likedDefIds) {
+		this.likedDefIds = likedDefIds;
+	}
+	public ArrayList<Integer> getDislikedDefIds() {
+		return dislikedDefIds;
+	}
+	public void setDislikedDefIds(ArrayList<Integer> dislikedDefIds) {
+		this.dislikedDefIds = dislikedDefIds;
+	}
+	public String getHasLiked() {
+		return hasLiked;
+	}
+	public void setHasLiked(String hasLiked) {
+		this.hasLiked = hasLiked;
+	}
+	public String getHasDisliked() {
+		return hasDisliked;
+	}
+	public void setHasDisliked(String hasDisliked) {
+		this.hasDisliked = hasDisliked;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -62,10 +91,10 @@ public class UserResponseDTO {
 	public void setUpdatedDate(LocalDate updatedDate) {
 		UpdatedDate = updatedDate;
 	}
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public String getIsVerified() {
