@@ -61,7 +61,7 @@ public class DictionaryController {
 	@RequestMapping(value="/DefinitionView", method=RequestMethod.GET)
 	public String definitionView(ModelMap m) {
 		
-		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
+		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
 		m.addAttribute("defList", defList);
 		
 		
@@ -396,7 +396,7 @@ public class DictionaryController {
 	@RequestMapping(value = "/AdminView", method = RequestMethod.GET)
 		public String adminView(ModelMap m) {
 	
-		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
+		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "asc");
 		m.addAttribute("defList", defList);
 
 		return "AdminView";
@@ -521,7 +521,7 @@ public class DictionaryController {
 			
 			VoteRequestDTO voteReq = new VoteRequestDTO();
 			voteReq.setCount(0);
-			voteReq.setUser_id(upldt.getUserId());
+			voteReq.setUser_id(userId);
 			voteReq.setDefinitionId(definitionDao.getDefId(upldt));
 			
 			int likeStoreResult = voteDao.storeLikeVote(voteReq);
@@ -550,12 +550,14 @@ public class DictionaryController {
 			ModelMap m
 			) {
 		
-		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTerm();
+		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
 		Collections.shuffle(defList);
 		m.addAttribute("defList", defList);
 		
 		return "DefinitionView";
 	}
+	
+
 
 	@RequestMapping(value="/UpdateLike",method=RequestMethod.POST)
 	public String updateLikeCount(

@@ -224,25 +224,45 @@ static Connection con=null;
 		return likeCount;
 	}
 	
-//	public int updateDislikeVote(VoteRequestDTO req) {
-//		int result = 0;
-//		String sql = "update vote set updatedAt=?,count=?,updatedBy=? where vote_type=? and definitionId=?";
-//		
-//		try {
-//			PreparedStatement ps = con.prepareStatement(sql);
-//			ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-//			ps.setInt(2, req.getCount());
-//			ps.setString(3, req.getUpdatedBy());
-//			ps.setString(4, "Dislike");
-//			ps.setInt(5, req.getDefinitionId());
-//			
-//			result = ps.executeUpdate();
-//			
-//		}catch(SQLException e) {
-//			System.out.println(e.getMessage());
-//		}	
-//		return result;
-//	}
+	public int updateLikeVote(VoteRequestDTO req) {
+		int result = 0;
+		String sql = "update vote set updatedAt=?,count=?,updatedBy=? where vote_type=? and definitionId=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(2, req.getCount());
+			ps.setString(3, req.getUpdatedBy());
+			ps.setString(4, "Like");
+			ps.setInt(5, req.getDefinitionId());
+			
+			result = ps.executeUpdate();
+			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}	
+		return result;
+	}
+	
+	public int updateDislikeVote(VoteRequestDTO req) {
+		int result = 0;
+		String sql = "update vote set updatedAt=?,count=?,updatedBy=? where vote_type=? and definitionId=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(2, req.getCount());
+			ps.setString(3, req.getUpdatedBy());
+			ps.setString(4, "Dislike");
+			ps.setInt(5, req.getDefinitionId());
+			
+			result = ps.executeUpdate();
+			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}	
+		return result;
+	}
 }
 
 

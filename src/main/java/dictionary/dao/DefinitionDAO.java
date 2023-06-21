@@ -88,7 +88,7 @@ static Connection con=null;
 		return resList;
 	}
 	
-	public ArrayList<DefandTermResponseDTO> getAllDefwithTerm() {
+	public ArrayList<DefandTermResponseDTO> getAllDefwithTermOrderByAttribute(String attribute, String sortOrder) {
 	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 
 	    String sql = "SELECT d.id, d.definition_text, t.term_name, u.username, t.createdDate,t.updatedAt, "
@@ -96,23 +96,24 @@ static Connection con=null;
 	            + "MAX(CASE WHEN v.vote_type = 'Dislike' THEN v.count END) AS dislike_count "
 	            + "FROM definition d JOIN term t ON d.term_id = t.id "
 	            + "JOIN user u ON d.user_id = u.id JOIN vote v ON d.id = v.definitionId "
-	            + "GROUP BY d.id, d.definition_text, t.term_name, u.username, t.createdDate, t.updatedAt";
+	            + "GROUP BY d.id, d.definition_text, t.term_name, u.username, t.createdDate, t.updatedAt "
+	            + "ORDER BY " + attribute + " " + sortOrder;
 
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
 	        ResultSet rs = ps.executeQuery();
 	        while (rs.next()) {
 	            DefandTermResponseDTO res = new DefandTermResponseDTO();
-	            
+
 	            res.setDefId(rs.getInt("id"));
 	            res.setDefinition_text(rs.getString("definition_text"));
 	            res.setTerm(rs.getString("term_name"));
 	            res.setCreatedBy(rs.getString("username"));
-                res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
-                res.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
-	           	res.setLikeCount(rs.getInt("like_count"));
-	           	res.setDislikeCount(rs.getInt("dislike_count"));
-                resList.add(res);
+	            res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
+	            res.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+	            res.setLikeCount(rs.getInt("like_count"));
+	            res.setDislikeCount(rs.getInt("dislike_count"));
+	            resList.add(res);
 	        }
 	    } catch (Exception e) {
 	        System.out.println(e.getMessage());
@@ -120,7 +121,7 @@ static Connection con=null;
 
 	    return resList;
 	}
-	
+
 	public int getDefinitionCountForCurrentUser(String currentUserId) {
 	    int definitionCount = 0;
 	    String sql = "SELECT COUNT(*) AS count FROM definition WHERE user_id = ?";
@@ -158,5 +159,41 @@ static Connection con=null;
 		
 		return defId;
 	}
+	
+//	public ArrayList<DefandTermResponseDTO> searchDefinitionsByTerm(String searchTerm) {
+//	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
+//
+//	    String sql = "SELECT d.id, d.definition_text, t.term_name, u.username, t.createdDate, t.updatedAt, "
+//	            + "MAX(CASE WHEN v.vote_type = 'Like' THEN v.count END) AS like_count, "
+//	            + "MAX(CASE WHEN v.vote_type = 'Dislike' THEN v.count END) AS dislike_count "
+//	            + "FROM definition d JOIN term t ON d.term_id = t.id "
+//	            + "JOIN user u ON d.user_id = u.id JOIN vote v ON d.id = v.definitionId "
+//	            + "WHERE t.term_name LIKE ? "
+//	            + "GROUP BY d.id, d.definition_text, t.term_name, u.username, t.createdDate, t.updatedAt";
+//
+//	    try {
+//	        PreparedStatement ps = con.prepareStatement(sql);
+//	        ps.setString(1, "%" + searchTerm + "%");
+//	        ResultSet rs = ps.executeQuery();
+//	        while (rs.next()) {
+//	            DefandTermResponseDTO res = new DefandTermResponseDTO();
+//
+//	            res.setDefId(rs.getInt("id"));
+//	            res.setDefinition_text(rs.getString("definition_text"));
+//	            res.setTerm(rs.getString("term_name"));
+//	            res.setCreatedBy(rs.getString("username"));
+//	            res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
+//	            res.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+//	            res.setLikeCount(rs.getInt("like_count"));
+//	            res.setDislikeCount(rs.getInt("dislike_count"));
+//	            resList.add(res);
+//	        }
+//	    } catch (Exception e) {
+//	        System.out.println(e.getMessage());
+//	    }
+//
+//	    return resList;
+//	}
+
 	
 }
