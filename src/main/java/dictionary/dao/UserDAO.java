@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.sql.PreparedStatement;
+import java.sql.PseudoColumnUsage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -168,6 +169,23 @@ public class UserDAO {
 			System.out.println(e.getMessage());
 		}
 		
+		return result;
+	}
+	
+	public int updateUser(UserRequestDTO req) {
+		int result =0;
+		String sql ="update user set username=?,email=?,password=?,cPassword=? where id=?";
+		
+		try {
+			PreparedStatement ps=con.prepareStatement(sql);
+			ps.setString(1, req.getUsername());
+			ps.setString(2, req.getEmail());
+			ps.setString(3, req.getPassword());
+			ps.setString(4, req.getConfirm_password());
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		return result;
 	}
 
