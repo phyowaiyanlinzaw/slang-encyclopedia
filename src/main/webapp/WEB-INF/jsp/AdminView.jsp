@@ -216,7 +216,7 @@ prefix="form"%>
     const logoBtn = document.querySelector(".logo");
 
     logoBtn.addEventListener("click", () => {
-      window.location.href = "/SlangEncyclopedia/DefinitionView";
+      window.location.href = "/SlangEncyclopedia/LogOut";
     });
   </script>
 </html>

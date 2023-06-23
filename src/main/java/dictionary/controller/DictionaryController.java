@@ -59,12 +59,13 @@ public class DictionaryController {
 	}
 	
 	@RequestMapping(value="/DefinitionView", method=RequestMethod.GET)
-	public String definitionView(ModelMap m) {
+	public String definitionView(ModelMap m,HttpSession session) {
 		
 		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
 		m.addAttribute("defList", defList);
 		
-		
+		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
+		m.addAttribute("currentUser", currentUser);
 		
 		return "DefinitionView";
 	}
