@@ -455,7 +455,6 @@ public class DictionaryController {
 		session.removeAttribute("isAdmin");
 		session.removeAttribute("currentUser");
 		
-		
 		return "redirect:/DefinitionView";
 	}
 	

@@ -351,7 +351,7 @@
           <div class="search-bar">
             <form class="inline">
               <div class="inline-icons">             
-                <i class="fas fa-search"></i>
+               <i class="fas fa-search"></i>
                 <input
                   type="text"
                   name="search"
@@ -411,9 +411,6 @@
     const currentUserLikedDefs = "${currentUser.likedDefIds}";
     const currentUserDislikedDefs = "${currentUser.dislikedDefIds}";
     const definitionId = dislikeButton.getAttribute("data-definitionId");
-
-
-
 
     likeButtonAll.forEach((likeButton) => {
 
