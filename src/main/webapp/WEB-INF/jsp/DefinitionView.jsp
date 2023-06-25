@@ -387,13 +387,13 @@
           				<div class="vote">
           					<c:forEach items="${currentUser.likedDefIds}" var="likedDefIds">
           						<c:if test="${def.defId ne likedDefIds}">
-            						<div class="upvote"  data-definitionId="${def.defId}">
+            						<div id="upvote" class="upvote"  data-definitionId="${def.defId}">
               									👍
               							<p>${def.likeCount}</p>
             						</div>
             						</c:if>
             						<c:if test="${def.defId eq userDefId}">
-            						<div class="upvote active"  data-definitionId="${def.defId}">
+            						<div id="upvote" class="upvote active"  data-definitionId="${def.defId}">
               									👍
               							<p>${def.likeCount}</p>
             						</div>
@@ -402,13 +402,13 @@
             					<c:forEach items="${currentUser.dislikedDefIds}" var="dislikedDefIds">
             					
             						<c:if test="${def.defId eq dislikedDefIds }">
-            							<div class="downvote active" data-definitionId="${def.defId }">
+            							<div id="downvote" class="downvote active" data-definitionId="${def.defId }">
             										👎
               							<p>${def.dislikeCount}</p>
             							</div>
             						</c:if>
             						<c:if test="${def.defId ne dislikedDefIds }">
-            							<div class="downvote" data-definitionId="${def.defId }">
+            							<div id="downvote" class="downvote" data-definitionId="${def.defId }">
             										👎
               							<p>${def.dislikeCount}</p>
             							</div>
@@ -427,29 +427,27 @@
     const searchIcon = document.querySelector(".fa-search");
     const likeButtonAll = document.querySelectorAll(".upvote");
     const dislikeButtonAll = document.querySelectorAll(".downvote");
-    const likeButton = document.querySelector(".upvote");
-    const dislikeButton = document.querySelector(".downvote");
+    const likeButton = document.getElementById("upvote");
+    const dislikeButton = document.getElementById("downvote");
     const isLoggedIn = "${isLoggedIn}";
-    const currentUserLikedDefs = "${currentUser.likedDefIds}";
-    const currentUserDislikedDefs = "${currentUser.dislikedDefIds}";
-    const definitionId = dislikeButton.getAttribute("data-definitionId");
 
     likeButtonAll.forEach((likeButton) => {
 
-      if(currentUserLikedDefs.includes(likeButton.getAttribute("data-definitionId"))){
-        likeButton.classList.add("active");
+      //element.classlist.contains("active")
+      if(likeButton.classList.contains("active")){
+        likeButton.removeEventListener("click", () => {
+          updateLikeFunction(likeButton);
+        });
       }
-      else{
         likeButton.addEventListener("click", () => {
         if(isLoggedIn=="logged in"){
-
+          updateLikeFunction(likeButton);
         }
         else{
           window.location.href="/SlangEncyclopedia/Login"
         }
        
       });
-      }
 
 
     });
