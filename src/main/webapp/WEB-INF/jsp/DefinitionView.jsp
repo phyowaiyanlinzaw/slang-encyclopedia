@@ -378,24 +378,46 @@
         </div>
       </header>
 		<c:forEach items="${defList}" var="def">
-        	<div class="searched-word card">
-        		<div class="word">
-                	<h1>${def.term }</h1>
-                	<p class = "def"> ${def.definition_text}</p>
-					<p class="info"> By ${def.createdBy}  ${def.createdDate }</p>
-          		</div>
-          		<div class="vote">
-            		<div class="upvote"  data-definitionId="${def.defId}">
-              				👍
-              			<p>${def.likeCount}</p>
-            		</div>
-            		<div class="downvote" data-definitionId="${def.defId}">
-              				👎
-              			<p>${def.dislikeCount}</p>
-            		</div>
-          		</div>
-    		</div>
-      	            </c:forEach>
+					<div class="searched-word card">
+        				<div class="word">
+                			<h1>${def.term}</h1>
+                			<p class = "def"> ${def.definition_text}</p>
+							<p class="info"> By ${def.createdBy}  ${def.createdDate }</p>
+          				</div>
+          				<div class="vote">
+          					<c:forEach items="${currentUser.likedDefIds}" var="likedDefIds">
+          						<c:if test="${def.defId ne likedDefIds}">
+            						<div class="upvote"  data-definitionId="${def.defId}">
+              									👍
+              							<p>${def.likeCount}</p>
+            						</div>
+            						</c:if>
+            						<c:if test="${def.defId eq userDefId}">
+            						<div class="upvote active"  data-definitionId="${def.defId}">
+              									👍
+              							<p>${def.likeCount}</p>
+            						</div>
+            						</c:if>
+            					</c:forEach>
+            					<c:forEach items="${currentUser.dislikedDefIds}" var="dislikedDefIds">
+            					
+            						<c:if test="${def.defId eq dislikedDefIds }">
+            							<div class="downvote active" data-definitionId="${def.defId }">
+            										👎
+              							<p>${def.dislikeCount}</p>
+            							</div>
+            						</c:if>
+            						<c:if test="${def.defId ne dislikedDefIds }">
+            							<div class="downvote" data-definitionId="${def.defId }">
+            										👎
+              							<p>${def.dislikeCount}</p>
+            							</div>
+            						</c:if>
+            					
+            					</c:forEach>
+          				</div>
+    				</div>
+			</c:forEach>
 	</body>
   <script>
     // Change Placeholder

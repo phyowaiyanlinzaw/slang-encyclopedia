@@ -338,21 +338,10 @@ public class DictionaryController {
 					isCorrectUser = true;
 					isUser = true;
 					ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(res.getUserId(), "Like");
-					if(userLikedDefIds.size()>0) {
-						res.setHasLiked("yes");
-						res.setLikedDefIds(userLikedDefIds);
-					}else {
-						res.setHasLiked("no");
-					}
+					res.setLikedDefIds(userLikedDefIds);
 					
 					ArrayList<Integer> userDislikedDefIds = voteDao.getUserVotedDefId(res.getUserId(), "Dislike");
-					if(userDislikedDefIds.size()>0) {
-						res.setHasDisliked("yes");
-						res.setDislikedDefIds(userDislikedDefIds);
-					}else {
-						res.setHasDisliked("no");
-					}
-					
+					res.setDislikedDefIds(userDislikedDefIds);				
 					
 					session.setAttribute("currentUser", res);
 					System.out.println(res);
