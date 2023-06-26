@@ -173,7 +173,7 @@ String sql = "insert into vote(vote_type,at,definitionId) values(?,?,?)";
 			ResultSet rs = ps.executeQuery();
 			
 			if(rs.next()) {
-				userVotedDefId.add(rs.getInt("id"));
+				userVotedDefId.add(rs.getInt("definitionId"));
 			}
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -220,7 +220,7 @@ String sql = "insert into vote(vote_type,at,definitionId) values(?,?,?)";
 	
 	public int giveLikeVote(VoteRequestDTO req) {
 		int result = 0;
-		String sql = "insert into vote(user_id,vote_type,by,at,definitionId) values(?,?,?,?,?)";
+		String sql = "insert into vote(user_id,vote_type,votedBy,votedAt,definitionId) values(?,?,?,?,?)";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -231,6 +231,24 @@ String sql = "insert into vote(vote_type,at,definitionId) values(?,?,?)";
 			ps.setInt(5, req.getDefinitionId());
 			result = ps.executeUpdate();
 			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public int dislikeToLike(VoteRequestDTO req) {
+		int result = 0;
+		
+		String sql = "update vote set vote_type=? where user_id=? and definitionId=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "Like");
+			ps.setInt(2, req.getUser_id());
+			ps.setInt(3, req.getDefinitionId());
+			result = ps.executeUpdate();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -251,6 +269,24 @@ String sql = "insert into vote(vote_type,at,definitionId) values(?,?,?)";
 			ps.setInt(5, req.getDefinitionId());
 			result = ps.executeUpdate();
 			
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return result;
+	}
+	
+	public int likeToDislike(VoteRequestDTO req) {
+		int result = 0;
+		
+		String sql = "update vote set vote_type=? where user_id=? and definitionId=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, "Dislike");
+			ps.setInt(2, req.getUser_id());
+			ps.setInt(3, req.getDefinitionId());
+			result = ps.executeUpdate();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
