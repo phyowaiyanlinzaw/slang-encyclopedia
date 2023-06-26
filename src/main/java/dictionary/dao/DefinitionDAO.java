@@ -104,7 +104,7 @@ static Connection con=null;
 	        ResultSet rs = ps.executeQuery();
 	        while (rs.next()) {
 	            DefandTermResponseDTO res = new DefandTermResponseDTO();
-
+ 
 	            res.setDefId(rs.getInt("id"));
 	            res.setDefinition_text(rs.getString("definition_text"));
 	            res.setTerm(rs.getString("term_name"));

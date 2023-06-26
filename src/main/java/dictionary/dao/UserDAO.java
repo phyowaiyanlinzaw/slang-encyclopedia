@@ -74,6 +74,31 @@ public class UserDAO {
 		return resList;
 	}
 	
+	public UserResponseDTO getOneUser(UserRequestDTO req) {
+		
+		UserResponseDTO res = new UserResponseDTO();
+		
+		String sql = "select*from user where id=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, req.getId());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				res.setEmail(rs.getString("email"));;
+				res.setUsername(rs.getString("username"));
+				res.setPassword(rs.getString("password"));
+				res.setConfirm_password(rs.getString("cPassword"));
+				res.setUserId(rs.getInt("id"));
+			}
+		}catch(SQLException e) {
+			System.out.println("sads"+e.getMessage());
+		}
+		
+		return res;
+	}
+	
+	
 	public UserResponseDTO getAdminAccount() {
 		UserResponseDTO res = new UserResponseDTO();
 		String sql = "select*from user where role_id=1";
@@ -174,7 +199,7 @@ public class UserDAO {
 	
 	public int updateUser(UserRequestDTO req) {
 		int result =0;
-		String sql ="update user set username=?,email=?,password=?,cPassword=? where id=?";
+		String sql ="update user set username=?,email=?,password=?,cPassword=?,updatedAt=? where id=?";
 		
 		try {
 			PreparedStatement ps=con.prepareStatement(sql);
@@ -182,6 +207,8 @@ public class UserDAO {
 			ps.setString(2, req.getEmail());
 			ps.setString(3, req.getPassword());
 			ps.setString(4, req.getConfirm_password());
+			ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setInt(6, req.getId()); 
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

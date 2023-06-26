@@ -65,7 +65,7 @@ static Connection con=null;
 	
 	public int storeLikeVote(VoteRequestDTO req) {
 		int result = 0;
-		String sql = "insert into vote(vote_type,createdBy,createdAt,definitionId) values(?,?,?,?,?)";
+		String sql = "insert into vote(vote_type,createdBy,createdAt,definitionId,count) values(?,?,?,?,?)";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
@@ -85,7 +85,7 @@ static Connection con=null;
 	
 	public int storeDislikeVote(VoteRequestDTO req) {
 		int result = 0;
-		String sql = "insert into vote(vote_type,createdBy,createdAt,definitionId) values(?,?,?,?,?)";
+		String sql = "insert into vote(vote_type,createdBy,createdAt,definitionId,count) values(?,?,?,?,?)";
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);

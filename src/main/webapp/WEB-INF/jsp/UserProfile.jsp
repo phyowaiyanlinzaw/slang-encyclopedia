@@ -305,6 +305,20 @@ prefix="form"%>
         background-color: #fff;
         color: #10151b;
       }
+      
+       
+
+		.toggle-password {
+		  position: absolute;
+		  top: 50%;
+		  right: 10px;
+		  transform: translate(0, -50%);
+		  cursor: pointer;
+		  user-select: none;
+		}
+		  .toggle-password.show-password::before {
+		    content: "\f070";
+		  }
     </style>
   </head>
   <body>
@@ -346,24 +360,39 @@ prefix="form"%>
           </div>
         </div>
       </div>
+      
       <div class="card edit-profile hidden">
         <div class="card-header"></div>
         <div class="card-body">
+            <form:form action="/SlangEncyclopedia/updateProfile" method="post" modelAttribute="user">
+        
           <div class="user-info-item">
-            <input type="text" placeholder="Username" />
+        <form:input type="text" id="username" path="username" placeholder="username"/><br>
           </div>
           <div class="user-info-item">
-            <input type="email" placeholder="Email" />
+        <form:input type="email" id="email" path="email"  placeholder="email"/><br>
+          </div>
+          <div class="user-info-item"> 
+             <i class="fas fa-lock"></i>
+        <form:input id="password" path="password" placeholder="password" /><br>
+             <i id="togglePassword" class="fas fa-eye toggle-password" ></i>
+            
           </div>
           <div class="user-info-item">
-            <input type="password" placeholder="Password" />
+            <i class="fas fa-lock"></i>
+        <form:input id="confirm_password" path="confirm_password" placeholder="Confirm Password" /><br>
+ 		 <i id="togglePassword2" class="fas fa-eye toggle-password"></i>
+            
           </div>
           <div class="user-info-item">
-            <input type="password" placeholder="Confirm Password" />
+            <button class="btn" type="submit">Save</button>
+          
           </div>
-          <div class="user-info-item">
-            <button class="btn">Save</button>
-          </div>
+          
+          </form:form>
+            <p style="color:red">${success}</p>
+          <p style="color:red">  ${failed }</p>
+          <p style="color:red">${pwError }</p>
         </div>
       </div>
       <div class="card log-out hidden">
@@ -455,5 +484,20 @@ prefix="form"%>
     logOutNoBtn.addEventListener("click", () => {
       logOutModal.style.display = "none";
     });
+    
+    $(document).ready(function () {
+        $(".toggle-password").click(function () {
+          const input = $(this).siblings("input");
+          const type = input.attr("type");
+
+          if (type === "password") {
+            input.attr("type", "text");
+            $(this).addClass("show-password");
+          } else {
+            input.attr("type", "password");
+            $(this).removeClass("show-password");
+          }
+        });
+      });
   </script>
 </html>
