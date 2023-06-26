@@ -390,8 +390,7 @@ prefix="form"%>
           </div>
           
           </form:form>
-            <p style="color:red">${success}</p>
-          <p style="color:red">  ${failed }</p>
+          
           <p style="color:red">${pwError }</p>
         </div>
       </div>

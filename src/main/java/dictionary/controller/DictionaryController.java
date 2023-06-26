@@ -409,6 +409,7 @@ public class DictionaryController {
 	public ModelAndView userProfileView(ModelMap m,HttpSession session) {
 		
 		 UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
+
 		 UserRequestDTO req = new UserRequestDTO();
 
 		    String currentUserId = String.valueOf(userDao.getUserId(userDTO.getEmail()));
@@ -444,17 +445,19 @@ public class DictionaryController {
 	        if (updateResult > 0) {
 	            UserResponseDTO updatedUser = userDao.getOneUser(req);
 	            m.addAttribute("user", updatedUser);
+	            session.setAttribute("currentUser", updatedUser);
+
 	            m.addAttribute("success", "Profile updated successfully");
 	        } else {
 	            m.addAttribute("Failed", "Failed to update profile");
 	            System.out.println("asvbaegw");
 	        }
-	        
-		    }if(!isSamePsw) {
+		    }
+		    if(!isSamePsw) {
 				m.addAttribute("pwError","Passwords Don't Match");
 				return "UserProfile";
 		    }
-	        return "UserProfile";
+	        return "UserProfile";	
 	    }
 	
 
