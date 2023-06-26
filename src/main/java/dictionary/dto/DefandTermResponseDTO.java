@@ -16,9 +16,6 @@ public class DefandTermResponseDTO {
     private int voteCount;
     private int likeCount;
     private int dislikeCount;
-    
-     
-    
 	
 	public int getDefId() {
 		return defId;
