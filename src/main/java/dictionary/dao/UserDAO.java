@@ -199,7 +199,7 @@ public class UserDAO {
 	
 	public int updateUser(UserRequestDTO req) {
 		int result =0;
-		String sql ="update user set username=?,email=?,password=?,cPassword=?,updatedAt=? where id=?";
+		String sql ="update user set username=?,email=?,password=?,cPassword=?,updatedAt=?,createdBy=? where id=?";
 		
 		try {
 			PreparedStatement ps=con.prepareStatement(sql);
@@ -208,7 +208,8 @@ public class UserDAO {
 			ps.setString(3, req.getPassword());
 			ps.setString(4, req.getConfirm_password());
 			ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
-			ps.setInt(6, req.getId()); 
+			ps.setString(6, req.getUsername());
+			ps.setInt(7, req.getId()); 
 			result = ps.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
