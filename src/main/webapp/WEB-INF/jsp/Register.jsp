@@ -168,6 +168,7 @@ pageEncoding="UTF-8"%>
                 placeholder="Email"
                 path="email"
               />
+              <p style="color:red">${emailDupe}</p>
 	            </div>
 	            <div class="input-container">
   <form:input
@@ -188,8 +189,11 @@ pageEncoding="UTF-8"%>
     id="confirm-password"
   />
   <i id="togglePassword2" class="fas fa-eye toggle-password"></i>
+  <p style="color:red">${pwError }</p>
 </div>
             <button type="submit" name="register">REGISTER</button>
+            
+            <p style="color:red">${insertUserError}</p>
           </form:form>
           <div class="log-in-p">
             <p>Already have an account?<a href="/SlangEncyclopedia/Login"> Log In</a></p>
