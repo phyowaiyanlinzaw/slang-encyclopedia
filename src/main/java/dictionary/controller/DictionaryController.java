@@ -8,7 +8,7 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
 
-
+import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -395,22 +396,62 @@ public class DictionaryController {
 		}
 	
 	@RequestMapping(value="/UserProfile", method = RequestMethod.GET)
-	public String userProfileView(ModelMap m,HttpSession session) {
+	
+	public ModelAndView userProfileView(ModelMap m,HttpSession session) {
 		
 		 UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
-		    
-		    if (userDTO == null) {
-		        m.addAttribute("error", "User not logged in");
-		        
-		        return "redirect:/Login";
-		    }
-		    		    
+
+		 UserRequestDTO req = new UserRequestDTO();
+
 		    String currentUserId = String.valueOf(userDao.getUserId(userDTO.getEmail()));
 		    int defCount =definitionDao.getDefinitionCountForCurrentUser(currentUserId);
-	        m.addAttribute("defCount", defCount); 
-	        return "UserProfile";
+	        m.addAttribute("defCount", defCount);
+	        System.out.println(currentUserId);
+
+
+	        return new ModelAndView("UserProfile", "user", userDao.getOneUser(req));
 	}
+	 @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
+	    public String updateProfile(@ModelAttribute("user") UserBean ub, BindingResult br, ModelMap m,HttpSession session) {
+	        if (br.hasErrors()) {
+	            System.out.println("asd");
+	        }
+	        UserResponseDTO userDTO = (UserResponseDTO) session.getAttribute("currentUser");
+	        UserRequestDTO req = new UserRequestDTO();
+		    String currentUserId = String.valueOf(userDao.getUserId(userDTO.getEmail()));
+		    boolean isSamePsw=false;
+	        
+		    req.setId(Integer.parseInt(currentUserId));
+		    req.setUsername(ub.getUsername());
+		    req.setEmail(ub.getEmail());
+		    req.setPassword(ub.getPassword());
+		    req.setConfirm_password(ub.getConfirm_password());
+		    
+		    
+		    if(ub.getPassword().equals(ub.getConfirm_password())) {
+	        isSamePsw=true;
+	        int updateResult = userDao.updateUser(req);
+	        
+	        
+	        if (updateResult > 0) {
+	            UserResponseDTO updatedUser = userDao.getOneUser(req);
+	            m.addAttribute("user", updatedUser);
+	            session.setAttribute("currentUser", updatedUser);
+
+	            m.addAttribute("success", "Profile updated successfully");
+	        } else {
+	            m.addAttribute("Failed", "Failed to update profile");
+	            System.out.println("asvbaegw");
+	        }
+		    }
+		    if(!isSamePsw) {
+				m.addAttribute("pwError","Passwords Don't Match");
+				return "UserProfile";
+		    }
+	        return "UserProfile";	
+	    }
 	
+
 	@RequestMapping(value="/UpdateOtpStatus",method = RequestMethod.GET)
 	public String updateOtpStatus(
 		HttpSession session
