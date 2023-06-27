@@ -65,17 +65,13 @@ static Connection con=null;
 	
 	public int storeLikeVote(VoteRequestDTO req) {
 		int result = 0;
-<<<<<<< HEAD
-		String sql = "insert into vote(vote_type,at,definitionId) values(?,?,?)";
-=======
-		String sql = "insert into vote(vote_type,createdBy,createdAt,definitionId,count) values(?,?,?,?,?)";
->>>>>>> 1b29a94073c3fc2ea3dfaa76673074b04dbbce46
+		String sql = "insert into vote(vote_type,definitionId) values(?,?)";
+
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, "Like");
-			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-			ps.setInt(3, req.getDefinitionId());
+			ps.setInt(2, req.getDefinitionId());
 			result = ps.executeUpdate();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
@@ -86,17 +82,13 @@ static Connection con=null;
 	
 	public int storeDislikeVote(VoteRequestDTO req) {
 		int result = 0;
-<<<<<<< HEAD
-String sql = "insert into vote(vote_type,at,definitionId) values(?,?,?)";
-=======
-		String sql = "insert into vote(vote_type,createdBy,createdAt,definitionId,count) values(?,?,?,?,?)";
->>>>>>> 1b29a94073c3fc2ea3dfaa76673074b04dbbce46
+		String sql = "insert into vote(vote_type,definitionId) values(?,?)";
+
 		
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, "Dislike");
-			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-			ps.setInt(3, req.getDefinitionId());
+			ps.setInt(2, req.getDefinitionId());
 			result = ps.executeUpdate();
 		}catch(SQLException e) {
 			System.out.println(e.getMessage());
