@@ -399,6 +399,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         </div>
       </header>
       <c:forEach items="${defList}" var="def">
+      <c:if test="${isLoggedIn ne 'logged in'}">
         <div class="searched-word card">
           <div class="word">
             <h1>${def.term}</h1>
@@ -406,100 +407,63 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <p class="info">By ${def.createdBy} ${def.createdDate }</p>
           </div>
           <div class="vote">
-            <c:if test="${isLoggedIn ne 'logged in'}">
-              <div id="upvote" class="upvote" data-definitionId="${def.defId}">
+              <div id="upvote" class="upvote" data-definitionId="${def.defId}" onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'">
                 👍
                 <p>${def.likeCount}</p>
               </div>
-              <div
-                id="downvote"
-                class="upvote"
-                data-definitionId="${def.defId}"
-              >
-                👎
-                <p>${def.dislikeCount}</p>
-              </div>
+            </div>
+          	</div>
             </c:if>
             <c:if test="${isLoggedIn eq 'logged in' }">
               <c:if test="${empty currentUser.likedDefIds}">
-                <div
-                  id="upvote"
-                  class="upvote"
-                  data-definitionId="${def.defId}"
-                >
-                  👍
-                  <p>${def.likeCount}</p>
-                </div>
+        <div class="searched-word card">
+          <div class="word">
+            <h1>${def.term}</h1>
+            <p class="def">${def.definition_text}</p>
+            <p class="info">By ${def.createdBy} ${def.createdDate }</p>
+          </div>
+          <div class="vote">
+              <div id="upvote" class="upvote" data-definitionId="${def.defId}" onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'">
+                👍
+                <p>${def.likeCount}</p>
+              </div>
+            </div>
+          	</div>
               </c:if>
               <c:if test="${not empty currentUser.likedDefIds }">
-                <c:forEach items="${currentUser.likedDefIds}" var="likedDefIds">
-                  <c:if test="${likedDefIds ne def.defId}">
-                    <div
-                      id="upvote"
-                      class="upvote"
-                      data-definitionId="${def.defId}"
-                    >
-                      👍
-                      <p>${def.likeCount}</p>
-                    </div>
-                  </c:if>
-                  <c:if test="${def.defId eq likedDefIds}">
-                    <div
-                      id="upvote"
-                      class="upvote-active"
-                      data-definitionId="${def.defId}"
-                    >
-                      👍
-                      <p>${def.likeCount}</p>
-                    </div>
-                  </c:if>
-                </c:forEach>
-              </c:if>
-              <c:if test="${empty currentUser.dislikedDefIds}">
-                <div
-                  id="downvote"
-                  class="downvote"
-                  data-definitionId="${def.defId}"
-                >
-                  👎
-                  <p>${def.dislikeCount}</p>
-                </div>
-              </c:if>
-              <c:if test="${not empty currentUser.dislikedDefIds }">
-                <%--
-                <h1>${currentUser.dislikedDefIds }</h1>
-                --%>
-                <c:forEach
-                  items="${currentUser.dislikedDefIds}"
-                  var="dislikedDefIds"
-                >
-                  <c:if test="${def.defId eq dislikedDefIds }">
-                    <div
-                      id="downvote"
-                      class="downvote-active"
-                      data-definitionId="${def.defId }"
-                    >
-                      👎
-                      <p>${def.dislikeCount}</p>
-                    </div>
-                  </c:if>
-                  <c:if test="${def.defId ne dislikedDefIds }">
-                    <div
-                      id="downvote"
-                      class="downvote"
-                      data-definitionId="${def.defId }"
-                    >
-                      👎
-                      <p>${def.dislikeCount}</p>
-                    </div>
-                  </c:if>
-                </c:forEach>
-              </c:if>
+   					<div class="searched-word card">
+          			<div class="word">
+           			<h1>${def.term}</h1>
+            		<p class="def">${def.definition_text}</p>
+            		<p class="info">By ${def.createdBy} ${def.createdDate }</p>
+          			</div>
+
+   				
+                <c:choose>
+      			<c:when test="${currentUser.likedDefIds.contains(def.defId)}">
+      			<div class="vote">
+        			<div id="upvote" class="upvote-active" data-definitionId="${def.defId}">
+          					👍
+          			<p>${def.likeCount}</p>
+        			</div>
+        			</div>
+      			</c:when>
+      			<c:otherwise>
+      			<div class="vote">
+       				 <div id="upvote" class="upvote" data-definitionId="${def.defId}" onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'">
+          						👍
+          			<p>${def.likeCount}</p>
+        			</div>
+        			</div>
+      </c:otherwise>
+    </c:choose>
+              			</div>
+
             </c:if>
+            </c:if>
+            </c:forEach>
           </div>
-        </div>
-      </c:forEach>
-    </div>
+
   </body>
   <script>
     // Change Placeholder
@@ -507,10 +471,8 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     const searchPlaceHolder = document.getElementById("search");
     const form = document.querySelector("inline");
     const searchIcon = document.querySelector(".fa-search");
-    const likeButtonAll = document.querySelectorAll(".upvote");
-    const dislikeButtonAll = document.querySelectorAll(".downvote");
+/*     const likeButtonAll = document.querySelectorAll(".upvote");
     const likeButton = document.getElementById("upvote");
-    const dislikeButton = document.getElementById("downvote");
     const isLoggedIn = "${isLoggedIn}";
 
     likeButtonAll.forEach((likeButton) => {
@@ -527,39 +489,19 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
           window.location.href = "/SlangEncyclopedia/Login";
         }
       });
-    });
+    }); */
 
-    dislikeButtonAll.forEach((dislikeButton) => {
-      if (dislikeButton.classList.contains("downvote-active")) {
-        dislikeButton.removeEventListener("click", () => {
-          updateDislikeFunction(dislikeButton);
-        });
-      }
 
-      dislikeButton.addEventListener("click", () => {
-        if (isLoggedIn == "logged in") {
-          updateDislikeFunction(dislikeButton);
-        } else {
-          window.location.href = "/SlangEncyclopedia/Login";
-        }
-      });
-    });
+/*     function updateLikeFunction(likeButton) {
 
-    function updateLikeFunction(likeButton) {
+		likeButton.removeEventListener("click", updateLikeFunction);
       const definitionId = likeButton.getAttribute("data-definitionId");
       const likeCount = likeButton.querySelector("p").textContent;
-      const dislikeCount = dislikeButton.querySelector("p").textContent;
       console.log("definitionId:", definitionId);
       console.log("likeCount:", likeCount);
 
       const likeCountInt = parseInt(likeCount);
-      const dislikeCountInt = parseInt(dislikeCount);
       const likeCountNew = likeCountInt + 1;
-      const dislikeCountNew = 0;
-      if (dislikeCount > 0) {
-        dislikeCountNew = dislikeCountInt - 1;
-      }
-      dislikeButton.querySelector("p").textContent = dislikeCountNew;
       likeButton.querySelector("p").textContent = likeCountNew;
 
       const xhr = new XMLHttpRequest();
@@ -572,38 +514,8 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         }
       };
 
-      likeButton.removeEventListener("click", updateLikeFunction);
-    }
+    } */
 
-    function updateDislikeFunction(dislikeButton) {
-      const definitionId = likeButton.getAttribute("data-definitionId");
-      const dislikeCount = dislikeButton.querySelector("p").textContent;
-      const likeCount = likeButton.querySelector("p").textContent;
-      console.log("definitionId:", definitionId);
-      console.log("dislikeCount:", dislikeCount);
-
-      const dislikeCountInt = parseInt(dislikeCount);
-      const likeCountInt = parseInt(likeCount);
-      const dislikeCountNew = dislikeCountInt + 1;
-      const likeCountNew = 0;
-      if (likeCount > 0) {
-        likeCountNew = likeCountInt - 1;
-      }
-      dislikeButton.querySelector("p").textContent = dislikeCountNew;
-      likeButton.querySelector("p").textContent = likeCountNew;
-
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/SlangEncyclopedia/UpdateDislike", true);
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send("definitionId=" + definitionId);
-
-      xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-        }
-      };
-
-      dislikeButton.removeEventListener("click", updateDislikeFunction);
-    }
 
     searchIcon.addEventListener("click", () => {
       form.submit();

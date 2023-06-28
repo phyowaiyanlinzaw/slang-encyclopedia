@@ -67,8 +67,7 @@ public class DictionaryController {
 		
 		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 
-//		m.addAttribute("currentUser", currentUser);
-//		System.out.println(currentUser.getDislikedDefIds());
+		m.addAttribute("currentUser", currentUser);
 		
 		return "DefinitionView";
 	}
@@ -340,11 +339,8 @@ public class DictionaryController {
 				{
 					isCorrectUser = true;
 					isUser = true;
-					ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(res.getUserId(), "Like");
-					res.setLikedDefIds(userLikedDefIds);
-					
-					ArrayList<Integer> userDislikedDefIds = voteDao.getUserVotedDefId(res.getUserId(), "Dislike");
-					res.setDislikedDefIds(userDislikedDefIds);				
+					ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(res.getUserId());
+					res.setLikedDefIds(userLikedDefIds);			
 					
 					session.setAttribute("currentUser", res);
 					System.out.println(res);
@@ -560,11 +556,11 @@ public class DictionaryController {
 				System.out.println("Like Store Error");
 			}
 			
-			int dislikeStoreResult = voteDao.storeDislikeVote(voteReq);
-			
-			if (dislikeStoreResult==0) {
-				System.out.println("Dislike Store Error");
-			}
+//			int dislikeStoreResult = voteDao.storeDislikeVote(voteReq);
+//			
+//			if (dislikeStoreResult==0) {
+//				System.out.println("Dislike Store Error");
+//			}
 			
 			
 			
@@ -592,7 +588,7 @@ public class DictionaryController {
 	
 
 
-	@RequestMapping(value="/UpdateLike",method=RequestMethod.POST)
+	@RequestMapping(value="/UpdateLike",method=RequestMethod.GET)
 	public String updateLikeCount(
 			@RequestParam("definitionId") String definitionId,
 			ModelMap m,
@@ -601,88 +597,73 @@ public class DictionaryController {
 		
 		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 		int userId = userDao.getUserId(currentUser.getEmail());
-		ArrayList<Integer> currentUserDislikedDefIds = currentUser.getDislikedDefIds();
-		
-		boolean hasArdyDisliked = false;
-		
+
 		VoteRequestDTO voteReq = new VoteRequestDTO();
-		
+
 		voteReq.setUser_id(userId);
 		voteReq.setDefinitionId(Integer.parseInt(definitionId));
 		voteReq.setUpdatedBy(currentUser.getUsername());
 		
-		for(int userDislikeDefId : currentUserDislikedDefIds) {
-			if(Integer.parseInt(definitionId)==userDislikeDefId) {
-				hasArdyDisliked = true;
-				int dislikeToLikeResult = voteDao.dislikeToLike(voteReq);
-				
-				if(dislikeToLikeResult==0) {
-					System.out.println("Dislike to like error");
-				}
-				ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(userId, "Like");
-				currentUser.setLikedDefIds(userLikedDefIds);
-				
-				ArrayList<Integer> userDislikedDefIds = voteDao.getUserVotedDefId(userId, "Dislike");
-				currentUser.setDislikedDefIds(userDislikedDefIds);	
-				break;
-			}
-		}
-		
-		if(!hasArdyDisliked) {
-			int storeNewLikeVoteResult = voteDao.giveLikeVote(voteReq);
-			
-			if(storeNewLikeVoteResult==0) {
+		int storeNewLikeVoteResult = voteDao.giveVote(voteReq);
+
+		if(storeNewLikeVoteResult==0) {
 				System.out.println("Store New Like Error");
 			}
-		}	
+
+
+		ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(userId);
+		currentUser.setLikedDefIds(userLikedDefIds);
+		session.setAttribute("currentUser", currentUser);
 		
+
+		System.out.println(currentUser.getLikedDefIds());	
 		return "redirect:/DefinitionView";
 	}
 	
-	@RequestMapping(value="/UpdateDislike",method=RequestMethod.POST)
-	public String updateDislikeCount(
-			@RequestParam("definitionId") String definitionId,
-			ModelMap m,
-			HttpSession session
-			) {
-		
-		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
-		int userId = userDao.getUserId(currentUser.getEmail());
-		ArrayList<Integer> currentUserVotedDefIds = currentUser.getLikedDefIds();
-		
-		boolean hasArdyLiked = false;
-		
-		VoteRequestDTO voteReq = new VoteRequestDTO();
-		
-		voteReq.setUser_id(userId);
-		voteReq.setDefinitionId(Integer.parseInt(definitionId));
-		voteReq.setUpdatedBy(currentUser.getUsername());
-		
-		for(int userLikedDefId : currentUserVotedDefIds) {
-			if(Integer.parseInt(definitionId)==userLikedDefId) {
-				hasArdyLiked = true;
-				int likeToDislikeResult = voteDao.likeToDislike(voteReq);
-				
-				if(likeToDislikeResult==0) {
-					System.out.println("Dislike to like error");
-				}
-				ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(userId, "Like");
-				currentUser.setLikedDefIds(userLikedDefIds);
-				
-				ArrayList<Integer> userDislikedDefIds = voteDao.getUserVotedDefId(userId, "Dislike");
-				currentUser.setDislikedDefIds(userDislikedDefIds);	
-				break;
-			}
-		}
-		
-		if(!hasArdyLiked) {
-			int storeNewDislikeVoteResult = voteDao.giveDislikeVote(voteReq);
-			
-			if(storeNewDislikeVoteResult==0) {
-				System.out.println("Store New Dislike Error");
-			}
-		}	
-
-		return "redirect:/DefinitionView";
-	}
+//	@RequestMapping(value="/UpdateDislike",method=RequestMethod.POST)
+//	public String updateDislikeCount(
+//			@RequestParam("definitionId") String definitionId,
+//			ModelMap m,
+//			HttpSession session
+//			) {
+//		
+//		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
+//		int userId = userDao.getUserId(currentUser.getEmail());
+//		ArrayList<Integer> currentUserVotedDefIds = currentUser.getLikedDefIds();
+//
+//		boolean hasArdyLiked = false;
+//
+//		VoteRequestDTO voteReq = new VoteRequestDTO();
+//
+//		voteReq.setUser_id(userId);
+//		voteReq.setDefinitionId(Integer.parseInt(definitionId));
+//		voteReq.setUpdatedBy(currentUser.getUsername());
+//
+//		for(int userLikedDefId : currentUserVotedDefIds) {
+//			if(Integer.parseInt(definitionId)==userLikedDefId) {
+//				hasArdyLiked = true;
+//				int likeToDislikeResult = voteDao.likeToDislike(voteReq);
+//
+//				if(likeToDislikeResult==0) {
+//					System.out.println("Dislike to like error");
+//				}
+//				ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(userId, "Like");
+//				currentUser.setLikedDefIds(userLikedDefIds);
+//
+//				ArrayList<Integer> userDislikedDefIds = voteDao.getUserVotedDefId(userId, "Dislike");
+//				currentUser.setDislikedDefIds(userDislikedDefIds);	
+//				break;
+//			}
+//		}
+//
+//		if(!hasArdyLiked) {
+//			int storeNewDislikeVoteResult = voteDao.giveDislikeVote(voteReq);
+//
+//			if(storeNewDislikeVoteResult==0) {
+//				System.out.println("Store New Dislike Error");
+//			}
+//		}	
+//
+//		return "redirect:/DefinitionView";
+//	}
 }

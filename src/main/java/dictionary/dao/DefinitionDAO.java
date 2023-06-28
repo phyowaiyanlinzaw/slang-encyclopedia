@@ -92,8 +92,7 @@ static Connection con=null;
 	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 
 	    String sql = "SELECT d.id, d.definition_text, t.term_name, u.username, t.createdDate,t.updatedAt, "
-	    		+ "COUNT(CASE WHEN v.vote_type = 'Like' THEN 1 END) AS like_count, "
-	    	       +"COUNT(CASE WHEN v.vote_type = 'Dislike' THEN 1 END) AS dislike_count "
+	    		+ "COUNT(*) AS like_count "
 	            + "FROM definition d JOIN term t ON d.term_id = t.id "
 	            + "JOIN user u ON d.user_id = u.id "
 	            + "LEFT JOIN vote v ON d.id = v.definitionId "
@@ -113,7 +112,6 @@ static Connection con=null;
 	            res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
 	            res.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
 	            res.setLikeCount(rs.getInt("like_count")-1);
-	            res.setDislikeCount(rs.getInt("dislike_count")-1);
 	            resList.add(res);
 	        }
 	    } catch (Exception e) {
@@ -165,8 +163,7 @@ static Connection con=null;
 	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 
 	    String sql = "SELECT d.id, d.definition_text, t.term_name, u.username, t.createdDate, t.updatedAt, "
-	            + "MAX(CASE WHEN v.vote_type = 'Like' THEN v.count END) AS like_count, "
-	            + "MAX(CASE WHEN v.vote_type = 'Dislike' THEN v.count END) AS dislike_count "
+	            + "MAX(*) AS like_count "
 	            + "FROM definition d JOIN term t ON d.term_id = t.id "
 	            + "JOIN user u ON d.user_id = u.id JOIN vote v ON d.id = v.definitionId "
 	            + "WHERE t.term_name LIKE ? "
@@ -186,7 +183,6 @@ static Connection con=null;
 	            res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
 	            res.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
 	            res.setLikeCount(rs.getInt("like_count"));
-	            res.setDislikeCount(rs.getInt("dislike_count"));
 	            resList.add(res);
 	        }
 	    } catch (Exception e) {
