@@ -442,7 +442,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                 <c:choose>
       			<c:when test="${currentUser.likedDefIds.contains(def.defId)}">
       			<div class="vote">
-        			<div id="upvote" class="upvote-active" data-definitionId="${def.defId}">
+        			<div id="upvote" class="upvote-active" data-definitionId="${def.defId}" onclick="window.location.href='/SlangEncyclopedia/RemoveLike?definitionId=${def.defId}'">
           					👍
           			<p>${def.likeCount}</p>
         			</div>

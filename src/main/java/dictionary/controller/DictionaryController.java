@@ -620,50 +620,30 @@ public class DictionaryController {
 		return "redirect:/DefinitionView";
 	}
 	
-//	@RequestMapping(value="/UpdateDislike",method=RequestMethod.POST)
-//	public String updateDislikeCount(
-//			@RequestParam("definitionId") String definitionId,
-//			ModelMap m,
-//			HttpSession session
-//			) {
-//		
-//		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
-//		int userId = userDao.getUserId(currentUser.getEmail());
-//		ArrayList<Integer> currentUserVotedDefIds = currentUser.getLikedDefIds();
-//
-//		boolean hasArdyLiked = false;
-//
-//		VoteRequestDTO voteReq = new VoteRequestDTO();
-//
-//		voteReq.setUser_id(userId);
-//		voteReq.setDefinitionId(Integer.parseInt(definitionId));
-//		voteReq.setUpdatedBy(currentUser.getUsername());
-//
-//		for(int userLikedDefId : currentUserVotedDefIds) {
-//			if(Integer.parseInt(definitionId)==userLikedDefId) {
-//				hasArdyLiked = true;
-//				int likeToDislikeResult = voteDao.likeToDislike(voteReq);
-//
-//				if(likeToDislikeResult==0) {
-//					System.out.println("Dislike to like error");
-//				}
-//				ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(userId, "Like");
-//				currentUser.setLikedDefIds(userLikedDefIds);
-//
-//				ArrayList<Integer> userDislikedDefIds = voteDao.getUserVotedDefId(userId, "Dislike");
-//				currentUser.setDislikedDefIds(userDislikedDefIds);	
-//				break;
-//			}
-//		}
-//
-//		if(!hasArdyLiked) {
-//			int storeNewDislikeVoteResult = voteDao.giveDislikeVote(voteReq);
-//
-//			if(storeNewDislikeVoteResult==0) {
-//				System.out.println("Store New Dislike Error");
-//			}
-//		}	
-//
-//		return "redirect:/DefinitionView";
-//	}
+	@RequestMapping(value = "/RemoveLike",method=RequestMethod.GET)
+	public String removeLike(
+			@RequestParam("definitionId") String definitionId,
+			HttpSession session
+			) {
+		
+		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
+		int userId = userDao.getUserId(currentUser.getEmail());
+
+		VoteRequestDTO voteReq = new VoteRequestDTO();
+		voteReq.setUser_id(userId);
+		voteReq.setDefinitionId(Integer.parseInt(definitionId));
+		
+		int removeLikeResult = voteDao.removeVote(voteReq);
+		
+		if(removeLikeResult==0) {
+			System.out.println("Error while removing Like");
+		}
+			
+		ArrayList<Integer> userLikedDefIds = voteDao.getUserVotedDefId(userId);
+		currentUser.setLikedDefIds(userLikedDefIds);
+		session.setAttribute("currentUser", currentUser);
+		
+		
+		return "redirect:/DefinitionView";
+	}
 }

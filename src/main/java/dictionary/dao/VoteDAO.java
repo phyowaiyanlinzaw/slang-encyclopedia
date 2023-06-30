@@ -235,6 +235,20 @@ static Connection con=null;
 		return result;
 	}
 	
+	public int removeVote(VoteRequestDTO req) {
+		int result = 0;
+		String sql = "delete from vote where user_id=? and definitionId=?";
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, req.getUser_id());
+			ps.setInt(2, req.getDefinitionId());
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return result;
+	}
+	
 //	public int dislikeToLike(VoteRequestDTO req) {
 //		int result = 0;
 //		
