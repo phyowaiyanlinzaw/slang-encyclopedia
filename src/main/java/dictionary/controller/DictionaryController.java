@@ -556,12 +556,6 @@ public class DictionaryController {
 				System.out.println("Like Store Error");
 			}
 			
-//			int dislikeStoreResult = voteDao.storeDislikeVote(voteReq);
-//			
-//			if (dislikeStoreResult==0) {
-//				System.out.println("Dislike Store Error");
-//			}
-			
 			
 			
 			String currentUserId = String.valueOf(userId);
@@ -595,6 +589,10 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
+		if(session.getAttribute("isLoggedIn")==null){
+			return "redirect:/Login";
+		}
+		
 		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 		int userId = userDao.getUserId(currentUser.getEmail());
 
@@ -625,6 +623,10 @@ public class DictionaryController {
 			@RequestParam("definitionId") String definitionId,
 			HttpSession session
 			) {
+		
+		if(session.getAttribute("isLoggedIn")==null){
+			return "redirect:/Login";
+		}
 		
 		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 		int userId = userDao.getUserId(currentUser.getEmail());
