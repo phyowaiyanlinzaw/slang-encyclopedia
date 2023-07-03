@@ -216,6 +216,26 @@ public class UserDAO {
 		}
 		return result;
 	}
+	
+	public int resetPassword(UserRequestDTO req) {
+		int result = 0;
+		String sql = "update user set password=?,cPassword=?,updatedAt=?,updatedBy=? where email=?";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, req.getPassword());
+			ps.setString(2, req.getConfirm_password());
+			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+			ps.setString(4, req.getEmail());
+			ps.setString(5, req.getEmail());
+			result = ps.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		return result;
+	}
 
 	
 }

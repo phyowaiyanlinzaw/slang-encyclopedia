@@ -399,71 +399,88 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         </div>
       </header>
       <c:forEach items="${defList}" var="def">
-      <c:if test="${isLoggedIn ne 'logged in'}">
-        <div class="searched-word card">
-          <div class="word">
-            <h1>${def.term}</h1>
-            <p class="def">${def.definition_text}</p>
-            <p class="info">By ${def.createdBy} ${def.createdDate }</p>
-          </div>
-          <div class="vote">
-              <div id="upvote" class="upvote" data-definitionId="${def.defId}" onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'">
+        <c:if test="${isLoggedIn ne 'logged in'}">
+          <div class="searched-word card">
+            <div class="word">
+              <h1>${def.term}</h1>
+              <p class="def">${def.definition_text}</p>
+              <p class="info">By ${def.createdBy} ${def.createdDate }</p>
+            </div>
+            <div class="vote">
+              <div
+                id="upvote"
+                class="upvote"
+                data-definitionId="${def.defId}"
+                onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'"
+              >
                 👍
                 <p>${def.likeCount}</p>
               </div>
             </div>
-          	</div>
-            </c:if>
-            <c:if test="${isLoggedIn eq 'logged in' }">
-              <c:if test="${empty currentUser.likedDefIds}">
-        <div class="searched-word card">
-          <div class="word">
-            <h1>${def.term}</h1>
-            <p class="def">${def.definition_text}</p>
-            <p class="info">By ${def.createdBy} ${def.createdDate }</p>
           </div>
-          <div class="vote">
-              <div id="upvote" class="upvote" data-definitionId="${def.defId}" onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'">
-                👍
-                <p>${def.likeCount}</p>
+        </c:if>
+        <c:if test="${isLoggedIn eq 'logged in' }">
+          <c:if test="${empty currentUser.likedDefIds}">
+            <div class="searched-word card">
+              <div class="word">
+                <h1>${def.term}</h1>
+                <p class="def">${def.definition_text}</p>
+                <p class="info">By ${def.createdBy} ${def.createdDate }</p>
+              </div>
+              <div class="vote">
+                <div
+                  id="upvote"
+                  class="upvote"
+                  data-definitionId="${def.defId}"
+                  onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'"
+                >
+                  👍
+                  <p>${def.likeCount}</p>
+                </div>
               </div>
             </div>
-          	</div>
-              </c:if>
-              <c:if test="${not empty currentUser.likedDefIds }">
-   					<div class="searched-word card">
-          			<div class="word">
-           			<h1>${def.term}</h1>
-            		<p class="def">${def.definition_text}</p>
-            		<p class="info">By ${def.createdBy} ${def.createdDate }</p>
-          			</div>
+          </c:if>
+          <c:if test="${not empty currentUser.likedDefIds }">
+            <div class="searched-word card">
+              <div class="word">
+                <h1>${def.term}</h1>
+                <p class="def">${def.definition_text}</p>
+                <p class="info">By ${def.createdBy} ${def.createdDate }</p>
+              </div>
 
-   				
-                <c:choose>
-      			<c:when test="${currentUser.likedDefIds.contains(def.defId)}">
-      			<div class="vote">
-        			<div id="upvote" class="upvote-active" data-definitionId="${def.defId}" onclick="window.location.href='/SlangEncyclopedia/RemoveLike?definitionId=${def.defId}'">
-          					👍
-          			<p>${def.likeCount}</p>
-        			</div>
-        			</div>
-      			</c:when>
-      			<c:otherwise>
-      			<div class="vote">
-       				 <div id="upvote" class="upvote" data-definitionId="${def.defId}" onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'">
-          						👍
-          			<p>${def.likeCount}</p>
-        			</div>
-        			</div>
-      </c:otherwise>
-    </c:choose>
-              			</div>
-
-            </c:if>
-            </c:if>
-            </c:forEach>
-          </div>
-
+              <c:choose>
+                <c:when test="${currentUser.likedDefIds.contains(def.defId)}">
+                  <div class="vote">
+                    <div
+                      id="upvote"
+                      class="upvote-active"
+                      data-definitionId="${def.defId}"
+                      onclick="window.location.href='/SlangEncyclopedia/RemoveLike?definitionId=${def.defId}'"
+                    >
+                      👍
+                      <p>${def.likeCount}</p>
+                    </div>
+                  </div>
+                </c:when>
+                <c:otherwise>
+                  <div class="vote">
+                    <div
+                      id="upvote"
+                      class="upvote"
+                      data-definitionId="${def.defId}"
+                      onclick="window.location.href='/SlangEncyclopedia/UpdateLike?definitionId=${def.defId}'"
+                    >
+                      👍
+                      <p>${def.likeCount}</p>
+                    </div>
+                  </div>
+                </c:otherwise>
+              </c:choose>
+            </div>
+          </c:if>
+        </c:if>
+      </c:forEach>
+    </div>
   </body>
   <script>
     // Change Placeholder
@@ -471,51 +488,6 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     const searchPlaceHolder = document.getElementById("search");
     const form = document.querySelector("inline");
     const searchIcon = document.querySelector(".fa-search");
-/*     const likeButtonAll = document.querySelectorAll(".upvote");
-    const likeButton = document.getElementById("upvote");
-    const isLoggedIn = "${isLoggedIn}";
-
-    likeButtonAll.forEach((likeButton) => {
-      //element.classlist.contains("active")
-      if (likeButton.classList.contains("upvote-active")) {
-        likeButton.removeEventListener("click", () => {
-          updateLikeFunction(likeButton);
-        });
-      }
-      likeButton.addEventListener("click", () => {
-        if (isLoggedIn == "logged in") {
-          updateLikeFunction(likeButton);
-        } else {
-          window.location.href = "/SlangEncyclopedia/Login";
-        }
-      });
-    }); */
-
-
-/*     function updateLikeFunction(likeButton) {
-
-		likeButton.removeEventListener("click", updateLikeFunction);
-      const definitionId = likeButton.getAttribute("data-definitionId");
-      const likeCount = likeButton.querySelector("p").textContent;
-      console.log("definitionId:", definitionId);
-      console.log("likeCount:", likeCount);
-
-      const likeCountInt = parseInt(likeCount);
-      const likeCountNew = likeCountInt + 1;
-      likeButton.querySelector("p").textContent = likeCountNew;
-
-      const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/SlangEncyclopedia/UpdateLike", true);
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send("definitionId=" + definitionId);
-
-      xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-        }
-      };
-
-    } */
-
 
     searchIcon.addEventListener("click", () => {
       form.submit();

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%> 
-<%@taglib uri="http://www.springframework.org/tags/form"
+pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
 prefix="form"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +14,7 @@ prefix="form"%>
       rel="stylesheet"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -126,22 +125,40 @@ prefix="form"%>
       .register-p p a:hover {
         text-decoration: underline;
       }
-.input-container {
-  position: relative;
-}
+      .input-container {
+        position: relative;
+      }
 
-.toggle-password {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translate(0, -50%);
-  cursor: pointer;
-  user-select: none;
-}
-  .toggle-password.show-password::before {
-    content: "\f070";
-  }
-      
+      .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translate(0, -50%);
+        cursor: pointer;
+        user-select: none;
+      }
+      .toggle-password.show-password::before {
+        content: "\f070";
+      }
+      .forgot-pw {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1rem;
+      }
+      .forgot-pw p {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #fff;
+      }
+      .forgot-pw p a {
+        color: #fff;
+        text-decoration: none;
+      }
+      .forgot-pw p a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -149,18 +166,41 @@ prefix="form"%>
       <header>LOG IN</header>
       <section>
         <div class="log-in-form">
-          <form:form action="/SlangEncyclopedia/ProcessLogin" method="POST" modelAttribute="loginBean">
+          <form:form
+            action="/SlangEncyclopedia/ProcessLogin"
+            method="POST"
+            modelAttribute="loginBean"
+          >
             <div class="input-container">
               <i class="fas fa-envelope"></i>
-              <form:input type="email" title="Email" placeholder="Email" path="email"/>
+              <form:input
+                type="email"
+                title="Email"
+                placeholder="Email"
+                path="email"
+              />
             </div>
-	            <div class="input-container">
-  				<i class="fas fa-lock"></i>
-  				<form:input type="password" name="password" title="Password" placeholder="Password" path="password" id="login-password" />
-  				<i id="togglePassword" class="fas fa-eye toggle-password"></i>
-			</div>
+            <div class="input-container">
+              <i class="fas fa-lock"></i>
+              <form:input
+                type="password"
+                name="password"
+                title="Password"
+                placeholder="Password"
+                path="password"
+                id="login-password"
+              />
+              <i id="togglePassword" class="fas fa-eye toggle-password"></i>
+            </div>
             <button type="submit">LOG IN</button>
           </form:form>
+          <div class="forgot-pw">
+            <p>
+              <a href="/SlangEncyclopedia/ResetPassword">
+                Forgot your password?</a
+              >
+            </p>
+          </div>
           <div class="register-p">
             <p>
               Don't have an account?<a href="/SlangEncyclopedia/Register ">
@@ -172,20 +212,20 @@ prefix="form"%>
       </section>
     </div>
   </body>
-   <script>
-  $(document).ready(function () {
-    $(".toggle-password").click(function () {
-      const input = $(this).siblings("input");
-      const type = input.attr("type");
+  <script>
+    $(document).ready(function () {
+      $(".toggle-password").click(function () {
+        const input = $(this).siblings("input");
+        const type = input.attr("type");
 
-      if (type === "password") {
-        input.attr("type", "text");
-        $(this).addClass("show-password");
-      } else {
-        input.attr("type", "password");
-        $(this).removeClass("show-password");
-      }
+        if (type === "password") {
+          input.attr("type", "text");
+          $(this).addClass("show-password");
+        } else {
+          input.attr("type", "password");
+          $(this).removeClass("show-password");
+        }
+      });
     });
-  });
-</script>
+  </script>
 </html>

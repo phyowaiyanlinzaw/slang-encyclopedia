@@ -648,4 +648,66 @@ public class DictionaryController {
 		
 		return "redirect:/DefinitionView";
 	}
+	
+	@RequestMapping(value = "/ResetPassword",method = RequestMethod.GET)
+	public ModelAndView resetPasswordView() {
+		return new ModelAndView("ResetPassword","resetPwBean",new UserBean());
+	}
+	
+	@RequestMapping(value = "/ProcessResetPassword",method = RequestMethod.POST)
+	public String resetPasswordProcess(
+			@ModelAttribute("resetPwBean")
+			@Validated
+			UserBean ub,
+			BindingResult br,
+			ModelMap m,
+			HttpSession session
+			) {
+		
+//		if(br.hasErrors()) {
+//			return "ResetPassword";
+//		}
+		
+		boolean exist = false;
+		boolean isSamePw = false;
+		
+		ArrayList<UserResponseDTO> allUsers = userDao.getAllUsers();
+		
+		UserRequestDTO req = new UserRequestDTO();
+		req.setPassword(ub.getPassword());
+		req.setConfirm_password(ub.getConfirm_password());
+		req.setEmail(ub.getEmail());
+		
+		if(ub.getPassword().equals(ub.getConfirm_password())) {
+			isSamePw = true;
+			for(UserResponseDTO user:allUsers) {
+				if(user.getEmail().equals(ub.getEmail())) {
+					exist = true;
+
+					
+					int updatePasswordResult = userDao.resetPassword(req);
+					if(updatePasswordResult==0) {
+						System.out.println("update password error.");
+						return "ResetPassword";
+					}
+					break;
+				}
+			}
+			
+			if(!exist) {
+				m.addAttribute("errorMsg","User with this email does not exist");
+				return "ResetPassword";
+			}
+			
+		}
+		
+		if(!isSamePw) {
+			m.addAttribute("errorMsg","Passwords Don't Match");
+			return "ResetPassword";
+		}
+		
+		
+		
+		return "redirect:/Login";
+	}
 }
