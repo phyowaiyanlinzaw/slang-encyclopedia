@@ -664,9 +664,6 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
-//		if(br.hasErrors()) {
-//			return "ResetPassword";
-//		}
 		
 		boolean exist = false;
 		boolean isSamePw = false;

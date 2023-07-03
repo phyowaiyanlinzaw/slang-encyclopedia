@@ -200,12 +200,11 @@ prefix="form"%>
               			<p>${def.dislikeCount}</p>
           		</td>
           <td class="actions-td">
-            <a href="#">Edit</i></a>
-            <a href="#">Delete</i></a>
+            <a href="/SlangEncyclopedia/DeleteDefsByAdmin">Delete</a>
           </td>
           
         </tr>	
-                          </c:forEach>
+        </c:forEach>
         </tbody>
        
       </table>
