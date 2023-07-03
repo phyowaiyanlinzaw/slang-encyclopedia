@@ -16,6 +16,7 @@ public class DefandTermResponseDTO {
     private int voteCount;
     private int likeCount;
     private int dislikeCount;
+    private String example;
 	
 	public int getDefId() {
 		return defId;
@@ -83,6 +84,13 @@ public class DefandTermResponseDTO {
 	public void setUpdatedAt(LocalDate updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	public String getExample() {
+		return example;
+	}
+	public void setExample(String example) {
+		this.example = example;
+	}
+	
 
 	
 

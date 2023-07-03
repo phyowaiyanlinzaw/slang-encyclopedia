@@ -8,6 +8,8 @@ public class DefinitionAndTermBean {
 	@NotEmpty
 	private String definition_text;
 	@NotEmpty
+	private String example;
+	@NotEmpty
 	private String userId;
 	@NotEmpty
 	private String termId;
@@ -42,6 +44,12 @@ public class DefinitionAndTermBean {
 	}
 	public void setDefinitionId(String definitionId) {
 		this.definitionId = definitionId;
+	}
+	public String getExample() {
+		return example;
+	}
+	public void setExample(String example) {
+		this.example = example;
 	}
 	
 

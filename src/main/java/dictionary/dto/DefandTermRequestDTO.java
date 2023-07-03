@@ -11,6 +11,7 @@ public class DefandTermRequestDTO {
 	private String userId;
 	private String definitionId;
 	private int termId;
+	private String example;
 	public String getTerm() {
 		return term;
 	}
@@ -70,6 +71,12 @@ public class DefandTermRequestDTO {
 	}
 	public void setTermId(int termId) {
 		this.termId = termId;
+	}
+	public String getExample() {
+		return example;
+	}
+	public void setExample(String example) {
+		this.example = example;
 	}
 	
 

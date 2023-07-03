@@ -404,6 +404,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <div class="word">
               <h1>${def.term}</h1>
               <p class="def">${def.definition_text}</p>
+              <p class="def">${def.example}</p>
               <p class="info">By ${def.createdBy} ${def.createdDate }</p>
             </div>
             <div class="vote">
@@ -425,6 +426,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               <div class="word">
                 <h1>${def.term}</h1>
                 <p class="def">${def.definition_text}</p>
+                <p class="def">${def.example}</p>
                 <p class="info">By ${def.createdBy} ${def.createdDate }</p>
               </div>
               <div class="vote">
@@ -445,7 +447,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               <div class="word">
                 <h1>${def.term}</h1>
                 <p class="def">${def.definition_text}</p>
-                <p class="info">By ${def.createdBy} ${def.createdDate }</p>
+                <p class="example">By ${def.createdBy} ${def.createdDate }</p>
               </div>
 
               <c:choose>

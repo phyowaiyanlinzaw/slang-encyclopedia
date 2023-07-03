@@ -507,6 +507,7 @@ public class DictionaryController {
 		
 	    upldt.setTerm(dat.getTerm());
 	    upldt.setDefinition_text(dat.getDefinition_text());
+	    upldt.setExample(dat.getExample());
 	    UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 
 	    int userId = userDao.getUserId(currentUser.getEmail());

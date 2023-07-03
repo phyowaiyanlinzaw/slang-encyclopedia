@@ -134,7 +134,7 @@ pageEncoding="UTF-8"%>
               placeholder="Type Your Definition Here"
             ></form:textarea>
 
-            <input type="text" placeholder="Type the associated tags here" />
+            <form:input type="text" placeholder="Type the associated tags here" path="example"/>
             <input type="submit" value="Submit" />
           </form>
         </div>
