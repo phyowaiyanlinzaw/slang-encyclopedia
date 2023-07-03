@@ -367,10 +367,10 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               alt="logo"
             />
           </div>
-
           <div class="search-bar">
             <form class="inline">
               <div class="inline-icons">
+              	<a href="/SlangEncyclopedia/Search">
                 <i class="fas fa-search"></i>
                 <input
                   type="text"
@@ -378,6 +378,8 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   id="search"
                   placeholder="Search for a word"
                 />
+                </a>
+                
                 <a href="/SlangEncyclopedia/Shuffle"
                   ><i class="fas fa-shuffle"></i
                 ></a>
