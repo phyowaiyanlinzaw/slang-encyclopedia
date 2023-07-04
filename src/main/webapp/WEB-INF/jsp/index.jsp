@@ -192,7 +192,10 @@ uri="http://java.sun.com/jsp/jstl/core"%>
         </div>
         <div class="search-section">
           <div class="search-bar">
-            <input type="text" placeholder="Search" />
+                  <form action="/SlangEncyclopedia/" method="GET">
+<input type="text" name="term" id="search" placeholder="Search for a word" />
+          	
+                         </form>
           </div>
           <div class="search-button-suffix">
             <a href="/SlangEncyclopedia/DefinitionView">

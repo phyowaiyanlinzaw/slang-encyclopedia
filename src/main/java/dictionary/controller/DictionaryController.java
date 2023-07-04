@@ -8,7 +8,7 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -52,12 +52,24 @@ public class DictionaryController {
 	private VoteDAO voteDao;
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
-	public String homeView() {
+	public String indexView(@RequestParam(value = "term", required = false) String searchTerm, ModelMap m) {
+	    ArrayList<DefandTermResponseDTO> defList;
+
+		if (searchTerm != null && !searchTerm.isEmpty()) {
+		      defList = definitionDao.searchDefinitionsByTerm(searchTerm);
+		      System.out.println("asdasd");
+		        return "redirect:/DefinitionView?term=" + searchTerm;
+
+		    } else {
+		      defList = definitionDao.getAllDef();
+		      System.out.println("asdads");
+		    }
+		m.addAttribute("defList",defList);
 		return "index";
 	}
 	
 	@RequestMapping(value="/DefinitionView", method=RequestMethod.GET)
-	public String definitionView(ModelMap m,HttpSession session) {
+	public String definitionView(@RequestParam(value = "term", required = false) String searchTerm, ModelMap m,HttpSession session) {
 		
 		ArrayList<DefandTermResponseDTO> defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
 		m.addAttribute("defList", defList);
@@ -66,7 +78,16 @@ public class DictionaryController {
 
 		m.addAttribute("currentUser", currentUser);
 		
-		return "DefinitionView";
+
+		    if (searchTerm != null && !searchTerm.isEmpty()) {
+		        defList = definitionDao.searchDefinitionsByTerm(searchTerm);
+		    } else {
+		        defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
+		    }
+		    
+		    m.addAttribute("defList", defList);
+		    return "DefinitionView";
+		
 	}
 	
 	@RequestMapping(value="/Register", method=RequestMethod.GET)

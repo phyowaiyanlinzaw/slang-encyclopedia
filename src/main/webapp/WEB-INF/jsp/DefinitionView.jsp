@@ -367,7 +367,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               alt="logo"
             />
           </div>
-          
+       
           <div class="search-bar">
           
             <form class="inline" action="/SlangEncyclopedia/Search" method="GET">
