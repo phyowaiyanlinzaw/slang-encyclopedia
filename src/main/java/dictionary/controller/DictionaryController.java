@@ -159,7 +159,7 @@ public class DictionaryController {
 		
 		if(storeOtpResult==0) {
 			m.addAttribute("errorMsg","Error While Registering OTP");
-			return "redirect:/RegisterOTP";
+			return "otp";
 		}
 		
 		OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);
@@ -188,7 +188,8 @@ public class DictionaryController {
 			
 			int deleteOtpResult = otpDao.deleteOtps(requestedUserId);
 			if(deleteOtpResult==0) {
-				System.out.println("Error while deleting OTPs");
+				m.addAttribute("errorMsg", "Error While Deleting OTP");
+				return "otp";
 			}
 			
 			req.setUserId(requestedUserId);
@@ -197,11 +198,13 @@ public class DictionaryController {
 			
 			int resTimeResult = otpDao.addRestrictionTime(req);
 			if(resTimeResult==0) {
-				System.out.println("Error while adding restriction time");
+				m.addAttribute("errorMsg", "Error While Adding OTP Restriction Time");
+				return "otp";
 			}
 			int updateUserLockedStatusResult = userDao.updateUserLockedStatus("Yes", registeredUser.getEmail());
 			if(updateUserLockedStatusResult==0) {
-				System.out.println("Error while updating user locked status");
+				m.addAttribute("errorMsg", "Error While Updating User Status");
+				return "otp";
 			}
 			
 			session.setAttribute("otpLimit", "true");
@@ -223,11 +226,13 @@ public class DictionaryController {
 					System.out.println("Time is before");
 					int updateUserLockedStatusResult = userDao.updateUserLockedStatus("No", registeredUser.getEmail());
 					if(updateUserLockedStatusResult==0) {
-						System.out.println("Error while updating user locked status");
+						m.addAttribute("errorMsg", "Error while updating user locked status");
+						return "otp";
 					}
 					int deleteRestrictionTimeResult = otpDao.deleteRestrictionTime(req);
 					if(deleteRestrictionTimeResult==0) {
-						System.out.println("Error While deleting restriction time");
+						m.addAttribute("errorMsg", "Error While deleting restriction time");
+						return "otp";
 					}
 				}
 			}catch(Exception e) {
@@ -245,7 +250,8 @@ public class DictionaryController {
 			int storeOtpResult = otpDao.storeOtp(req);
 			
 			if(storeOtpResult==0) {
-				System.out.println("Error while storing OTP");
+				m.addAttribute("errorMsg", "Error while storing OTP");
+				return "otp";
 			}
 			
 			OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);
@@ -288,14 +294,15 @@ public class DictionaryController {
 			isCorrectOTP = true;
 			int result = userDao.updateUserVerifiedStatus(registeredUser.getEmail());
 			if(result==0) {
-				System.out.println("Updating Verfied Status error");
-				return "redirect:/otpView";
+				
+				m.addAttribute("errorMsg", "Updating Verfied Status error");
+				return "otp";
 			}
 		}
 		
 		if(!isCorrectOTP) {
-			m.addAttribute("wrongOtp", "wrong");
-			return "redirect:/otpView";
+			m.addAttribute("errorMsg", "Wrong OTP");
+			return "otp";
 		}
 		
 		return "redirect:/Login";

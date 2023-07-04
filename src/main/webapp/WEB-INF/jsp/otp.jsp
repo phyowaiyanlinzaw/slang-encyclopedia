@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
 prefix="form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -152,6 +153,69 @@ prefix="form"%>
       .hidden {
         display: none;
       }
+      
+            .error-modal {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      .error-modal .error-modal-content {
+        width: 100%;
+        max-width: 500px;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background-color: #1b2936;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .error-modal .error-modal-content .error-modal-header {
+        font-size: 2rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #fff;
+      }
+
+      .error-modal .error-modal-content .error-modal-body {
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #fff;
+      }
+
+      .error-modal .error-modal-content .error-modal-footer {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .error-modal .error-modal-content .error-modal-footer .btn {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        margin: 0.5rem 0;
+        border: 1px solid #333;
+        border-radius: 5px;
+        outline: none;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .error-modal .error-modal-content .error-modal-footer .btn:hover {
+        background-color: #10151b;
+        color: #fff;
+      }
     </style>
   </head>
   <body>
@@ -173,6 +237,7 @@ prefix="form"%>
               path="otpNumber"
               id="otp"
             />
+            <form:errors path="otpNumber" style="color:red;"></form:errors>
           </div>
           <div class="otp-btns">
             <button
@@ -196,6 +261,21 @@ prefix="form"%>
           </button>
         </div>
       </section>
+      <c:if test="${not empty errorMsg }">
+        <div class="error-modal">
+          <div class="error-modal-content">
+            <div class="error-modal-header">
+              <h2>Error</h2>
+            </div>
+            <div class="error-modal-body">
+              <p>${errorMsg}</p>
+            </div>
+            <div class="error-modal-footer">
+              <button class="btn solid" id="closeErrorModal">Close</button>
+            </div>
+          </div>
+        </div>
+      </c:if>
     </div>
   </body>
   <script>
@@ -212,5 +292,12 @@ prefix="form"%>
       form.classList.remove("hidden");
       timeOut.classList.add("hidden");
     }
+    
+    const errorModal = document.querySelector(".error-modal");
+    const closeErrorModal = document.querySelector("#closeErrorModal");
+
+    closeErrorModal.addEventListener("click", () => {
+      errorModal.style.display = "none";
+    });
   </script>
 </html>
