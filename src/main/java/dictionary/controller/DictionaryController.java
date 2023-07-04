@@ -10,7 +10,6 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -342,17 +341,15 @@ public class DictionaryController {
 	
 	@RequestMapping(value="/ProcessLogin",method = RequestMethod.POST)
 	public String processLogin(
-			@ModelAttribute("loginBean")
-			@Valid UserBean ub,
+
+			@ModelAttribute("loginBean") 
+			@Valid
+			UserBean ub,
 			BindingResult br,
 			ModelMap m,
+
 			HttpSession session
 			) {
-		
-//		if(br.hasErrors()) {
-//			m.addAttribute("errorMsg", "Binding Result Error");
-//			return "Login";
-//		}
 		
 		ArrayList<UserResponseDTO> usersList = userDao.getAllUsers();
 		UserResponseDTO adminAccount = userDao.getAdminAccount();

@@ -509,12 +509,7 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
   </body>
   <script>
   	
-  const errorModal = document.querySelector(".error-modal");
-  const closeErrorModal = document.querySelector("#closeErrorModal");
 
-  closeErrorModal.addEventListener("click", () => {
-    errorModal.style.display = "none";
-  });
   
   
     const infoBtn = document.querySelector(".info-btn");
@@ -587,5 +582,12 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
           }
         });
       });
+    
+    const errorModal = document.querySelector(".error-modal");
+    const closeErrorModal = document.querySelector("#closeErrorModal");
+
+    closeErrorModal.addEventListener("click", () => {
+      errorModal.style.display = "none";
+    });
   </script>
 </html>

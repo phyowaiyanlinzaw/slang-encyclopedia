@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
-prefix="form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -160,8 +159,8 @@ prefix="form"%>
       .forgot-pw p a:hover {
         text-decoration: underline;
       }
-      
-            .error-modal {
+
+      .error-modal {
         width: 100%;
         height: 100vh;
         position: fixed;
@@ -223,6 +222,25 @@ prefix="form"%>
         background-color: #10151b;
         color: #fff;
       }
+
+      .hidden {
+        display: none;
+      }
+
+      .empty-error-input {
+        color: red;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+      }
+
+      .email-error {
+        margin-top: 0.5rem;
+      }
+
+      .password-error {
+        margin-top: 0.5rem;
+      }
     </style>
   </head>
   <body>
@@ -243,7 +261,9 @@ prefix="form"%>
                 placeholder="Email"
                 path="email"
               />
-              <form:errors path="email" style="color:red;"></form:errors>
+              <div class="empty-error-input email-error hidden">
+                Email can't be empty
+              </div>
             </div>
             <div class="input-container">
               <i class="fas fa-lock"></i>
@@ -256,9 +276,11 @@ prefix="form"%>
                 id="login-password"
               />
               <i id="togglePassword" class="fas fa-eye toggle-password"></i>
-              <form:errors path="password" style="color:red;"></form:errors>
+              <div class="empty-error-input password-error hidden">
+                Password can't be empty
+              </div>
             </div>
-            <button type="submit">LOG IN</button>
+            <button type="submit" id="submit-btn">LOG IN</button>
           </form:form>
           <div class="forgot-pw">
             <p>
@@ -308,7 +330,35 @@ prefix="form"%>
         }
       });
     });
-    
+
+    const submitBtn = document.querySelector("#submit-btn");
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.querySelector("#email").value.trim();
+      const password = document.querySelector("#login-password").value.trim();
+      const emailError = document.querySelector(".email-error");
+      const passwordError = document.querySelector(".password-error");
+
+      if (email == "" || password == "") {
+        if (email == "") {
+          emailError.classList.remove("hidden");
+        } else {
+          emailError.classList.add("hidden");
+        }
+
+        if (password == "") {
+          passwordError.classList.remove("hidden");
+        } else {
+          passwordError.classList.add("hidden");
+        }
+
+        return;
+      }
+      form.submit();
+    });
+
     const errorModal = document.querySelector(".error-modal");
     const closeErrorModal = document.querySelector("#closeErrorModal");
 
