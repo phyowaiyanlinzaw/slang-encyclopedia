@@ -526,8 +526,7 @@ public class DictionaryController {
 	    int userId = userDao.getUserId(currentUser.getEmail());
 	    
 	    if(userId ==0) {
-			m.addAttribute("IdError", "Invlaid User");
-			System.out.println("ball");
+			m.addAttribute("errorMsg","Invalid User");
 			return "UploadForm";
 		}
 		upldt.setUserId(String.valueOf(userId));
