@@ -540,7 +540,7 @@ public class DictionaryController {
 		for(DefandTermResponseDTO res:defList ) {
 			if(dat.getDefinition_text().equalsIgnoreCase(res.getDefinition_text())) {
 				isDupe = true;
-				m.addAttribute("dupeDef", "this definition already exists");
+				m.addAttribute("errorMsg", "This definition already exists");
 				return "UploadForm";
 			}
 		} 
@@ -548,7 +548,8 @@ public class DictionaryController {
 		if(!isDupe) {
 			int termStoreResult = termDao.storeTerm(upldt);
 			if(termStoreResult==0) {
-				System.out.println("Term store error");
+				m.addAttribute("errorMsg", "Error While Storing Term");
+				return "UploadForm";
 			}
 			int termId = termDao.getTermId(dat.getTerm());
 			upldt.setTermId(termId);
@@ -556,7 +557,7 @@ public class DictionaryController {
 			int definitionStoreResult = definitionDao.storeDefinition(upldt);
 			
 			if(definitionStoreResult ==0) {
-				System.out.println("Insert Error");
+				m.addAttribute("errorMsg", "Error While Storing Definition");
 				return "UploadForm";
 			}
 			
@@ -566,7 +567,8 @@ public class DictionaryController {
 			int likeStoreResult = voteDao.storeLikeVote(voteReq);
 			
 			if (likeStoreResult==0) {
-				System.out.println("Like Store Error");
+				m.addAttribute("errorMsg", "Error While Storing Vote");
+				return "UploadForm";
 			}
 			
 			
