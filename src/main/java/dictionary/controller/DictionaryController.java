@@ -462,7 +462,8 @@ public class DictionaryController {
 
 	@RequestMapping(value="/UpdateOtpStatus",method = RequestMethod.GET)
 	public String updateOtpStatus(
-		HttpSession session
+		HttpSession session,
+		ModelMap m
 		) {
 
 		OtpRequestDTO req = new OtpRequestDTO();
@@ -477,8 +478,8 @@ public class DictionaryController {
 		int result = otpDao.updateOtpStatus(req);
 
 		if(result == 0) {
-			
-			System.out.println("Update OTP Status Error");
+			m.addAttribute("errorMsg","Error While Updating OTP Status");
+			return "otp";
 		}
 		
 		return "redirect:/ResendOTP";
