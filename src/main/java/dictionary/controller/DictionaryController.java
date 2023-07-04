@@ -84,9 +84,9 @@ public class DictionaryController {
 			ModelMap m,
 			HttpSession session) {
 		
-//		if(br.hasErrors()) {
-//			return "redirect:/Register";
-//		}
+		if(br.hasErrors()) {
+			return "Register";
+		}
 		
 		boolean isSamePw = false;
 		boolean isDupe = false;
@@ -280,6 +280,10 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
+		if(br.hasErrors()) {
+			return "otp";
+		}
+		
 		OtpRequestDTO otpReq = new OtpRequestDTO();
 		
 		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
@@ -294,7 +298,6 @@ public class DictionaryController {
 			isCorrectOTP = true;
 			int result = userDao.updateUserVerifiedStatus(registeredUser.getEmail());
 			if(result==0) {
-				
 				m.addAttribute("errorMsg", "Updating Verfied Status error");
 				return "otp";
 			}
@@ -324,8 +327,13 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
+		if(br.hasErrors()) {
+			return "Login";
+		}
+		
 		ArrayList<UserResponseDTO> usersList = userDao.getAllUsers();
 		UserResponseDTO adminAccount = userDao.getAdminAccount();
+		
 		
 		
 		boolean isCorrectUser = false;
