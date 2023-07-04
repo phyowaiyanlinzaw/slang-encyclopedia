@@ -15,6 +15,8 @@ public class DefinitionAndTermBean {
 	private String termId;
 	@NotEmpty
 	private String definitionId;
+	
+	
 	public String getTerm() {
 		return term;
 	}

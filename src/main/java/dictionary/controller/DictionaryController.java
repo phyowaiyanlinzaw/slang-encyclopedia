@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -341,21 +343,19 @@ public class DictionaryController {
 	@RequestMapping(value="/ProcessLogin",method = RequestMethod.POST)
 	public String processLogin(
 			@ModelAttribute("loginBean")
-			@Validated
-			UserBean ub,
+			@Valid UserBean ub,
 			BindingResult br,
 			ModelMap m,
 			HttpSession session
 			) {
 		
-		if(br.hasErrors()) {
-			return "Login";
-		}
+//		if(br.hasErrors()) {
+//			m.addAttribute("errorMsg", "Binding Result Error");
+//			return "Login";
+//		}
 		
 		ArrayList<UserResponseDTO> usersList = userDao.getAllUsers();
 		UserResponseDTO adminAccount = userDao.getAdminAccount();
-		
-		
 		
 		boolean isCorrectUser = false;
 		boolean isAdmin = false;
@@ -441,7 +441,8 @@ public class DictionaryController {
 	        return new ModelAndView("UserProfile", "user", userDao.getOneUser(req));
 	}
 	 @RequestMapping(value = "/updateProfile", method = RequestMethod.POST)
-	    public String updateProfile(@ModelAttribute("user") UserBean ub, BindingResult br, ModelMap m,HttpSession session) {
+	    public String updateProfile(@ModelAttribute("user") 
+	    @Validated UserBean ub, BindingResult br, ModelMap m,HttpSession session) {
 	        if (br.hasErrors()) {
 	            System.out.println("asd");
 	        }
@@ -535,6 +536,10 @@ public class DictionaryController {
 	    
 		if(session.getAttribute("isLoggedIn")==null){
 			return "redirect:/Login";
+		}
+		
+		if(br.hasErrors()) {
+			return "UploadForm";
 		}
 	    
 		DefandTermRequestDTO upldt = new DefandTermRequestDTO(); 
