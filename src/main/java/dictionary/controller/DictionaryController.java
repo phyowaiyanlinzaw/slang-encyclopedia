@@ -448,12 +448,12 @@ public class DictionaryController {
 
 	            m.addAttribute("success", "Profile updated successfully");
 	        } else {
-	            m.addAttribute("Failed", "Failed to update profile");
-	            System.out.println("asvbaegw");
+	            m.addAttribute("errorMsg", "Failed to update profile");
+	            return "UserProfile";
 	        }
 		    }
 		    if(!isSamePsw) {
-				m.addAttribute("pwError","Passwords Don't Match");
+				m.addAttribute("errorMsg","Passwords Don't Match");
 				return "UserProfile";
 		    }
 	        return "UserProfile";	
