@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.servlet.http.HttpSession;
-
-import org.hibernate.validator.internal.util.privilegedactions.NewInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,9 +84,9 @@ public class DictionaryController {
 			ModelMap m,
 			HttpSession session) {
 		
-		if(br.hasErrors()) {
-			return "redirect:/Register";
-		}
+//		if(br.hasErrors()) {
+//			return "redirect:/Register";
+//		}
 		
 		boolean isSamePw = false;
 		boolean isDupe = false;
@@ -107,7 +104,7 @@ public class DictionaryController {
 			for(UserResponseDTO res : resList) {
 				if(res.getEmail().equals(ub.getEmail())&&res.getIsVerified().equalsIgnoreCase("Yes")) {
 					isDupe = true;
-					m.addAttribute("emailDupe", "This email already exists");
+					m.addAttribute("errorMsg", "This email already exists");
 					return "redirect:/Register";
 				}
 				
@@ -126,7 +123,7 @@ public class DictionaryController {
 				int result = userDao.storeUsers(req);
 
 				if(result==0) {
-					m.addAttribute("insertUserError", "Error While Registering User");
+					m.addAttribute("errorMsg", "Error While Registering User");
 					return "redirect:/Register";
 				}
 			}
@@ -134,7 +131,7 @@ public class DictionaryController {
 			
 		}
 		if(!isSamePw) {
-			m.addAttribute("pwError","Passwords Don't Match");
+			m.addAttribute("errorMsg","Passwords Don't Match");
 			return "Register";
 		}
 		
@@ -161,7 +158,8 @@ public class DictionaryController {
 		int storeOtpResult = otpDao.storeOtp(req);
 		
 		if(storeOtpResult==0) {
-			System.out.println("Error while storing OTP");
+			m.addAttribute("errorMsg","Error While Registering OTP");
+			return "redirect:/RegisterOTP";
 		}
 		
 		OtpService.sendEmail(registeredUser.getEmail(),"OTP","Your OTP Code is : "+generatedOtp);

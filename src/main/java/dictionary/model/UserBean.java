@@ -3,6 +3,7 @@ package dictionary.model;
 import javax.validation.constraints.NotEmpty;
 
 public class UserBean {
+	
 	@NotEmpty
 	private String username;
 	@NotEmpty
@@ -11,6 +12,8 @@ public class UserBean {
 	private String password;
 	@NotEmpty
 	private String confirm_password;
+	
+	
 	public String getUsername() {
 		return username;
 	}
