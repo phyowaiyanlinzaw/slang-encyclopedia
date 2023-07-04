@@ -582,7 +582,22 @@ public class DictionaryController {
 		
 		return "redirect:/DefinitionView";
 	}
+	
+	@RequestMapping(value="/Search", method = RequestMethod.GET)
+	public String search(@RequestParam("term")String searchTerm,ModelMap m) {
+	    ArrayList<DefandTermResponseDTO> defList;
 
+		if (searchTerm != null && !searchTerm.isEmpty()) {
+		      defList = definitionDao.searchDefinitionsByTerm(searchTerm);
+		      System.out.println("asdasd");
+		    } else {
+		      defList = definitionDao.getAllDef();
+		      System.out.println("asdads");
+		    }
+		    m.addAttribute("defList", defList);
+		return "DefinitionView";
+	}
+	
 	@RequestMapping(value = "/Shuffle",method = RequestMethod.GET)
 	public String shuffleHomeView(
 			ModelMap m
