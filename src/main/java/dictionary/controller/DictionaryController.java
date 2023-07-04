@@ -354,8 +354,7 @@ public class DictionaryController {
 			}
 			
 			if(!isCorrectUser) {
-				m.addAttribute("incorrectUser", "Wrong Authentication");
-				System.out.println("Wrong");
+				m.addAttribute("errorMsg", "Wrong Authentication");
 				return "Login";
 			}
 			
