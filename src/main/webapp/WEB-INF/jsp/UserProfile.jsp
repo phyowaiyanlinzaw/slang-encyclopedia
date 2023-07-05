@@ -305,22 +305,34 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         background-color: #fff;
         color: #10151b;
       }
-      
-       
 
-		.toggle-password {
-		  position: absolute;
-		  top: 50%;
-		  right: 10px;
-		  transform: translate(0, -50%);
-		  cursor: pointer;
-		  user-select: none;
-		}
-		  .toggle-password.show-password::before {
-		    content: "\f070";
-		  }
+      .pw-input{
+        position: relative;
+      }
+
+      .cpw-input{
+        position: relative;
+      }
+
+      .pw-input i {
+        font-size: 1.2rem;
+        color: #fff;
+      }
+
+      .cpw-input i {
+        font-size: 1.2rem;
+        color: #fff;
+      }
+
+      .toggle-password{
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
 		  
-		        .error-modal {
+		  .error-modal {
         width: 100%;
         height: 100vh;
         position: fixed;
@@ -408,14 +420,12 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               <th>Username</th>
               <th>Email</th>
               <th>Likes Total</th>
-              <th>Dislikes Total</th>
               <th>Definitions Amount</th>
               </tr>
               </thead>
               <tr>
                 <td>${currentUser.username}</td>
                 <td>${currentUser.email}</td>
-                <td>0</td>
                 <td>0</td>
                 <td>${defCount}</td>
               </tr>
@@ -430,24 +440,18 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <form:form action="/SlangEncyclopedia/updateProfile" method="post" modelAttribute="user">
         
           <div class="user-info-item">
-        <form:input type="text" id="username" path="username" placeholder="username"/><br>
-        <form:errors path="username" style="color:red;"></form:errors>
+        <form:input type="text" id="username" path="username" placeholder="Username"/><br>
           </div>
           <div class="user-info-item">
-        <form:input type="email" id="email" path="email"  placeholder="email"/><br>
-        <form:errors path="email" style="color:red;"></form:errors>
+        <form:input type="email" id="email" path="email"  placeholder="Email"/><br>
           </div>
-          <div class="user-info-item"> 
-             <i class="fas fa-lock"></i>
-        <form:input id="password" path="password" placeholder="password" />
-             <i id="togglePassword" class="fas fa-eye toggle-password" ></i>
-            <form:errors path="password" style="color:red;"></form:errors>
+          <div class="user-info-item pw-input"> 
+            <form:input id="password" type = "password" path="password" placeholder="Password" />
+            <i class="fas fa-eye toggle-password"></i>
           </div>
-          <div class="user-info-item">
-            <i class="fas fa-lock"></i>
-        <form:input id="confirm_password" path="confirm_password" placeholder="Confirm Password" />
- 		 <i id="togglePassword2" class="fas fa-eye toggle-password"></i>
-            <form:errors path="confirm_password" style="color:red;"></form:errors>
+          <div class="user-info-item cpw-input">
+          <form:input type="password" id="confirm_password" path="confirm_password" placeholder="Confirm Password" />
+            <i class="fas fa-eye toggle-password"></i>
           </div>
           <div class="user-info-item">
             <button class="btn" type="submit">Save</button>
@@ -455,8 +459,6 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
           </div>
           
           </form:form>
-          
-          <p style="color:red">${pwError }</p>
         </div>
       </div>
       <div class="card log-out hidden">
@@ -508,10 +510,20 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       </c:if>
   </body>
   <script>
-  	
 
-  
-  
+    const togglePassword = document.querySelectorAll(".toggle-password");
+
+    togglePassword.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const input = btn.previousElementSibling;
+        if (input.type === "password") {
+          input.type = "text";
+        } else {
+          input.type = "password";
+        }
+      });
+    });
+
     const infoBtn = document.querySelector(".info-btn");
     const editBtn = document.querySelector(".edit-btn");
     const logoutBtn = document.querySelector(".logout-btn");
@@ -568,20 +580,6 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       logOutModal.style.display = "none";
     });
     
-    $(document).ready(function () {
-        $(".toggle-password").click(function () {
-          const input = $(this).siblings("input");
-          const type = input.attr("type");
-
-          if (type === "password") {
-            input.attr("type", "text");
-            $(this).addClass("show-password");
-          } else {
-            input.attr("type", "password");
-            $(this).removeClass("show-password");
-          }
-        });
-      });
     
     const errorModal = document.querySelector(".error-modal");
     const closeErrorModal = document.querySelector("#closeErrorModal");

@@ -520,8 +520,7 @@ public class DictionaryController {
 	@RequestMapping(value="/ProcessUpload", method=RequestMethod.POST)
 	public String processUpload(
 			@ModelAttribute ("termandDefBean") 
-			@Validated DefinitionAndTermBean dat,
-			BindingResult br,
+			DefinitionAndTermBean dat,
 			ModelMap m,
 			HttpSession session) {
 	    
@@ -529,10 +528,6 @@ public class DictionaryController {
 			return "redirect:/Login";
 		}
 		
-		if(br.hasErrors()) {
-			return "UploadForm";
-		}
-	    
 		DefandTermRequestDTO upldt = new DefandTermRequestDTO(); 
 		
 	    upldt.setTerm(dat.getTerm());
@@ -587,9 +582,7 @@ public class DictionaryController {
 				m.addAttribute("errorMsg", "Error While Storing Vote");
 				return "UploadForm";
 			}
-			
-			
-			
+				
 			String currentUserId = String.valueOf(userId);
 		    int defCount = definitionDao.getDefinitionCountForCurrentUser(currentUserId);
 		    defCount++; 

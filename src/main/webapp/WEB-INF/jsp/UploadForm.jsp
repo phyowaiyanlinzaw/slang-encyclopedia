@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
+prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -106,8 +105,8 @@ pageEncoding="UTF-8"%>
       .upload-form input[type="submit"]:active {
         background-color: #0a2a9e;
       }
-      
-            .error-modal {
+
+      .error-modal {
         width: 100%;
         height: 100vh;
         position: fixed;
@@ -172,65 +171,109 @@ pageEncoding="UTF-8"%>
     </style>
   </head>
   <body>
-	<form:form action="/SlangEncyclopedia/ProcessUpload" method="POST" modelAttribute="termandDefBean">    
-            <div class="container">
-      <header>
-        <h1>NEW WORD</h1>
-      </header>
-      <section>
-        <div class="upload-form">
-          <p>
-            All the definitions on Urban Dictionary were written by people just
-            like you. Now's your chance to add your own!
-          </p>
-          <p>
-            Share definitions that other people will find meaningful and never
-            post hate speech or people’s personal information.
-          </p>
-          <form>
-            <form:input type="text" placeholder="Word" path="term" />
-            <form:errors path="term" style="color:red;"></form:errors>
-            <form:textarea
-              name="definition"
-              id="definition"
-              cols="30"
-              rows="10"
-              path="definition_text"
-              placeholder="Type Your Definition Here"
-            ></form:textarea>
-            <form:errors path="definition_text" style="color:red;"></form:errors>
+    <form:form
+      action="/SlangEncyclopedia/ProcessUpload"
+      method="POST"
+      modelAttribute="termandDefBean"
+    >
+      <div class="container">
+        <header>
+          <h1>NEW WORD</h1>
+        </header>
+        <section>
+          <div class="upload-form">
+            <p>
+              All the definitions on Urban Dictionary were written by people
+              just like you. Now's your chance to add your own!
+            </p>
+            <p>
+              Share definitions that other people will find meaningful and never
+              post hate speech or people’s personal information.
+            </p>
+            <form>
+              <form:input
+                type="text"
+                placeholder="Word"
+                path="term"
+                id="term"
+              />
+              <form:textarea
+                name="definition"
+                id="definition"
+                cols="30"
+                rows="10"
+                path="definition_text"
+                placeholder="Type Your Definition Here"
+              ></form:textarea>
 
-            <form:input type="textarea" id="example"               cols="30"
-              rows="10" placeholder="Type the associated example here" path="example"/>
-              <form:errors path="example" style="color:red;"></form:errors>
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-      </section>
-                <c:if test="${not empty errorMsg }">
-        <div class="error-modal">
-          <div class="error-modal-content">
-            <div class="error-modal-header">
-              <h2>Error</h2>
-            </div>
-            <div class="error-modal-body">
-              <p>${errorMsg}</p>
-            </div>
-            <div class="error-modal-footer">
-              <button class="btn solid" id="closeErrorModal">Close</button>
+              <form:textarea
+                id="example"
+                cols="30"
+                rows="10"
+                placeholder="Type the associated example here"
+                path="example"
+              />
+              <input type="submit" value="Submit" id="submit-btn" />
+            </form>
+          </div>
+        </section>
+        <c:if test="${not empty errorMsg }">
+          <div class="error-modal">
+            <div class="error-modal-content">
+              <div class="error-modal-header">
+                <h2>Error</h2>
+              </div>
+              <div class="error-modal-body">
+                <p>${errorMsg}</p>
+              </div>
+              <div class="error-modal-footer">
+                <button class="btn solid" id="closeErrorModal">Close</button>
+              </div>
             </div>
           </div>
-        </div>
-      </c:if>
-    </div>
+        </c:if>
+      </div>
     </form:form>
   </body>
- 	<script>
- 	  const errorModal = document.querySelector(".error-modal");
- 	  const closeErrorModal = document.querySelector("#closeErrorModal");
+  <script>
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submit-btn");
 
- 	  closeErrorModal.addEventListener("click", () => {
- 	    errorModal.style.display = "none";
- 	  });
- 	</script>
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const term = document.getElementById("term").value;
+      const definition = document.getElementById("definition").value;
+      const example = document.getElementById("example").value;
+
+      if (
+        term.trim() === "" ||
+        definition.trim() === "" ||
+        example.trim() === ""
+      ) {
+        if (term.trim() === "") {
+          document.getElementById("term").style.border = "1px solid red";
+          document.getElementById("term").placeholder = "Please Write a Valid Term."
+        }
+        if (definition.trim() === "") {
+          document.getElementById("definition").style.border = "1px solid red";
+          document.getElementById("definition").placeholder = "Please Write a Valid Definition."
+        }
+        if (example.trim() === "") {
+          document.getElementById("example").style.border = "1px solid red";
+          document.getElementById("example").placeholder = "Please Write a Valid Example."
+        }
+        return;
+      }
+
+      form.submit();
+    });
+
+    const errorModal = document.querySelector(".error-modal");
+    const closeErrorModal = document.querySelector("#closeErrorModal");
+
+    closeErrorModal.addEventListener("click", () => {
+      errorModal.style.display = "none";
+    });
+  </script>
 </html>
