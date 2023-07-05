@@ -307,7 +307,7 @@ static Connection con=null;
 	
 	public int getTotalLikesForUser(String userId) {
 	    int totalLikes = 0;
-	    String sql = "SELECT COUNT(*) AS total_likes FROM vote WHERE user_id = ?";
+	    String sql = "SELECT COUNT(*) AS total_likes FROM vote v JOIN definition d ON v.definitionId = d.id WHERE d.user_id = ?";
 
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
@@ -322,5 +322,4 @@ static Connection con=null;
 
 	    return totalLikes;
 	}
-	
 }

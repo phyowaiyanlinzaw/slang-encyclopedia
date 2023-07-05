@@ -62,7 +62,7 @@ public class DictionaryController {
 		        return "redirect:/DefinitionView?term=" + searchTerm;
 
 		    } else {
-		      defList = definitionDao.getAllDef();
+		      defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
 		      System.out.println("asdads");
 		    }
 		m.addAttribute("defList",defList);
@@ -606,7 +606,7 @@ public class DictionaryController {
 		      defList = definitionDao.searchDefinitionsByTerm(searchTerm);
 		      System.out.println("asdasd");
 		    } else {
-		      defList = definitionDao.getAllDef();
+		        defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
 		      System.out.println("asdads");
 		    }
 		    m.addAttribute("defList", defList);
