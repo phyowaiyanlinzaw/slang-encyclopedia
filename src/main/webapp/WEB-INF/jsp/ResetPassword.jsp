@@ -192,8 +192,9 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
   <body>
     <div class="container">
       <header>
-        Resetting Password
-<%--         <h1 style="color: red" class="error">${pwError}</h1> --%>
+        Resetting Password <%--
+        <h1 style="color: red" class="error">${pwError}</h1>
+        --%>
       </header>
 
       <section>
@@ -249,6 +250,31 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     </div>
   </body>
   <script>
+    const form = document.querySelector(".resetPw-form");
+    const emailField = document.querySelector("#emailField");
+    const pwField = document.querySelector("#pwField");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (emailField.value == "" || pwField.value == "") {
+        if (emailField.value === "") {
+          emailField.style.borderColor = "red";
+          emailField.style.backgroundColor = "#1b2936";
+          emailField.style.color = "red";
+          emailField.placeholder = "Email is required";
+        }
+        if (pwField.value === "") {
+          pwField.style.borderColor = "red";
+          pwField.style.backgroundColor = "#1b2936";
+          pwField.style.color = "red";
+          pwField.placeholder = "Password is required";
+        }
+        return;
+      }
+
+      form.submit();
+    });
+
     const errorModal = document.querySelector(".error-modal");
     const closeErrorModal = document.querySelector("#closeErrorModal");
 

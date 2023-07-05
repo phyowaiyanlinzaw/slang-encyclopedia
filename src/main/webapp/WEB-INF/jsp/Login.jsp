@@ -227,19 +227,22 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         display: none;
       }
 
-      .empty-error-input {
-        color: red;
+      .error {
+        border: 1px solid #ff0000;
+      }
+
+      .error-message {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0.5rem;
+      }
+
+      .error-message p {
         font-size: 0.8rem;
         font-weight: 500;
-        margin-top: 0.5rem;
-      }
-
-      .email-error {
-        margin-top: 0.5rem;
-      }
-
-      .password-error {
-        margin-top: 0.5rem;
+        color: #ff0000;
       }
     </style>
   </head>
@@ -253,7 +256,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             method="POST"
             modelAttribute="loginBean"
           >
-            <div class="input-container">
+            <div class="input-container email-input">
               <i class="fas fa-envelope"></i>
               <form:input
                 type="email"
@@ -261,11 +264,11 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                 placeholder="Email"
                 path="email"
               />
-              <div class="empty-error-input email-error hidden">
-                Email can't be empty
+              <div class="email-error-message hidden error-message">
+                <p class="email-error-message-text"></p>
               </div>
             </div>
-            <div class="input-container">
+            <div class="input-container pw-input">
               <i class="fas fa-lock"></i>
               <form:input
                 type="password"
@@ -276,8 +279,8 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                 id="login-password"
               />
               <i id="togglePassword" class="fas fa-eye toggle-password"></i>
-              <div class="empty-error-input password-error hidden">
-                Password can't be empty
+              <div class="pw-error-message hidden error-message">
+                <p class="pw-error-message-text"></p>
               </div>
             </div>
             <button type="submit" id="submit-btn">LOG IN</button>
@@ -333,25 +336,28 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
     const submitBtn = document.querySelector("#submit-btn");
     const form = document.querySelector("form");
+    const emailField = document.querySelector("#email");
+    const pwField = document.querySelector("#login-password");
+    const emailInput = document.querySelector(".email-input");
+    const pwInput = document.querySelector(".pw-input");
+    const emailErrorMessage = document.querySelector(".email-error-message");
+    const pwErrorMessage = document.querySelector(".pw-error-message");
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const email = document.querySelector("#email").value.trim();
-      const password = document.querySelector("#login-password").value.trim();
-      const emailError = document.querySelector(".email-error");
-      const passwordError = document.querySelector(".password-error");
 
-      if (email == "" || password == "") {
-        if (email == "") {
-          emailError.classList.remove("hidden");
-        } else {
-          emailError.classList.add("hidden");
+      if (emailField.value.trim() == "" || pwField.value.trim() == "") {
+        if (emailField.value.trim() == "") {
+          emailErrorMessage.classList.remove("hidden");
+          emailErrorMessage.querySelector(
+            ".email-error-message-text"
+          ).textContent = "Email is required";
         }
 
-        if (password == "") {
-          passwordError.classList.remove("hidden");
-        } else {
-          passwordError.classList.add("hidden");
+        if (pwField.value.trim() == "") {
+          pwErrorMessage.classList.remove("hidden");
+          pwErrorMessage.querySelector(".pw-error-message-text").textContent =
+            "Password is required";
         }
 
         return;

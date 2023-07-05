@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <%@taglib uri="http://www.springframework.org/tags/form"
-prefix="form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -153,8 +152,8 @@ prefix="form"%>
       .hidden {
         display: none;
       }
-      
-            .error-modal {
+
+      .error-modal {
         width: 100%;
         height: 100vh;
         position: fixed;
@@ -216,6 +215,10 @@ prefix="form"%>
         background-color: #10151b;
         color: #fff;
       }
+
+      .error-msg {
+        color: red;
+      }
     </style>
   </head>
   <body>
@@ -237,7 +240,9 @@ prefix="form"%>
               path="otpNumber"
               id="otp"
             />
-            <form:errors path="otpNumber" style="color:red;"></form:errors>
+            <div class="error-msg hidden">
+              <p>Invalid OTP</p>
+            </div>
           </div>
           <div class="otp-btns">
             <button
@@ -292,7 +297,20 @@ prefix="form"%>
       form.classList.remove("hidden");
       timeOut.classList.add("hidden");
     }
-    
+
+    const otpInput = document.getElementById("otp");
+    const errorMsg = document.querySelector(".error-msg");
+
+    otpForm.addEventListener("submit", (e) => {
+      if (otpInput.value.length != 6) {
+        e.preventDefault();
+
+        errorMsg.classList.remove("hidden");
+
+        return;
+      }
+    });
+
     const errorModal = document.querySelector(".error-modal");
     const closeErrorModal = document.querySelector("#closeErrorModal");
 

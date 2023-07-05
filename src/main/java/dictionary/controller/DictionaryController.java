@@ -127,7 +127,7 @@ public class DictionaryController {
 				if(res.getEmail().equals(ub.getEmail())&&res.getIsVerified().equalsIgnoreCase("Yes")) {
 					isDupe = true;
 					m.addAttribute("errorMsg", "This email already exists");
-					return "redirect:/Register";
+					return "Register";
 				}
 				
 			}
@@ -146,7 +146,7 @@ public class DictionaryController {
 
 				if(result==0) {
 					m.addAttribute("errorMsg", "Error While Registering User");
-					return "redirect:/Register";
+					return "Register";
 				}
 			}
 			
@@ -302,10 +302,6 @@ public class DictionaryController {
 			HttpSession session
 			) {
 		
-		if(br.hasErrors()) {
-			return "otp";
-		}
-		
 		OtpRequestDTO otpReq = new OtpRequestDTO();
 		
 		UserBean registeredUser = (UserBean) session.getAttribute("registeredUser");
@@ -343,9 +339,7 @@ public class DictionaryController {
 	public String processLogin(
 
 			@ModelAttribute("loginBean") 
-			@Valid
 			UserBean ub,
-			BindingResult br,
 			ModelMap m,
 
 			HttpSession session
