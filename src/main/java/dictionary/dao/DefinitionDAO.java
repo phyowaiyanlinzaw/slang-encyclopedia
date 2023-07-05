@@ -165,10 +165,12 @@ static Connection con=null;
 	public ArrayList<DefandTermResponseDTO> searchDefinitionsByTerm(String searchTerm) {
 	    ArrayList<DefandTermResponseDTO> resList = new ArrayList<>();
 
-	    String sql = "SELECT d.id, d.definition_text, d.example, t.term_name, u.username, t.createdDate, t.updatedAt "
+
+	    String sql = "SELECT d.id, d.definition_text, d.example, t.term_name, u.username, t.createdDate, t.updatedAt, COUNT(v.definitionId) AS like_count "
 	            + "FROM definition d "
 	            + "JOIN term t ON d.term_id = t.id "
 	            + "JOIN user u ON d.user_id = u.id "
+	            + "LEFT JOIN vote v ON d.id = v.definitionId "
 	            + "WHERE t.term_name LIKE ? "
 	            + "GROUP BY d.id, d.definition_text, d.example, t.term_name, u.username, t.createdDate, t.updatedAt";
 
@@ -186,6 +188,7 @@ static Connection con=null;
 	            res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
 	            res.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
 	            res.setExample(rs.getString("example"));
+	            res.setLikeCount(rs.getInt("like_count")-1);
 	            resList.add(res);
 	        }
 	    } catch (Exception e) {

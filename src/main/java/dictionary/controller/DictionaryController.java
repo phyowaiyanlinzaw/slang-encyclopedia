@@ -594,9 +594,12 @@ public class DictionaryController {
 	}
 	
 	@RequestMapping(value="/Search", method = RequestMethod.GET)
-	public String search(@RequestParam("term")String searchTerm,ModelMap m) {
+	public String search(@RequestParam("term")String searchTerm,ModelMap m,HttpSession session) {
 	    ArrayList<DefandTermResponseDTO> defList;
+	    
+	    UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 
+		m.addAttribute("currentUser", currentUser);
 		if (searchTerm != null && !searchTerm.isEmpty()) {
 		      defList = definitionDao.searchDefinitionsByTerm(searchTerm);
 		      System.out.println("asdasd");
