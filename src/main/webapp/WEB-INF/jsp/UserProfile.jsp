@@ -426,7 +426,7 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               <tr>
                 <td>${currentUser.username}</td>
                 <td>${currentUser.email}</td>
-                <td>0</td>
+                <td>${totalLike}</td>
                 <td>${defCount}</td>
               </tr>
             </table>

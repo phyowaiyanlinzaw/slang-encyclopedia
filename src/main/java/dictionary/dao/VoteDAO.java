@@ -305,4 +305,22 @@ static Connection con=null;
 //		return result;
 //	}
 	
+	public int getTotalLikesForUser(String userId) {
+	    int totalLikes = 0;
+	    String sql = "SELECT COUNT(*) AS total_likes FROM vote WHERE user_id = ?";
+
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setString(1, userId);
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            totalLikes = rs.getInt("total_likes");
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	    }
+
+	    return totalLikes;
+	}
+	
 }

@@ -425,7 +425,9 @@ public class DictionaryController {
 
 		    String currentUserId = String.valueOf(userDao.getUserId(userDTO.getEmail()));
 		    int defCount =definitionDao.getDefinitionCountForCurrentUser(currentUserId);
+		    int totalLike = voteDao.getTotalLikesForUser(currentUserId);
 	        m.addAttribute("defCount", defCount);
+	        m.addAttribute("totalLike",totalLike);
 	        System.out.println(currentUserId);
 
 
