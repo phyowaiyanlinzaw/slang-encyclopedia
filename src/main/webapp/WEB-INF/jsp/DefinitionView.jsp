@@ -341,6 +341,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <h1>SLANGz</h1>
 
             <img
+            	id="logo-img"
               src="<%=request.getContextPath()%>/resource/logo.png"
               alt="logo"
             />
@@ -488,6 +489,11 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     const searchPlaceHolder = document.getElementById("search");
     const form = document.querySelector("inline");
     const searchIcon = document.querySelector(".fa-search");
+    const logoImg = document.getElementById('logo-img');
+
+    logoImg.addEventListener('click', () => {
+      window.location.href = '<%=request.getContextPath()%>/DefinitionView';
+    });
 
     searchIcon.addEventListener("click", () => {
       form.submit();
