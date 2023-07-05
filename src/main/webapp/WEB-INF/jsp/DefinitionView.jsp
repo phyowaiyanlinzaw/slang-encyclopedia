@@ -164,7 +164,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       }
       .searched-word {
         width: 80vw;
-        height: 30%;
+        height: 39%;
         display: flex;
         background-color: #1b2936;
         margin-top: 20px;
@@ -179,21 +179,25 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       }
       .def {
         color: #ffffff;
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
         margin: 1rem 0;
+        margin-top: 1.5rem;
       }
-      .eg {
+      .example {
         color: #ffffff;
         font-size: 1.2rem;
         font-style: italic;
         margin: 1rem 0;
+        margin-top: 1.5rem;
       }
       .info {
         color: #ffffff;
         font-size: 1.2rem;
         font-style: bold;
+        font-weight: 900;
         margin: 1rem 0;
+        margin-top: 1.5rem;
       }
       .vote {
         color: #ffffff;
@@ -214,28 +218,10 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         margin-right: 1rem;
         padding: 0 1rem;
       }
-      .downvote {
-        color: #ff0000;
-        font-size: 1.2rem;
-        font-style: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ff0000;
-        border-radius: 5px;
-        margin-right: 1rem;
-        padding: 0 1rem;
-      }
 
       .upvote:hover {
         cursor: pointer;
         background-color: #04ab38;
-        color: #ffffff;
-      }
-
-      .downvote:hover {
-        cursor: pointer;
-        background-color: #ff0000;
         color: #ffffff;
       }
 
@@ -254,19 +240,15 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         padding: 0 1rem;
       }
 
-      .downvote-active {
-        background-color: #ff0000;
-        color: #ffffff;
-        cursor: pointer;
+      .user-link {
+        color: #134fe5;
         font-size: 1.2rem;
         font-style: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #ff0000;
-        border-radius: 5px;
-        margin-right: 1rem;
         padding: 0 1rem;
+        cursor: pointer;
+      }
+      .user-link:hover {
+        text-decoration: underline;
       }
 
       @media (max-width: 768px) {
@@ -315,7 +297,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         }
 
         .def,
-        .eg,
+        .example,
         .info,
         .vote {
           font-size: 1rem;
@@ -405,8 +387,12 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <div class="word">
               <h1>${def.term}</h1>
               <p class="def">${def.definition_text}</p>
-              <p class="def">${def.example}</p>
-              <p class="info">By ${def.createdBy} ${def.createdDate }</p>
+              <p class="example">
+                <span class="example-span">Example :</span> ${def.example}
+              </p>
+              <p class="info">
+                By <a class="user-link">${def.createdBy}</a> ${def.createdDate }
+              </p>
             </div>
             <div class="vote">
               <div
@@ -427,8 +413,13 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               <div class="word">
                 <h1>${def.term}</h1>
                 <p class="def">${def.definition_text}</p>
-                <p class="def">${def.example}</p>
-                <p class="info">By ${def.createdBy} ${def.createdDate }</p>
+                <p class="example">
+                  <span class="example-span">Example :</span> ${def.example}
+                </p>
+                <p class="info">
+                  By <a class="user-link">${def.createdBy}</a> ${def.createdDate
+                  }
+                </p>
               </div>
               <div class="vote">
                 <div
@@ -448,7 +439,13 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
               <div class="word">
                 <h1>${def.term}</h1>
                 <p class="def">${def.definition_text}</p>
-                <p class="example">By ${def.createdBy} ${def.createdDate }</p>
+                <p class="example">
+                  <span class="example-span">Example :</span> ${def.example}
+                </p>
+                <p class="info">
+                  By <a class="user-link">${def.createdBy}</a> ${def.createdDate
+                  }
+                </p>
               </div>
 
               <c:choose>
