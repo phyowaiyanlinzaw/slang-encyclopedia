@@ -177,7 +177,6 @@ prefix="form"%>
         <th>Created At</th>
         <th>Updated At</th>
         <th>Likes</th>
-        <th>Dislikes</th>
         <th>Actions</th>
         </tr>
         </thead>
@@ -195,12 +194,9 @@ prefix="form"%>
               				
               			<p>${def.likeCount}</p>
             		</td>
-            		<td>
-              				
-              			<p>${def.dislikeCount}</p>
-          		</td>
+            		
           <td class="actions-td">
-            <a href="/SlangEncyclopedia/DeleteDefsByAdmin">Delete</a>
+            <a href="/SlangEncyclopedia/DeleteDefsByAdmin?definitionId=${def.defId}">Delete</a>
           </td>
           
         </tr>	

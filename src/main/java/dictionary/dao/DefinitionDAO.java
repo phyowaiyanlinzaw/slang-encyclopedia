@@ -197,6 +197,16 @@ static Connection con=null;
 
 	    return resList;
 	}
+	public void deleteDefinitionById(int definitionId) {
+	    String sql = "DELETE FROM definition WHERE id = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, definitionId);
+	        ps.executeUpdate();
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	    }
+	}
 
 	
 }

@@ -415,6 +415,14 @@ public class DictionaryController {
 		return "AdminView";
 		}
 	
+	@RequestMapping(value = "/DeleteDefsByAdmin", method = RequestMethod.GET)
+	public String deleteDefinition(@RequestParam("definitionId") int definitionId) {
+	    voteDao.deleteVotesByDefinitionId(definitionId);
+	    definitionDao.deleteDefinitionById(definitionId);
+
+	    return "redirect:/AdminView";
+	}
+	
 	@RequestMapping(value="/UserProfile", method = RequestMethod.GET)
 	
 	public ModelAndView userProfileView(ModelMap m,HttpSession session) {

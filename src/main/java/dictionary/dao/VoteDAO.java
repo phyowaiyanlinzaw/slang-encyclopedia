@@ -322,4 +322,15 @@ static Connection con=null;
 
 	    return totalLikes;
 	}
+	
+	public void deleteVotesByDefinitionId(int definitionId) {
+	    String sql = "DELETE FROM vote WHERE definitionId = ?";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, definitionId);
+	        ps.executeUpdate();
+	    } catch (Exception e) {
+	        System.out.println(e.getMessage());
+	    }
+	}
 }
