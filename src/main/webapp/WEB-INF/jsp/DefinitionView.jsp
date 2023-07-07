@@ -324,12 +324,6 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
           color: #ffffff;
           cursor: pointer;
         }
-
-        .downvote:hover {
-          background-color: #ff0000;
-          color: #ffffff;
-          cursor: pointer;
-        }
       }
     </style>
   </head>
@@ -341,7 +335,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <h1>SLANGz</h1>
 
             <img
-            	id="logo-img"
+              id="logo-img"
               src="<%=request.getContextPath()%>/resource/logo.png"
               alt="logo"
             />
@@ -392,7 +386,13 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                 <span class="example-span">Example :</span> ${def.example}
               </p>
               <p class="info">
-                By <a class="user-link">${def.createdBy}</a> ${def.createdDate }
+                By
+                <a
+                  class="user-link"
+                  href="/SlangEncyclopedia/UserDefsView?createdBy=${def.createdBy}"
+                  >${def.createdBy}</a
+                >
+                ${def.createdDate }
               </p>
             </div>
             <div class="vote">
@@ -418,8 +418,13 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <span class="example-span">Example :</span> ${def.example}
                 </p>
                 <p class="info">
-                  By <a class="user-link">${def.createdBy}</a> ${def.createdDate
-                  }
+                  By
+                  <a
+                    class="user-link"
+                    href="/SlangEncyclopedia/UserDefsView?createdBy=${def.createdBy}"
+                    >${def.createdBy}</a
+                  >
+                  ${def.createdDate }
                 </p>
               </div>
               <div class="vote">
@@ -444,8 +449,13 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                   <span class="example-span">Example :</span> ${def.example}
                 </p>
                 <p class="info">
-                  By <a class="user-link">${def.createdBy}</a> ${def.createdDate
-                  }
+                  By
+                  <a
+                    class="user-link"
+                    href="/SlangEncyclopedia/UserDefsView?createdBy=${def.createdBy}"
+                    >${def.createdBy}</a
+                  >
+                  ${def.createdDate }
                 </p>
               </div>
 
@@ -489,10 +499,10 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     const searchPlaceHolder = document.getElementById("search");
     const form = document.querySelector("inline");
     const searchIcon = document.querySelector(".fa-search");
-    const logoImg = document.getElementById('logo-img');
+    const logoImg = document.getElementById("logo-img");
 
-    logoImg.addEventListener('click', () => {
-      window.location.href = '<%=request.getContextPath()%>/DefinitionView';
+    logoImg.addEventListener("click", () => {
+      window.location.href = "<%=request.getContextPath()%>/DefinitionView";
     });
 
     searchIcon.addEventListener("click", () => {

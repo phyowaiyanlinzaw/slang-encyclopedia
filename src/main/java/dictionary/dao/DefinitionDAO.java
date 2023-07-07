@@ -207,6 +207,46 @@ static Connection con=null;
 	        System.out.println(e.getMessage());
 	    }
 	}
+	
+	public ArrayList<DefandTermResponseDTO> getDefsByUser(String createdBy){
+		
+		ArrayList<DefandTermResponseDTO> defsByUser = new ArrayList<>();
+		String sql = "SELECT d.id, d.definition_text, d.example, t.term_name, u.username, "
+				+ "t.createdDate, t.updatedAt, "
+				+ "COUNT(v.definitionId) AS like_count "
+	            + "FROM definition d "
+	            + "JOIN term t ON d.term_id = t.id "
+	            + "JOIN user u ON d.user_id = u.id "
+	            + "LEFT JOIN vote v ON d.id = v.definitionId "
+	            + "WHERE d.createdBy = ? "
+	            + "GROUP BY d.id, d.definition_text, d.example, "
+	            + "t.term_name, u.username, t.createdDate, t.updatedAt";
+		
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, createdBy);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				DefandTermResponseDTO res = new DefandTermResponseDTO();
+
+	            res.setDefId(rs.getInt("id"));
+	            res.setDefinition_text(rs.getString("definition_text"));
+	            res.setTerm(rs.getString("term_name"));
+	            res.setCreatedBy(rs.getString("username"));
+	            res.setCreatedDate(rs.getDate("createdDate").toLocalDate());
+	            res.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+	            res.setExample(rs.getString("example"));
+	            res.setLikeCount(rs.getInt("like_count")-1);
+	            defsByUser.add(res);
+			}
+			
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return defsByUser;
+	}
 
 	
 }

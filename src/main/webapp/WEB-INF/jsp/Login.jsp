@@ -263,10 +263,8 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                 title="Email"
                 placeholder="Email"
                 path="email"
+                id="email"
               />
-              <div class="email-error-message hidden error-message">
-                <p class="email-error-message-text"></p>
-              </div>
             </div>
             <div class="input-container pw-input">
               <i class="fas fa-lock"></i>
@@ -279,9 +277,6 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
                 id="login-password"
               />
               <i id="togglePassword" class="fas fa-eye toggle-password"></i>
-              <div class="pw-error-message hidden error-message">
-                <p class="pw-error-message-text"></p>
-              </div>
             </div>
             <button type="submit" id="submit-btn">LOG IN</button>
           </form:form>
@@ -340,24 +335,19 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     const pwField = document.querySelector("#login-password");
     const emailInput = document.querySelector(".email-input");
     const pwInput = document.querySelector(".pw-input");
-    const emailErrorMessage = document.querySelector(".email-error-message");
-    const pwErrorMessage = document.querySelector(".pw-error-message");
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
       if (emailField.value.trim() == "" || pwField.value.trim() == "") {
         if (emailField.value.trim() == "") {
-          emailErrorMessage.classList.remove("hidden");
-          emailErrorMessage.querySelector(
-            ".email-error-message-text"
-          ).textContent = "Email is required";
+          emailInput.style.border = "1px solid #ff0000";
+          emailField.placeholder = "Email is required";
         }
 
         if (pwField.value.trim() == "") {
-          pwErrorMessage.classList.remove("hidden");
-          pwErrorMessage.querySelector(".pw-error-message-text").textContent =
-            "Password is required";
+          pwInput.style.border = "1px solid #ff0000";
+          pwField.placeholder = "Password is required";
         }
 
         return;

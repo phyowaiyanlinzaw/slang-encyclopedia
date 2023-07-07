@@ -91,6 +91,23 @@ public class DictionaryController {
 		
 	}
 	
+	@RequestMapping (value = "/UserDefsView",method=RequestMethod.GET)
+	public String userDefsView(
+			@RequestParam("createdBy") String createdBy,
+			ModelMap m,
+			HttpSession session
+			) {
+		UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
+
+		m.addAttribute("currentUser", currentUser);
+		ArrayList<DefandTermResponseDTO> defList = definitionDao.getDefsByUser(createdBy);
+		
+		m.addAttribute("defList", defList);
+		m.addAttribute("createdBy", createdBy);
+		
+		return "UserDefinitionView";
+	}
+	
 	@RequestMapping(value="/Register", method=RequestMethod.GET)
 	public ModelAndView registerView() {
 		return new ModelAndView("Register", "registerBean" , new UserBean());
