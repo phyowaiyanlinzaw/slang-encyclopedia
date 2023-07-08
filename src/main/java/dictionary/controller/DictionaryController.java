@@ -639,6 +639,10 @@ public class DictionaryController {
 	
 	@RequestMapping(value="/Search", method = RequestMethod.GET)
 	public String search(@RequestParam("term")String searchTerm,ModelMap m,HttpSession session) {
+		
+		session.removeAttribute("searchTerm");
+		session.setAttribute("searchTerm", searchTerm);
+		
 	    ArrayList<DefandTermResponseDTO> defList;
 	    
 	    UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
@@ -691,15 +695,16 @@ public class DictionaryController {
 		currentUser.setLikedDefIds(userLikedDefIds);
 		session.setAttribute("currentUser", currentUser);
 		
-//		String referer = request.getHeader("Referer");
-//		
-//		if(referer!=null&& referer.contains("/Search")) {
-//			return "redirect:/Search";
-//		}else {
-//			return "DefinitionView";
-//		}
+		String searchTerm = (String) session.getAttribute("searchTerm");
+
+		if (searchTerm != null && !searchTerm.isEmpty()) {
+			// Redirect back to the search page with the search term included in the URL
+			return "redirect:/Search?term=" + searchTerm;
+		} else {
+			return "redirect:/DefinitionView";
+		}
 		
-		return "redirect:/DefinitionView";
+//		return "redirect:/DefinitionView";
 		
 	}
 	
@@ -731,7 +736,14 @@ public class DictionaryController {
 		session.setAttribute("currentUser", currentUser);
 		
 		
-		return "redirect:/DefinitionView";
+		String searchTerm = (String) session.getAttribute("searchTerm");
+
+		if (searchTerm != null && !searchTerm.isEmpty()) {
+			// Redirect back to the search page with the search term included in the URL
+			return "redirect:/Search?term=" + searchTerm;
+		} else {
+			return "redirect:/DefinitionView";
+		}
 	}
 	
 	@RequestMapping(value = "/ResetPassword",method = RequestMethod.GET)
