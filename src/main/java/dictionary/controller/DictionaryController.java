@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.naming.ReferralException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -635,6 +638,7 @@ public class DictionaryController {
 		      System.out.println("asdads");
 		    }
 		    m.addAttribute("defList", defList);
+		    session.setAttribute("defList", defList);
 		return "DefinitionView";
 	}
 	
@@ -656,7 +660,8 @@ public class DictionaryController {
 	public String updateLikeCount(
 			@RequestParam("definitionId") String definitionId,
 			ModelMap m,
-			HttpSession session
+			HttpSession session,
+			HttpServletRequest request
 			) {
 		
 		if(session.getAttribute("isLoggedIn")==null){
@@ -683,9 +688,14 @@ public class DictionaryController {
 		currentUser.setLikedDefIds(userLikedDefIds);
 		session.setAttribute("currentUser", currentUser);
 		
-
-		System.out.println(currentUser.getLikedDefIds());	
-		return "redirect:/DefinitionView";
+		String referer = request.getHeader("Referer");
+		
+		if(referer!=null&& referer.contains("/Search")) {
+			return "redirect:/Search";
+		}else {
+			return "DefinitionView";
+		}
+		
 	}
 	
 	@RequestMapping(value = "/RemoveLike",method=RequestMethod.GET)
