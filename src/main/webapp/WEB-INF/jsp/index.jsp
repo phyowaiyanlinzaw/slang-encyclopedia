@@ -189,13 +189,12 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             src="<%=request.getContextPath()%>/resource/logo.png"
             alt="LOGO"
           />
-        </div>
+        </div>                  <form action="/SlangEncyclopedia/" method="GET">
+        
         <div class="search-section">
           <div class="search-bar">
-                  <form action="/SlangEncyclopedia/" method="GET">
 <input type="text" name="term" id="search" placeholder="Search for a word" />
           	
-                         </form>
           </div>
           <div class="search-button-suffix">
             <a href="/SlangEncyclopedia/DefinitionView">
@@ -203,6 +202,8 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             </a>
           </div>
         </div>
+                                 </form>
+        
       </section>
 
       <footer>

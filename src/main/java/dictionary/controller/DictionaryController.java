@@ -623,24 +623,6 @@ public class DictionaryController {
 		return "redirect:/DefinitionView";
 	}
 	
-	@RequestMapping(value="/Search", method = RequestMethod.GET)
-	public String search(@RequestParam("term")String searchTerm,ModelMap m,HttpSession session) {
-	    ArrayList<DefandTermResponseDTO> defList;
-	    
-	    UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
-
-		m.addAttribute("currentUser", currentUser);
-		if (searchTerm != null && !searchTerm.isEmpty()) {
-		      defList = definitionDao.searchDefinitionsByTerm(searchTerm);
-		      System.out.println("asdasd");
-		    } else {
-		        defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
-		      System.out.println("asdads");
-		    }
-		    m.addAttribute("defList", defList);
-		    session.setAttribute("defList", defList);
-		return "DefinitionView";
-	}
 	
 	@RequestMapping(value = "/Shuffle",method = RequestMethod.GET)
 	public String shuffleHomeView(
@@ -654,8 +636,29 @@ public class DictionaryController {
 		return "DefinitionView";
 	}
 	
+	
+	@RequestMapping(value="/Search", method = RequestMethod.GET)
+	public String search(@RequestParam("term")String searchTerm,ModelMap m,HttpSession session) {
+	    ArrayList<DefandTermResponseDTO> defList;
+	    
+	    UserResponseDTO currentUser = (UserResponseDTO) session.getAttribute("currentUser");
 
+		m.addAttribute("currentUser", currentUser);
+		if (searchTerm != null && !searchTerm.isEmpty()) {
+		      defList = definitionDao.searchDefinitionsByTerm(searchTerm);
+		      System.out.println("asdasd");
 
+  
+		    } else {
+		        defList = definitionDao.getAllDefwithTermOrderByAttribute("id", "desc");
+		      System.out.println("asdads");
+		    }
+		    m.addAttribute("defList", defList);
+		    session.setAttribute("defList", defList);
+	        return "redirect:/DefinitionView?term=" + searchTerm;
+	}
+	
+	
 	@RequestMapping(value="/UpdateLike",method=RequestMethod.GET)
 	public String updateLikeCount(
 			@RequestParam("definitionId") String definitionId,
@@ -688,13 +691,15 @@ public class DictionaryController {
 		currentUser.setLikedDefIds(userLikedDefIds);
 		session.setAttribute("currentUser", currentUser);
 		
-		String referer = request.getHeader("Referer");
+//		String referer = request.getHeader("Referer");
+//		
+//		if(referer!=null&& referer.contains("/Search")) {
+//			return "redirect:/Search";
+//		}else {
+//			return "DefinitionView";
+//		}
 		
-		if(referer!=null&& referer.contains("/Search")) {
-			return "redirect:/Search";
-		}else {
-			return "DefinitionView";
-		}
+		return "redirect:/DefinitionView";
 		
 	}
 	
