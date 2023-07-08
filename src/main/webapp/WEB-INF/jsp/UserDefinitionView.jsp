@@ -72,7 +72,6 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       }
       .searched-word {
         width: 80vw;
-        height: 100%;
         display: flex;
         background-color: #1b2936;
         margin-top: 20px;
