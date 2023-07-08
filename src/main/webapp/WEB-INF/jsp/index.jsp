@@ -189,21 +189,24 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             src="<%=request.getContextPath()%>/resource/logo.png"
             alt="LOGO"
           />
-        </div>                  <form action="/SlangEncyclopedia/" method="GET">
-        
-        <div class="search-section">
-          <div class="search-bar">
-<input type="text" name="term" id="search" placeholder="Search for a word" />
-          	
-          </div>
-          <div class="search-button-suffix">
-            <a href="/SlangEncyclopedia/DefinitionView">
-              <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
-            </a>
-          </div>
         </div>
-                                 </form>
-        
+        <form action="/SlangEncyclopedia/" method="GET">
+          <div class="search-section">
+            <div class="search-bar">
+              <input
+                type="text"
+                name="term"
+                id="search"
+                placeholder="Search for a word"
+              />
+            </div>
+            <div class="search-button-suffix">
+              <a href="/SlangEncyclopedia/DefinitionView">
+                <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+              </a>
+            </div>
+          </div>
+        </form>
       </section>
 
       <footer>
@@ -215,7 +218,10 @@ uri="http://java.sun.com/jsp/jstl/core"%>
             <a href="https://www.instagram.com/" title="instagram">
               <i class="fab fa-instagram"></i>
             </a>
-            <a href="https://www.twitter.com/" title="twitter">
+            <a
+              href="https://github.com/phyowaiyanlinzaw/slang-encyclopedia.git"
+              title="github"
+            >
               <i class="fa-brands fa-github"></i>
             </a>
             <a href="https://www.linkedin.com/" title="linkedin">
