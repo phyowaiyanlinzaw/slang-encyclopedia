@@ -440,10 +440,10 @@ prefix="form"%>	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
             <form:form action="/SlangEncyclopedia/updateProfile" method="post" modelAttribute="user">
         
           <div class="user-info-item">
-        <form:input type="text" id="username" path="username" placeholder="Username"/><br>
+        <form:input type="text" id="username" path="username" value="${currentUser.username }"/><br>
           </div>
           <div class="user-info-item">
-        <form:input type="email" id="email" path="email"  placeholder="Email"/><br>
+        <form:input type="email" id="email" path="email"  value="${currentUser.email}" disabled="true"/><br>
           </div>
           <div class="user-info-item pw-input"> 
             <form:input id="password" type = "password" path="password" placeholder="Password" />
