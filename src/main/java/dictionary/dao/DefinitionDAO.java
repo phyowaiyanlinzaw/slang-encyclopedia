@@ -176,7 +176,7 @@ static Connection con=null;
 
 	    try {
 	        PreparedStatement ps = con.prepareStatement(sql);
-	        ps.setString(1, "%" + searchTerm + "%");
+	        ps.setString(1, searchTerm + "%");
 	        ResultSet rs = ps.executeQuery();
 	        while (rs.next()) {
 	            DefandTermResponseDTO res = new DefandTermResponseDTO();

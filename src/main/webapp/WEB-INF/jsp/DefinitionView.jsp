@@ -330,7 +330,7 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <div class="container">
       <header>
         <div class="navbar">
-          <div class="logo">
+          <div class="logo" id="logo">
             <h1>SLANGz</h1>
 
             <img
@@ -498,9 +498,9 @@ prefix="form"%> <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     const searchPlaceHolder = document.getElementById("search");
     const form = document.querySelector("inline");
     const searchIcon = document.querySelector(".fa-search");
-    const logoImg = document.getElementById("logo-img");
+    const logo = document.getElementById("logo");
 
-    logoImg.addEventListener("click", () => {
+    logo.addEventListener("click", () => {
       window.location.href = "<%=request.getContextPath()%>/DefinitionView";
     });
 
